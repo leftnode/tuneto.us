@@ -1,0 +1,21 @@
+<!doctype html>
+<head> 
+<?php echo $this->getBlock('header'); ?>
+</head>
+
+<body>
+	
+	<div id="wrapper">
+		<div id="contentWrapper">
+			<?php echo $this->getBlock('menu'); ?>
+			
+			<div id="mainContent">
+				<?php echo $this->getBlock('body'); ?>
+			</div>
+			
+			<?php echo $this->getBlock('footer'); ?>
+		</div>
+	</div>
+
+</body>
+</html>

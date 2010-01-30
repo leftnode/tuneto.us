@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<project name="IONCart" description="Advanced Shopping Cart" default="build" >
+	<target name="clean">
+		<delete file="./httpdocs/configure.php" />
+	</target>
+	
+	<target name="githooks">
+		<exec command="ln -s ../../.githooks/pre-commit" dir=".git/hooks" />
+	</target>
+
+	<target name="configure">
+		<input propertyname="dbserver" promptChar="?">Database Server</input>
+		<input propertyname="dbusername" promptChar="?">Database User Name</input>
+		<input propertyname="dbpassword" promptChar="?">Database Password</input>
+		<input propertyname="dbname" promptChar="?">Database Name</input>
+		
+		<input propertyname="cookie_domain" promptChar="?">Cookie Domain</input>
+		
+		<input propertyname="site_root" promptChar="?">Site Root</input>
+		<input propertyname="site_root_secure" promptChar="?">Secure Site Root (SSL)</input>
+
+		<php function="getcwd" returnProperty="root_dir" />
+
+		<copy file="./httpdocs/configure.template.php" tofile="./httpdocs/configure.php">
+			<filterchain>
+				<replacetokens begintoken="##" endtoken="##">
+					<token key="DBSERVER" value="${dbserver}" />
+					<token key="DBUSERNAME" value="${dbusername}" />
+					<token key="DBPASSWORD" value="${dbpassword}" />
+					<token key="DBNAME" value="${dbname}" />
+					
+					<token key="COOKIE_DOMAIN" value="${cookie_domain}" />
+					
+					<token key="SITE_ROOT" value="${site_root}" />
+					<token key="SITE_ROOT_SECURE" value="${site_root_secure}" />
+					
+					<token key="ROOT_DIR" value="${root_dir}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+	</target>
+
+	<target name="database">
+		<exec command="php sql-builder.php" dir="services" />
+	</target>
+	
+	<target name="build" depends="clean,githooks,configure" />
+</project>

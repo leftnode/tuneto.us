@@ -1,0 +1,14 @@
+php_flag register_globals off
+php_flag magic_quotes_gpc off
+
+Options Indexes +FollowSymLinks
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	
+	RewriteRule ^(.*)$ index.php?_u=$1 [QSA,L]
+</IfModule>
+
+DirectoryIndex index.php index.html
