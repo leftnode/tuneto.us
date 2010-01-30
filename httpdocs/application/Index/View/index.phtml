@@ -112,7 +112,25 @@
 	<div class="content">
 		<h2 class="mainHeader">Upload Your Track</h2>
 		
-		
+		<form method="post" action="<?php echo $this->url('track/upload'); ?>" enctype="multipart/form-data">
+			<label>
+				<span>Your MP3 File</span>
+				<input type="file" name="upload[track]" >
+			</label>
+			
+			<label>
+				<span>Track Name</span>
+				<input type="text" name="upload[name]" class="text">
+			</label>
+			
+			<label>
+				<span>Description</span>
+				<textarea rows="5" cols="35" name="upload[description]" class="text"></textarea>
+			</label>
+			
+			<input type="submit" class="uploadButton" value="Upload">
+			
+		</form>
 	</div>
 </div>
 <div class="clear"></div>
