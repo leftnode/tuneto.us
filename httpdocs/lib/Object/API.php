@@ -64,7 +64,7 @@ class API {
 			self::createToken();
 			
 			if ( POST == RM ) {
-				$token = er('token', $POST, NULL);
+				$token = er('token', $_POST, NULL);
 				if ( false === self::verifyToken($token) ) {
 					exit('POST methods are not allowed without the correct token! Token given: ' . $token);
 				}
@@ -82,10 +82,6 @@ class API {
 			}
 	
 			Artisan_Registry::push('configData', $config_data);
-			
-			//setlocale(LC_ALL, CONFIG_LOCALE);
-			//bindtextdomain('lang', DIR_LOCALE);
-			//textdomain('lang');
 		}
 	}
 	
@@ -138,15 +134,15 @@ class API {
 	}
 	
 	public static function getToken() {
-		return Artisan_Session::get()->from(SESSION_TOKEN);
+		return Artisan_Session::get()->key(SESSION_TOKEN);
 	}
 	
 	public static function getSecretToken() {
-		return Artisan_Session::get()->from(SESSION_TOKEN_SECRET);
+		return Artisan_Session::get()->key(SESSION_TOKEN_SECRET);
 	}
 	
 	public static function getTokenSalt() {
-		return Artisan_Session::get()->from(SESSION_TOKEN_SALT);
+		return Artisan_Session::get()->key(SESSION_TOKEN_SALT);
 	}
 
 }
