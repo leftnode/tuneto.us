@@ -42,4 +42,14 @@ class Root_Controller extends Artisan_Controller {
 		header("Location: " . $url);
 		exit;
 	}
+	
+	protected function verifyUserAuthentication($ajax=false) {
+		if ( true === $ajax ) {
+			
+		} else {
+			if ( false === ttu_user_is_logged_in() ) {
+				$this->pushErrorAndRedirect(ERROR_NOT_LOGGED_IN, 'index/index');
+			}
+		}
+	}
 }

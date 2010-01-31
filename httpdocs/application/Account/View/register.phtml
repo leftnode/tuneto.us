@@ -11,8 +11,6 @@
 			and to see more statistics on your files.
 		</p>
 		
-		<p><strong>Bold fields are required.</strong></p>
-		
 		<label>
 			<span class="req">Email Address</span>
 			<input type="text" name="register[email_address]" value="<?php echo $this->safe(er('email_address', $register)); ?>" class="text">
@@ -31,8 +29,9 @@
 			<div class="error"><?php echo $this->error('nickname'); ?></div>
 		</label>
 		
+		<p><strong>Bold fields are required.</strong></p>
+		
 		<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
 		<input type="submit" class="formButton" value="Register">
-	
 	</form>
 </div>

@@ -36,3 +36,8 @@ function ttu_user_get_userid() {
 	$user_id = er('user_id', $user, 0);
 	return $user_id;
 }
+
+function ttu_user_get_gravatar($email_address) {
+	$gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=".md5(strtolower($email_address));
+	return $gravatar_url;
+}

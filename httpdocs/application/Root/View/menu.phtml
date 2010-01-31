@@ -1,9 +1,8 @@
 <div id="header">
-	
-	
+
 	<div class="smallBanner">
 		<?php if ( true === $is_logged_in ): ?>
-			<?php echo $this->safe($user->getFirstname()); ?>, you can <a href="<?php echo $this->url('account/logout'); ?>"><strong>LOGOUT</strong></a> for security
+			<?php echo $this->safe($user->getNickname()); ?>, you can <a href="<?php echo $this->url('account/logout'); ?>"><strong>LOGOUT</strong></a> for security
 		<?php else: ?>
 			<a href="<?php echo $this->url('account/register'); ?>"><strong>REGISTER</strong></a> for added benefits
 		<?php endif; ?>
@@ -12,7 +11,7 @@
 	<a href="<?php echo $this->url('index'); ?>" class="logo"><h1>TuneTo.us - Free Music, Free MP3 Hosting, Music Hosting</h1></a>
 </div>
 
-<div style="margin-top: 40px;">
+<div class="navigationShell">
 	<ul class="navigation">
 		<li class="first"><a href="<?php echo $this->url('index'); ?>">Home<span>upload your music</span></a></li>
 		

@@ -5,11 +5,24 @@ require_once 'application/Root/Root.php';
 class Account_Controller extends Root_Controller {
 	
 	public function indexGet() {
-		if ( false === ttu_user_is_logged_in() ) {
-			// Redirect to index, give error.
-		}
+		$this->verifyUserAuthentication();
+		
+		$this->upload_form = $this->render('track/upload-form');
+		
+		// Get a list of the latest 10 tracks for this user.
+		$user = API::getUser();
+		$track_list = API::getDataModel()
+			->where('user_id = ?', $user->id())
+			->where('status = ?', STATUS_ENABLED)
+			->orderBy('date_create', 'DESC')
+			->limit(10)
+			->loadAll(new Track());
+		$this->track_list = $track_list;
+		$this->user = $user;
 		
 		$this->renderLayout('index');
+		
+		return true;
 	}
 	
 	public function logoutGet() {
@@ -25,6 +38,7 @@ class Account_Controller extends Root_Controller {
 			// Redirect to index, give error
 		}
 		
+		$this->register = array();
 		$this->renderLayout('register');
 	}
 	
@@ -52,7 +66,15 @@ class Account_Controller extends Root_Controller {
 				throw new TuneToUs_Exception(ERROR_ACCOUNT_NOT_FOUND);
 			}
 			
+			// Update the last time they were last logged in.
+			$user->setDateLastlogin(time());
+			API::getDataModel()->save($user);
+			
 			$user_id = $user->id();
+			if ( $user_id < 1 ) {
+				throw new TuneToUs_Exception(ERROR_ACCOUNT_NOT_FOUND);
+			}
+			
 			ttu_user_login($user_id);
 			
 			$this->pushSuccessAndRedirect(SUCCESS_LOGGED_IN, 'account/index');
@@ -99,13 +121,12 @@ class Account_Controller extends Root_Controller {
 				throw new TuneToUs_Exception(ERROR_ACCOUNT_FAILED_TO_CREATE);
 			}
 			
-			User_Session::get()->setLogin($user_id);
+			ttu_user_login($user_id);
 			
 			$this->pushSuccessAndRedirect(SUCCESS_ACCOUNT_CREATED, 'account/index');
 		} catch ( TuneToUs_Exception $e ) {
 			$this->pushErrorAndRedirect($e->getMessage(), 'account/register');
 		} catch ( Exception $e ) {
-			//$this->pushErrorAndRedirect(ERROR_GENERAL, 'index/index');
 			$this->getMessage()->pushError(ERROR_FAILED_FORM);
 		}
 		

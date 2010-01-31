@@ -1,0 +1,13 @@
+<form method="post" action="<?php echo $this->url('account/login'); ?>">
+	<label>
+		<span>Email Address</span>
+		<input type="text" name="login[email_address]" class="smallText">
+	</label>
+	<label>
+		<span>Password</span>
+		<input type="password" name="login[password]" class="smallText">
+	</label>
+
+	<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
+	<input type="submit" class="formButton" value="Login">
+</form>
