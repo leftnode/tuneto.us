@@ -5,7 +5,28 @@ require_once 'application/Root/Root.php';
 class Track_Controller extends Root_Controller {
 	
 	public function playGet($track_id) {
-		
+		try {
+			$track_id = intval($track_id);
+			
+			$track = API::getDataModel()->where('track_id = ?', $track_id)->where('status = ?', STATUS_ENABLED)->loadFirst(new Track());
+			$id = $track->id();
+			
+			if ( $id != $track_id ) {
+				throw new TuneToUs_Exception(_('Sorry, the track you were looking for can not be found.'));
+			}
+			
+			$this->track = $track;
+			
+			$this->renderLayout('play');
+		} catch ( TuneToUs_Exception $e ) {
+			$this->pushErrorAndRedirect($e->getMessage(), 'index/index');
+		} catch ( Exception $e ) {
+			$this->pushErrorAndRedirect(_('An error occurred.'), 'index/index');
+		}
+	}
+	
+	public function trackGet($track_id) {
+		$this->setLayout(NULL);
 		
 	}
 	

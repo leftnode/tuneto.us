@@ -11,13 +11,16 @@ class Account_Controller extends Root_Controller {
 		
 		/* Get a list of the latest 10 tracks for this user. */
 		$user = API::getUser();
-		$track_list = API::getDataModel()
+		$track_iterator = API::getDataModel()
 			->where('user_id = ?', $user->id())
 			->where('status = ?', STATUS_ENABLED)
 			->orderBy('date_create', 'DESC')
 			->limit(10)
 			->loadAll(new Track());
-		$this->track_list = $track_list;
+		$this->track_iterator = $track_iterator;
+		
+		
+		
 		$this->user = $user;
 		
 		$this->renderLayout('index');

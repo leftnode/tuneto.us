@@ -8,6 +8,7 @@ class Root_Controller extends Artisan_Controller {
 		
 		$this->css_tunetous = DIR_CSS . 'tunetous.css';
 		$this->js_jquery = DIR_JAVASCRIPT . 'jquery.js';
+		$this->js_audio_player = DIR_JAVASCRIPT . 'audio-player.js';
 		$this->render('root/header', 'header');
 		
 		$this->user = API::getUser();

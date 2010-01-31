@@ -28,6 +28,7 @@ define('DIR_LIB_OBJECT', DIR_LIB . 'Object' . DS, false);
 define('DIR_PRIVATE', DIR_ROOT . 'private' . DS, false);
 define('DIR_PUBLIC', 'public' . DS, false);
 define('DIR_CSS', DS . DIR_PUBLIC . 'css' . DS, false);
+define('DIR_FLASH', DS . DIR_PUBLIC . 'flash' . DS, false);
 define('DIR_IMAGE', DS . DIR_PUBLIC . 'image' . DS, false);
 define('DIR_JAVASCRIPT', DS . DIR_PUBLIC . 'javascript' . DS, false);
 define('DIR_LAYOUT', DIR_PUBLIC . 'layout' . DS, false);

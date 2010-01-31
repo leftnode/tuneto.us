@@ -510,6 +510,12 @@ a.logo h1 {
 	float: left;
 }
 
+.albumTextLong {
+	display: block;
+	width: 250px;
+	float: left;
+}
+
 .albumCoverImage {
 	display: block;
 	width: 64px;

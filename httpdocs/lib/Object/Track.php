@@ -29,4 +29,8 @@ class Track extends DataObject {
 		
 		return $format;
 	}
+	
+	public function getTrackImage() {
+		return DIR_IMAGE . 'trackImage.png';
+	}
 }

@@ -9,16 +9,16 @@
 		<div class="darkDivider"></div>
 		
 		<?php $i = 1; ?>
-		<?php $length = $track_list->length(); ?>
+		<?php $length = $track_iterator->length(); ?>
 		<?php if ( $length > 0 ): ?>
-			<?php foreach ( $track_list as $track ): ?>
+			<?php foreach ( $track_iterator as $track ): ?>
 				<?php $safe_name = $this->safe($track->getName()); ?>
 				<?php $short_description = substr($track->getDescription(), 0, 128); ?>
 				<?php $safe_description = $this->safe($short_description); ?>
 				<div class="newTrack">
 					<h4><?php echo $safe_name; ?></h4>
-					<img src="<?php echo ttu_user_get_gravatar($user->getEmailAddress()); ?>" alt="<?php echo $safe_name; ?>" class="albumCoverImage" />
-					<p class="albumText"><?php echo $safe_description; ?></p>
+					<?php echo $this->img($track->getTrackImage(), $safe_name, 'class="albumCoverImage"'); ?>
+					<p class="albumTextLong"><?php echo $safe_description; ?></p>
 					<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
 					<div class="clear"></div>
 					<?php if ( $i++ != $length ): ?>

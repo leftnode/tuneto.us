@@ -1,0 +1,20 @@
+<h1 class="mainHeader">track name here</h1>
+
+<div class="clearFull"></div>
+
+
+<div style="width: 100%; background: #e5e6df; -moz-border-radius: 3px;">
+	adsf
+	
+	<object type="application/x-shockwave-flash" data="<?php echo DIR_FLASH . 'mp3-player.swf'; ?>" id="audioplayer1" height="24" width="290">
+		<param name="movie" value="<?php echo DIR_FLASH . 'mp3-player.swf'; ?>">
+		<param name="FlashVars" value="playerID=audioplayer1&soundFile=/stream.php?track_id=<?php echo $track->id(); ?>">
+		<param name="quality" value="high">
+		<param name="menu" value="false">
+		<param name="wmode" value="transparent">
+	</object>
+	
+	<h3>Description</h3>
+	<?php echo $track->getDescription(); ?>
+	
+</div>

@@ -17,7 +17,7 @@
 			<?php $safe_description = $this->safe($short_description); ?>
 			<div class="newTrack">
 				<h4><?php echo $safe_name; ?></h4>
-				<img src="image here" alt="<?php echo $safe_name; ?>" class="albumCoverImage" />
+				<?php echo $this->img($track->getTrackImage(), $safe_name, 'class="albumCoverImage"'); ?>
 				<p class="albumText"><?php echo $safe_description; ?></p>
 				<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
 				<div class="clear"></div>
@@ -44,7 +44,7 @@
 			<?php $safe_description = $this->safe($short_description); ?>
 			<div class="newTrack">
 				<h4><?php echo $safe_name; ?></h4>
-				<img src="image here" alt="<?php echo $safe_name; ?>" class="albumCoverImage" />
+				<?php echo $this->img($track->getTrackImage(), $safe_name, 'class="albumCoverImage"'); ?>
 				<p class="albumText"><?php echo $safe_description; ?></p>
 				<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
 				<div class="clear"></div>
