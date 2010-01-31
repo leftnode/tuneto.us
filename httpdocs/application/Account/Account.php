@@ -9,7 +9,7 @@ class Account_Controller extends Root_Controller {
 		
 		$this->upload_form = $this->render('track/upload-form');
 		
-		// Get a list of the latest 10 tracks for this user.
+		/* Get a list of the latest 10 tracks for this user. */
 		$user = API::getUser();
 		$track_list = API::getDataModel()
 			->where('user_id = ?', $user->id())
@@ -97,37 +97,51 @@ class Account_Controller extends Root_Controller {
 			/* Attempt to validate the data. */
 			$email_address = er('email_address', $register);
 			$password = er('password', $register);
+			$nickname = er('nickname', $register);
 			
+			/* Must have a unique email address. */
 			$user = API::getDataModel()->where('email_address = ?', $email_address)->loadFirst(new User());
 			$user_email_address = $user->getEmailAddress();
-			
+
 			if ( $email_address == $user_email_address ) {
-				throw new TuneToUs_Exception(ERROR_ACCOUNT_EXISTS);
+				throw new TuneToUs_Exception(_('The email address you attempted to register with is already in use. Please choose another one'));
 			}
 			
+			/* And must have a unique nickname. */
+			$user = API::getDataModel()->where('nickname = ?', $nickname)->loadFirst(new User());
+			$user_nickname = $user->getNickname();
+			
+			if ( $nickname == $user_nickname ) {
+				throw new TuneToUs_Exception(_('The nickname you attempted to register with is already in use. Please choose another one'));
+			}
+			
+			/* Fairly simple salts and password creation. */
 			$password_salt = crypt_create_salt();
 			$password_hashed = crypt_compute_hash($password, $password_salt);
-			
+		
 			$user = new User();
+			$content_directory = $user->createContentDirectory($email_address);
+			
+			/* Save the user. */
 			$user->setEmailAddress($email_address)
 				->setPassword($password_hashed)
 				->setPasswordSalt($password_salt)
 				->setNickname(er('nickname', $register))
 				->setStatus(STATUS_ENABLED)
-				->setComplete(1);
+				->setContentDirectory($content_directory);
 			$user_id = API::getDataModel()->save($user);
 			
 			if ( $user_id < 1 ) {
-				throw new TuneToUs_Exception(ERROR_ACCOUNT_FAILED_TO_CREATE);
+				throw new TuneToUs_Exception(_('Failed to create your account. Please try again.'));
 			}
 			
 			ttu_user_login($user_id);
 			
-			$this->pushSuccessAndRedirect(SUCCESS_ACCOUNT_CREATED, 'account/index');
+			$this->pushSuccessAndRedirect(_('Your account was successfully created!'), 'account/index');
 		} catch ( TuneToUs_Exception $e ) {
-			$this->pushErrorAndRedirect($e->getMessage(), 'account/register');
+			$this->getMessage()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
-			$this->getMessage()->pushError(ERROR_FAILED_FORM);
+			$this->getMessage()->pushError(_('Your form failed to validate, please check the errors and try again.'));
 		}
 		
 		$this->view->setValidator($validator);

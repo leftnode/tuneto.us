@@ -88,7 +88,7 @@ class Uploader {
 		
 		$this->uploadData = $uploadData;
 		$this->fileName = er('name', $uploadData);
-		$this->fileName = uniqid('ttu_', true) . '_' . $this->fileName;
+		$this->fileName = uniqid('ttu-') . '-' . $this->fileName;
 		
 		return true;
 	}

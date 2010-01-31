@@ -2,6 +2,6 @@
 
 require_once 'DataModeler/DataObject.php';
 
-class Config extends DataObject {
+class Track_Queue extends DataObject {
 
 }

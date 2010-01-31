@@ -8,7 +8,7 @@ if ( 1 == DEBUG_MODE ) {
 }
 
 require_once 'lib/Define.php';
-require_once 'lib/Error.php';
+require_once 'lib/Language.php';
 
 if ( true === isset($_SERVER['REQUEST_METHOD']) ) {
 	define('RM', strtoupper($_SERVER['REQUEST_METHOD']), false);

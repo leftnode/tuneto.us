@@ -1,13 +1,13 @@
 body {
-	font-family: Helvetica, arial,sans-serif;
+	font-family: helvetica, arial, sans-serif;
 	font-size: 12px;
-	background:#f4f4ed url('image/bodyBG2.jpg') no-repeat top center;
-	color:#000;
+	background: #f4f4ed url('image/bodyBG2.jpg') no-repeat top center;
+	color: #000;
 }
 
 a {
 	text-decoration: none;
-	color:#1f7fe4;
+	color: #1f7fe4;
 }
 
 a:hover {
@@ -171,8 +171,29 @@ ul.bullet li {
 
 
 /*input styling*/
-.input{padding:10px;background:#fff;display:block;color:#53544D;width:220px;border:1px solid #c7c7b6;float:left;margin:10px 0 0 0;}	
-.submit{display:block;width:118px;height:37px;background:url('image/readMore.jpg') no-repeat;line-height:9px;text-align:center;color:#53544d;font-size:11px;border:none;cursor:pointer;}
+.input {
+	padding: 10px;
+	background: #fff;
+	display: block;
+	color: #53544D;
+	width: 220px;
+	border: 1px solid #c7c7b6;
+	float: left;
+	margin: 10px 0 0 0;
+}	
+
+.submit {
+	display: block;
+	width: 118px;
+	height: 37px;
+	background: url('image/readMore.jpg') no-repeat;
+	line-height: 9px;
+	text-align: center;
+	color: #53544d;
+	font-size: 11px;
+	border: none;
+	cursor: pointer;
+}
 
 
 
@@ -491,8 +512,8 @@ a.logo h1 {
 
 .albumCoverImage {
 	display: block;
-	width: 85px;
-	height: 85px;
+	width: 64px;
+	height: 64px;
 	float: left;
 	margin-right: 10px;
 }

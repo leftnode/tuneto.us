@@ -8,6 +8,10 @@ class Uploader_Track extends Uploader {
 			$error = self::ERROR_UPLOAD_INCORRECT_TYPE;
 		}
 		
+		if ( false === empty($error) ) {
+			throw new TuneToUs_Exception($error);
+		}
+		
 		parent::setUploadData($uploadData);
 	}
 	
@@ -21,6 +25,7 @@ class Uploader_Track extends Uploader {
 		$track_name = $this->fileName;
 		$track_name = strtolower($track_name);
 		$track_name = preg_replace('/[^a-z0-9_\-\.]/i', '-', $track_name);
+		$track_name = preg_replace('/[\-]{1,}/i', '-', $track_name);
 		$this->fileName = $track_name;
 		
 		return true;

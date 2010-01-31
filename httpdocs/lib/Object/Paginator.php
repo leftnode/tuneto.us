@@ -11,8 +11,8 @@ class Paginator {
 		$this->per_page = 10;
 	}
 	
-	public function set($iterator) {
-		$this->iterator = $iterator->fetch();
+	public function set(DataIterator $iterator) {
+		$this->iterator = $iterator;
 		return $this;
 	}
 	

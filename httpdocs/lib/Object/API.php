@@ -86,6 +86,10 @@ class API {
 				}
 			}
 		}
+		
+		setlocale(LC_ALL, 'en_US.utf8');
+		bindtextdomain('lang', DIR_LOCALE);
+		textdomain('lang');
 	}
 	
 	public static function run() {
