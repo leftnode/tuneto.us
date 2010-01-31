@@ -15,7 +15,7 @@ require_once 'DataModeler/DataModel.php';
 require_once 'DataModeler/DataObject.php';
 
 function __autoload($class) {
-	$class_path = str_replace('_', DS, $class) . '.php';
+	$class_path = str_replace('_', '.', $class) . '.php';
 	require_once 'lib/Object' . DS . $class_path;
 }
 
@@ -60,6 +60,8 @@ class API {
 		if ( false === $command_line ) {
 			Artisan_Session::get();
 			Artisan_Session::get()->start(SESSION_NAME);
+			
+			User_Session::get()->load();
 			
 			self::createToken();
 			
@@ -129,9 +131,9 @@ class API {
 		return Artisan_Registry::pop('db');
 	}
 	
-	public static function getPaginator() {
+	/*public static function getPaginator() {
 		return new Paginator();
-	}
+	}*/
 	
 	public static function getToken() {
 		return Artisan_Session::get()->key(SESSION_TOKEN);

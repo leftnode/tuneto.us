@@ -10,8 +10,11 @@
 <div style="margin-top: 40px;">
 	<ul class="navigation">
 		<li class="first"><a href="<?php echo $this->url('index'); ?>">Home<span>upload your music</span></a></li>
-		<li><a href="<?php echo $this->url('account/register'); ?>">Register<span>improved benefits</span></a></li>
-		<li><a href="<?php echo $this->url('account/index'); ?>">My Account<span>your music</span></a></li>
+		
+		<?php if ( true === $is_logged_in ): ?>
+			<li><a href="<?php echo $this->url('account/index'); ?>">My Account<span>your music</span></a></li>
+		<?php endif; ?>
+		
 		<li><a href="<?php echo $this->url('browse'); ?>">Browse Music<span>your tastes</span></a></li>
 		<li class="last"><a href="<?php echo $this->url('contact'); ?>">Contact<span>let us know</span></a></li>
 	</ul>

@@ -27,6 +27,7 @@ img {
 p {
 	padding: 5px;
 	padding-left: 0;
+	margin: 3px 0 3px 0;
 }
 
 p.light {
@@ -100,14 +101,14 @@ h6 {
 	display: block;
 	height: 2px;
 	background: url('image/darkDivider.jpg') repeat-x;
-	margin: 15px 0;
+	margin: 5px 0;
 }
 
 .lightDivider {
 	display: block;
 	height: 2px;
 	background: url('image/lightDivider.jpg') repeat-x;
-	margin: 10px 0;
+	margin: 5px 0;
 }
 
 cite {
@@ -170,14 +171,12 @@ ul.bullet li {
 
 
 /*input styling*/
-/*label{padding:20px 0 0 15px;display:block;color:#000;width:60px;float:left;}
-input{border:none;padding:0;margin:0;}*/
 .input{padding:10px;background:#fff;display:block;color:#53544D;width:220px;border:1px solid #c7c7b6;float:left;margin:10px 0 0 0;}	
 .submit{display:block;width:118px;height:37px;background:url('image/readMore.jpg') no-repeat;line-height:9px;text-align:center;color:#53544d;font-size:11px;border:none;cursor:pointer;}
 
 
 
-.uploadButton {
+.formButton {
 	height: 24px;
 	width: 92px;
 	text-align: center;
@@ -186,19 +185,8 @@ input{border:none;padding:0;margin:0;}*/
 	cursor: pointer;
 	font-family: helvetica, arial, sans-serif;
 	color:#0149a9;
-	font-size: 14px;
-	font-weight: bold;
+	font-size: 12px;
 }
-
-/*textarea{background:#fff;color:#53544D;border:none;padding:7px;width:335px;border:1px solid #c7c7b6;overflow:auto;margin:0 0 5px 0;}	
-fieldset{border:none;padding:15px;background:#E5E6DF;margin:10px 0;clear:both;}
-fieldset label{width:60px;float:left;padding:20px 0 0 15px;color:#53544D;}
-fieldset .input{width:205px;float:left;margin:10px 0 0 0;}
-input.inputError{border: 1px solid #D80047 !important;}	
-label.inputError{float:none;margin:0 !important;padding:0 !important;border:none;}
-textarea.inputError{border: 1px solid #EFBF18 !important;}
-.select{padding:10px;background:#292a24;color:#D8DACB;width:300px;margin-bottom:15px;border:1px solid #000;}
-option{padding:2px 0 0 5px;}*/
 
 
 /*search form styling*/
@@ -335,6 +323,40 @@ a.logo h1 {
 	width: 960px;
 }
 
+#mainContent form {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#mainContent form label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+#mainContent form label span {
+	display: block;
+	font-size: 11px;
+}
+
+#mainContent form label span.req {
+	font-weight: bold;
+}
+
+#mainContent form label .text {
+	border: 1px solid #737373;
+	padding: 3px;
+	font-size: 12px;
+	font-family: helvetica, arial, sans-serif;
+	width: 300px;
+}
+
+#mainContent form label .smallText {
+	font-size: 11px;
+	width: 125px;
+	border: 1px solid #9E9E9E;
+	padding: 2px;
+}
+
 #mainContent .latestSounds, #mainContent .popularTracks {
 	display: block;
 	width: 280px;
@@ -361,29 +383,6 @@ a.logo h1 {
 #mainContent .uploadTrack .content {
 	width: 340px;
 	margin: 20px auto;
-}
-
-#mainContent .uploadTrack .content form {
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-#mainContent .uploadTrack .content form label {
-	display: block;
-	margin-bottom: 5px;
-}
-
-#mainContent .uploadTrack .content form label span {
-	display: block;
-	font-size: 14px;
-}
-
-#mainContent .uploadTrack .content form label .text {
-	border: 1px solid #737373;
-	padding: 3px;
-	font-size: 12px;
-	font-family: helvetica, arial, sans-serif;
-	width: 300px;
 }
 
 #mainContent .browseTrackList {

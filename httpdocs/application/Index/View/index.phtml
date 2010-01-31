@@ -110,37 +110,104 @@
 
 <div class="uploadTrack">
 	<div class="content">
-		<h2 class="mainHeader">Upload Your Track</h2>
+		<?php if ( true === $is_logged_in ): ?>
+			<h2 class="mainHeader">Upload Your Track</h2>
 		
-		<form method="post" action="<?php echo $this->url('track/upload'); ?>" enctype="multipart/form-data">
-			<label>
-				<span>Your MP3 File</span>
-				<input type="file" name="upload[track]">
-			</label>
+			<form method="post" action="<?php echo $this->url('track/upload'); ?>" enctype="multipart/form-data">
+				<label>
+					<span>Your MP3 File</span>
+					<input type="file" name="upload[track]">
+				</label>
+				
+				<label>
+					<span>Associated Image</span>
+					<input type="file" name="upload[image]">
+				</label>
+				
+				<label>
+					<span>Track Name</span>
+					<input type="text" name="upload[name]" class="text">
+				</label>
+				
+				<label>
+					<span>Description</span>
+					<textarea rows="5" cols="35" name="upload[description]" class="text"></textarea>
+				</label>
+				
+				<p>
+					By uploading this file, you agree to our <a href="<?php echo $this->url('page/view', 'terms'); ?>">Terms of Agreement</a> and agree you are the copyright owner.
+				</p>
+				
+				<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
+				<input type="submit" class="formButton" value="Upload">
+				
+			</form>
+		<?php else: ?>
+			<div style="float: left; width: 170px;">
+				<h4>Login To Upload</h4>
+				
+				<div class="darkDivider"></div>
+				
+				<form method="post" action="<?php echo $this->url('account/login'); ?>">
+					<label>
+						<span>Email Address</span>
+						<input type="text" name="login[email_address]" class="smallText">
+					</label>
+					<label>
+						<span>Password</span>
+						<input type="password" name="login[password]" class="smallText">
+					</label>
+				
+					<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
+					<input type="submit" class="formButton" value="Login">
+				</form>
+			</div>
+			<div style="float: left; width: 170px;">
+				<h4>Register To Upload</h4>
+				
+				<div class="darkDivider"></div>
+				
+				<form method="post" action="<?php echo $this->url('account/register'); ?>">
+					<label>
+						<span class="req">Email Address</span>
+						<input type="text" name="register[email_address]" class="smallText">
+						<div class="error"><?php echo $this->error('email_address'); ?></div>
+					</label>
+				
+					<label>
+						<span class="req">Passsword</span>
+						<input type="password" name="register[password]" class="smallText">
+						<div class="error"><?php echo $this->error('password'); ?></div>
+					</label>
+				
+					<label>
+						<span class="req">First Name</span>
+						<input type="text" name="register[firstname]" class="smallText">
+						<div class="error"><?php echo $this->error('firstname'); ?></div>
+					</label>
+				
+					<label>
+						<span class="req">Last Name</span>
+						<input type="text" name="register[lastname]" class="smallText">
+						<div class="error"><?php echo $this->error('lastname'); ?></div>
+					</label>
+				
+					<label>
+						<span>Your Website</span>
+						<input type="text" name="register[url]" class="smallText">
+						<div class="error"><?php echo $this->error('url'); ?></div>
+					</label>
+					
+					<p style="font-size: 11px;"><strong>Bold fields are required.</strong></p>
+				
+					<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
+					<input type="submit" class="formButton" value="Register">
+				
+				</form>
+			</div>
 			
-			<label>
-				<span>Associated Image</span>
-				<input type="file" name="upload[image]">
-			</label>
-			
-			<label>
-				<span>Track Name</span>
-				<input type="text" name="upload[name]" class="text">
-			</label>
-			
-			<label>
-				<span>Description</span>
-				<textarea rows="5" cols="35" name="upload[description]" class="text"></textarea>
-			</label>
-			
-			<p>
-				By uploading this file, you agree to our <a href="<?php echo $this->url('page/view', 'terms'); ?>">Terms of Agreement</a> and agree you are the copyright owner.
-			</p>
-			
-			<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
-			<input type="submit" class="uploadButton" value="Upload">
-			
-		</form>
+		
+		<?php endif; ?>
 	</div>
 </div>
 <div class="clear"></div>

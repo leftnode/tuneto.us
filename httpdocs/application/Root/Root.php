@@ -9,6 +9,7 @@ class Root_Controller extends Artisan_Controller {
 		$this->css_tunetous = DIR_CSS . 'tunetous.css';
 		$this->render('root/header', 'header');
 		
+		$this->is_logged_in = User_Session::get()->isLoggedIn();
 		$this->render('root/menu', 'menu');
 		
 		// Render the body

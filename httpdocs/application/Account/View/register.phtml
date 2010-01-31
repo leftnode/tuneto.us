@@ -1,1 +1,48 @@
-register form
+<h1 class="mainHeader">Register For An Account</h1>
+
+
+<div class="accountRegister">
+	<form method="post" action="<?php echo $this->url('account/register'); ?>">
+		<p>
+			Registration is entirely free, and allows you to track your uploads.
+			After you register, you can upgrade your account to provide more uploads,
+			larger uploads, and to see more statistics on your files.
+		</p>
+		
+		<p><strong>Bold fields are required.</strong></p>
+		
+		<label>
+			<span class="req">Email Address</span>
+			<input type="text" name="register[email_address]" class="text">
+			<div class="error"><?php echo $this->error('email_address'); ?></div>
+		</label>
+	
+		<label>
+			<span class="req">Passsword</span>
+			<input type="password" name="register[password]" class="text">
+			<div class="error"><?php echo $this->error('password'); ?></div>
+		</label>
+	
+		<label>
+			<span class="req">First Name</span>
+			<input type="text" name="register[firstname]" class="text">
+			<div class="error"><?php echo $this->error('firstname'); ?></div>
+		</label>
+	
+		<label>
+			<span class="req">Last Name</span>
+			<input type="text" name="register[lastname]" class="text">
+			<div class="error"><?php echo $this->error('lastname'); ?></div>
+		</label>
+	
+		<label>
+			<span>Your Website</span>
+			<input type="text" name="register[url]" class="text">
+			<div class="error"><?php echo $this->error('url'); ?></div>
+		</label>
+	
+		<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
+		<input type="submit" class="formButton" value="Register">
+	
+	</form>
+</div>
