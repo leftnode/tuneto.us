@@ -5,7 +5,7 @@ require_once 'application/Root/Root.php';
 class Account_Controller extends Root_Controller {
 	
 	public function indexGet() {
-		if ( false === User_Session::get()->isLoggedIn() ) {
+		if ( false === ttu_user_is_logged_in() ) {
 			// Redirect to index, give error.
 		}
 		
@@ -14,15 +14,14 @@ class Account_Controller extends Root_Controller {
 	
 	public function logoutGet() {
 		try {
-			User_Session::get()->destroyLogin();
+			ttu_user_logout();
 		} catch ( Exception $e ) { }
-		
-		$this->getMessage()->pushSuccess(SUCCESS_LOGGED_OUT);
-		$this->redirect($this->url('index/index'));
+
+		$this->pushSuccessAndRedirect(SUCCESS_LOGGED_OUT, 'index/index');
 	}
 	
 	public function registerGet() {
-		if ( true === User_Session::get()->isLoggedIn() ) {
+		if ( true === ttu_user_is_logged_in() ) {
 			// Redirect to index, give error
 		}
 		
@@ -31,6 +30,10 @@ class Account_Controller extends Root_Controller {
 	
 	public function loginPost() {
 		try {
+			if ( true === ttu_user_is_logged_in() ) {
+				$this->redirect($this->url('account/index'));
+			}
+			
 			$login = (array)$this->getParam('login');
 			
 			$email_address = er('email_address', $login);
@@ -50,7 +53,7 @@ class Account_Controller extends Root_Controller {
 			}
 			
 			$user_id = $user->id();
-			User_Session::get()->setLogin($user_id);
+			ttu_user_login($user_id);
 			
 			$this->pushSuccessAndRedirect(SUCCESS_LOGGED_IN, 'account/index');
 		} catch ( TuneToUs_Exception $e ) {
@@ -65,18 +68,18 @@ class Account_Controller extends Root_Controller {
 	public function registerPost() {
 		try {
 			$register = (array)$this->getParam('register');
-			
-			if ( false === is_array($register) || 0 === count($register) ) {
-				throw new TuneToUs_Exception('No registration information was available. Please try again.');
-			}
+
+			$validator = $this->buildValidator();
+			$validator->load('register')->setData($register)->validate();
 			
 			/* Attempt to validate the data. */
 			$email_address = er('email_address', $register);
 			$password = er('password', $register);
 			
 			$user = API::getDataModel()->where('email_address = ?', $email_address)->loadFirst(new User());
-			$user_id = $user->id();
-			if ( $user_id > 0 ) {
+			$user_email_address = $user->getEmailAddress();
+			
+			if ( $email_address == $user_email_address ) {
 				throw new TuneToUs_Exception(ERROR_ACCOUNT_EXISTS);
 			}
 			
@@ -87,9 +90,7 @@ class Account_Controller extends Root_Controller {
 			$user->setEmailAddress($email_address)
 				->setPassword($password_hashed)
 				->setPasswordSalt($password_salt)
-				->setFirstname(er('firstname', $register))
-				->setLastname(er('lastname', $register))
-				->setUrl(er('url', $register))
+				->setNickname(er('nickname', $register))
 				->setStatus(STATUS_ENABLED)
 				->setComplete(1);
 			$user_id = API::getDataModel()->save($user);
@@ -104,8 +105,14 @@ class Account_Controller extends Root_Controller {
 		} catch ( TuneToUs_Exception $e ) {
 			$this->pushErrorAndRedirect($e->getMessage(), 'account/register');
 		} catch ( Exception $e ) {
-			$this->pushErrorAndRedirect(ERROR_GENERAL, 'index/index');
+			//$this->pushErrorAndRedirect(ERROR_GENERAL, 'index/index');
+			$this->getMessage()->pushError(ERROR_FAILED_FORM);
 		}
+		
+		$this->view->setValidator($validator);
+		$this->register = $register;
+		
+		$this->renderLayout('register');
 		
 		return true;
 	}

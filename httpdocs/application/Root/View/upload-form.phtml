@@ -1,0 +1,28 @@
+<form method="post" action="<?php echo $this->url('track/upload'); ?>" enctype="multipart/form-data">
+	<label>
+		<span>Your MP3 File</span>
+		<input type="file" name="upload[track]">
+	</label>
+	
+	<label>
+		<span>Associated Image</span>
+		<input type="file" name="upload[image]">
+	</label>
+	
+	<label>
+		<span>Track Name</span>
+		<input type="text" name="upload[name]" class="text">
+	</label>
+	
+	<label>
+		<span>Description</span>
+		<textarea rows="5" cols="35" name="upload[description]" class="text"></textarea>
+	</label>
+	
+	<p>
+		By uploading this file, you agree to our <a href="<?php echo $this->url('page/view', 'terms'); ?>">Terms of Agreement</a> and agree you are the copyright owner.
+	</p>
+	
+	<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
+	<input type="submit" class="formButton" value="Upload">
+</form>

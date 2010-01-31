@@ -15,34 +15,22 @@
 		
 		<label>
 			<span class="req">Email Address</span>
-			<input type="text" name="register[email_address]" class="text">
+			<input type="text" name="register[email_address]" value="<?php echo $this->safe(er('email_address', $register)); ?>" class="text">
 			<div class="error"><?php echo $this->error('email_address'); ?></div>
 		</label>
 	
 		<label>
 			<span class="req">Passsword</span>
-			<input type="password" name="register[password]" class="text">
+			<input type="password" name="register[password]" value="<?php echo $this->safe(er('password', $register)); ?>" class="text">
 			<div class="error"><?php echo $this->error('password'); ?></div>
 		</label>
 	
 		<label>
-			<span class="req">First Name</span>
-			<input type="text" name="register[firstname]" class="text">
-			<div class="error"><?php echo $this->error('firstname'); ?></div>
+			<span class="req">Nick Name</span>
+			<input type="text" name="register[nickname]" value="<?php echo $this->safe(er('nickname', $register)); ?>" class="text">
+			<div class="error"><?php echo $this->error('nickname'); ?></div>
 		</label>
-	
-		<label>
-			<span class="req">Last Name</span>
-			<input type="text" name="register[lastname]" class="text">
-			<div class="error"><?php echo $this->error('lastname'); ?></div>
-		</label>
-	
-		<label>
-			<span>Your Website</span>
-			<input type="text" name="register[url]" class="text">
-			<div class="error"><?php echo $this->error('url'); ?></div>
-		</label>
-	
+		
 		<input type="hidden" name="token" value="<?php echo API::getToken(); ?>">
 		<input type="submit" class="formButton" value="Register">
 	

@@ -1,58 +1,49 @@
 <?php
 
 class User_Session {
-	private static $instance = NULL;
-	private $user = array();
+	private static $user = array();
 
 	const SESSION_USER = "_user";
 	
-	private function __construct() { }
-	
-	private function __clone() { }
-	
-	public static function get() {
-		if ( true === is_null(self::$instance) ) {
-			self::$instance = new self;
-		}
-		return self::$instance;
-	}
-
-	public function setLogin($user_id) {
+	public static function logIn($user_id) {
+		self::load();
+		
 		$user_id = intval($user_id);
 		if ( $user_id > 0 ) {
-			Artisan_Session::get()->add(self::SESSION_USER, array(
+			$_SESSION[self::SESSION_USER] = array(
 				'user_id' => $user_id,
 				'user_agent' => sha1(input_get_user_agent()),
 				'status' => 1
-				)
 			);
 		}
 		return true;
 	}
 
-	public function destroyLogin() {
-		Artisan_Session::get()->remove(self::SESSION_USER);
+	public static function logOut() {
+		unset($_SESSION[self::SESSION_USER]);
 		return true;
 	}
 	
-	public function load() {
-		$this->user = (array)Artisan_Session::get()->key(self::SESSION_USER);
+	public static function load() {
+		self::$user = er(self::SESSION_USER, $_SESSION, array());
 		
-		if ( count($this->user) > 0 ) {
-			$user_agent_hashed_session = $this->user['user_agent'];
+		if ( count(self::$user) > 0 ) {
+			$user_agent_hashed_session = self::$user['user_agent'];
 			$user_agent_hashed = sha1(input_get_user_agent());
 			
 			if ( $user_agent_hashed_session != $user_agent_hashed ) {
-				$this->destroyLogin();
+				self::destroyLogin();
 			}
 		}
 		return true;
 	}
 	
-	public function isLoggedIn() {
-		if ( count($this->user) > 0 ) {
-			$user_id = er('user_id', $this->user, 0);
-			$status = er('status', $this->user, 0);
+	public static function isLoggedIn() {
+		self::load();
+		
+		if ( count(self::$user) > 0 ) {
+			$user_id = er('user_id', self::$user, 0);
+			$status = er('status', self::$user, 0);
 			
 			if ( 1 === $status && $user_id > 0 ) {
 				return true;
@@ -61,8 +52,10 @@ class User_Session {
 		return false;
 	}
 	
-	public function getUserId() {
-		$user_id = er('user_id', $this->user, 0);
+	public static function getUserId() {
+		self::load();
+		
+		$user_id = er('user_id', self::$user, 0);
 		return $user_id;
 	}
 }

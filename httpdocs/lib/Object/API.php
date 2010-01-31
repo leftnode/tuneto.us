@@ -7,12 +7,15 @@ require_once 'ArtisanSystem/Db.php';
 require_once 'ArtisanSystem/Registry.php';
 require_once 'ArtisanSystem/Router.php';
 require_once 'ArtisanSystem/Session.php';
+require_once 'ArtisanSystem/Validator.php';
 require_once 'ArtisanSystem/View.php';
 
 require_once 'DataModeler/DataAdapterPdo.php';
 require_once 'DataModeler/DataIterator.php';
 require_once 'DataModeler/DataModel.php';
 require_once 'DataModeler/DataObject.php';
+
+require_once 'lib/Function/User.php';
 
 function __autoload($class) {
 	$class_path = str_replace('_', '.', $class) . '.php';
@@ -32,7 +35,7 @@ class API {
 		self::$dbConfig = $config;
 	}
 	
-	public static function init($command_line, $include_config=true) {
+	public static function init() {
 		$db_hostname = self::$dbConfig['server'];
 		$db_username = self::$dbConfig['username'];
 		$db_password = self::$dbConfig['password'];
@@ -54,48 +57,34 @@ class API {
 
 		Artisan_Registry::push('dataAdapter', $dataAdapter);
 		Artisan_Registry::push('dataModel', $dataModel);
+		
+		self::$commandLine = ( 'cli' == php_sapi_name() ? true : false );
 
-		self::$commandLine = $command_line;
-
-		if ( false === $command_line ) {
-			Artisan_Session::get();
+		if ( false === self::$commandLine ) {
+			// Start session management
 			Artisan_Session::get()->start(SESSION_NAME);
 			
-			User_Session::get()->load();
+			// Create the token for POST methods to prevent CSRF attacks.
+			self::createToken();
 			
-			$user = new User();
-			if ( true === User_Session::get()->isLoggedIn() ) {
-				$user_id = User_Session::get()->getUserId();
-				if ( $user_id > 0 ) {
-					$user = $dataModel->where('user_id = ?', $user_id)
-						->where('status = ?', STATUS_ENABLED)
-						->loadFirst(new User());
-				}
+			// Build global user data. If the user is logged in, their data will be loaded,
+			// otherwise, an empty user will be created.
+			$user_id = ttu_user_get_userid();
+			if ( $user_id > 0 && true === ttu_user_is_logged_in() ) {
+				$user = $dataModel->where('user_id = ?', $user_id)->loadFirst(new User());
+			} else {
+				$user = new User();
 			}
 			
 			Artisan_Registry::push('user', $user);
 			
-			self::createToken();
-			
+			// Validate POST requests.
 			if ( POST == RM ) {
-				$token = er('token', $_POST, NULL);
+				$token = er('token', $_POST);
 				if ( false === self::verifyToken($token) ) {
 					exit('POST methods are not allowed without the correct token! Token given: ' . $token);
 				}
 			}
-		}
-		
-		if ( true === $include_config ) {
-			/* Build a list of configuration defines. */
-			$config_data = array();
-			$config = new Config();
-			$configIterator = $dataModel->loadAll($config);
-		
-			foreach ( $configIterator as $cfg ) {
-				$config_data[$cfg->getName()] = $cfg->getValue();
-			}
-	
-			Artisan_Registry::push('configData', $config_data);
 		}
 	}
 	
@@ -113,15 +102,14 @@ class API {
 	}
 	
 	public static function createToken() {
-		$sess = Artisan_Session::get();
-		if ( false === $sess->exists(SESSION_TOKEN) ) {
+		if ( false === exs(SESSION_TOKEN, $_SESSION) ) {
 			$token = mt_rand(1000000, mt_getrandmax());
 			$salt = crypt_create_salt();
 			$secret_token = crypt_compute_hash($token, $salt);
 			
-			$sess->add(SESSION_TOKEN, $token);
-			$sess->add(SESSION_TOKEN_SECRET, $secret_token);
-			$sess->add(SESSION_TOKEN_SALT, $salt);
+			$_SESSION[SESSION_TOKEN] = $token;
+			$_SESSION[SESSION_TOKEN_SECRET] = $secret_token;
+			$_SESSION[SESSION_TOKEN_SALT] = $salt;
 		}
 	}
 	
@@ -133,12 +121,6 @@ class API {
 		return ( $secret_token === $hashed_token );
 	}
 	
-	public static function getConfigValue($key) {
-		$configData = Artisan_Registry::pop('configData');
-		$value = er($key, $configData, NULL);
-		return $value;
-	}
-	
 	public static function getDb() {
 		return Artisan_Registry::pop('db');
 	}
@@ -148,19 +130,18 @@ class API {
 	}
 	
 	public static function getToken() {
-		return Artisan_Session::get()->key(SESSION_TOKEN);
+		return $_SESSION[SESSION_TOKEN];
 	}
 	
 	public static function getSecretToken() {
-		return Artisan_Session::get()->key(SESSION_TOKEN_SECRET);
+		return $_SESSION[SESSION_TOKEN_SECRET];
 	}
 	
 	public static function getTokenSalt() {
-		return Artisan_Session::get()->key(SESSION_TOKEN_SALT);
+		return $_SESSION[SESSION_TOKEN_SALT];
 	}
 	
 	public static function getUser() {
 		return Artisan_Registry::pop('user');
 	}
-
 }

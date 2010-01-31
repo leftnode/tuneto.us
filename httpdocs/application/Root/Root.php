@@ -11,7 +11,7 @@ class Root_Controller extends Artisan_Controller {
 		$this->render('root/header', 'header');
 		
 		$this->user = API::getUser();
-		$this->is_logged_in = User_Session::get()->isLoggedIn();
+		$this->is_logged_in = ttu_user_is_logged_in();
 		$this->render('root/menu', 'menu');
 		
 		$this->message_list = $this->getMessage()->display();

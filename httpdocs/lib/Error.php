@@ -1,6 +1,7 @@
 <?php
 
 define('ERROR_GENERAL', 'An error occurred.', false);
+define('ERROR_FAILED_FORM', 'Your form failed to validate, please check the errors and try again.', false);
 define('ERROR_ACCOUNT_NOT_FOUND', 'Sorry, the account with the credentials you entered could not be found. Please try again.', false);
 define('ERROR_ACCOUNT_EXISTS', 'The email address you attempted to register with already exists. Use another one.', false);
 define('ERROR_ACCOUNT_FAILED_TO_CREATE', 'An error occurred when creating your account.', false);

@@ -369,6 +369,12 @@ a.logo h1 {
 	margin-bottom: 5px;
 }
 
+#mainContent form div.error {
+	font-size: 11px;
+	color: #f00;
+	margin-bottom: 5px;
+}
+
 #mainContent form label span {
 	display: block;
 	font-size: 11px;

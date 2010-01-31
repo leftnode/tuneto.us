@@ -22,20 +22,4 @@ class UserTest extends PHPUnit_Framework_TestCase {
 		$user = new User();
 		$user->setEmailAddress('abc');
 	}
-	
-	/**
-	 * @expectedException DataModelerException
-	 */
-	public function testUserHasNonEmptyUrl() {
-		$user = new User();
-		$user->setUrl('');
-	}
-	
-	/**
-	 * @expectedException DataModelerException
-	 */
-	public function testUserHasValidUrl() {
-		$user = new User();
-		$user->setUrl('not a url');
-	}
 }

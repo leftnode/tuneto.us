@@ -7,7 +7,7 @@ require_once 'lib/Object/API.php';
 try {
 	API::setDbConfig($config_db);
 	API::setRouterConfig($config_router);
-	API::init(false);
+	API::init();
 	API::run();
 } catch ( Exception $e ) {
 	exit($e);
