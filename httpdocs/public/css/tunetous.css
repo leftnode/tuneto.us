@@ -496,6 +496,16 @@ a.logo h1 {
 	margin: 20px auto;
 }
 
+#mainContent .trackPlayer {
+	background: #e5e6df;
+	-moz-border-radius: 3px;
+	padding: 10px;
+}
+
+#mainContent .trackPlayer .description {
+	margin-top: 10px;
+}
+
 
 /*new music column*/
 .newTrack { }
@@ -522,6 +532,18 @@ a.logo h1 {
 	height: 64px;
 	float: left;
 	margin-right: 10px;
+}
+
+.musicLength {
+	display: block;
+	height: 31px;
+	width: 113px;
+	background: url('image/newMusicButton.jpg') no-repeat;
+	line-height: 27px;
+	text-align: center;
+	color: #53544d;
+	font-size: 11px;
+	float: right;
 }
 
 .newMusicButton a {

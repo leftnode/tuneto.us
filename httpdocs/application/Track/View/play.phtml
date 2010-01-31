@@ -1,20 +1,36 @@
-<h1 class="mainHeader">track name here</h1>
+<h1 class="mainHeader"><?php echo $this->safe($track->getName()); ?></h1>
 
 <div class="clearFull"></div>
 
 
-<div style="width: 100%; background: #e5e6df; -moz-border-radius: 3px;">
-	adsf
-	
-	<object type="application/x-shockwave-flash" data="<?php echo DIR_FLASH . 'mp3-player.swf'; ?>" id="audioplayer1" height="24" width="290">
-		<param name="movie" value="<?php echo DIR_FLASH . 'mp3-player.swf'; ?>">
-		<param name="FlashVars" value="playerID=audioplayer1&soundFile=/stream.php?track_id=<?php echo $track->id(); ?>">
+<div class="trackPlayer" style="">
+	<object type="application/x-shockwave-flash" data="<?php echo DIR_FLASH . 'player.swf'; ?>" height="24" width="290">
+		<param name="movie" value="<?php echo DIR_FLASH . 'player.swf'; ?>">
+		<param name="FlashVars" value="soundFile=<?php echo $this->url('track/stream', $track->id()); ?>&leftbg=0xA4FAAC&lefticon=0x3EA748&rightbg=0x68C1D5&rightbghover=0x5196A6&righticon=0xffffff&righticonhover=0xffffff&text=0x666666&slider=0x3EA748&track=0xFFFFFF&border=0x666666&loader=0xA4FAAC&loop=no&autostart=no">
 		<param name="quality" value="high">
 		<param name="menu" value="false">
 		<param name="wmode" value="transparent">
 	</object>
 	
-	<h3>Description</h3>
-	<?php echo $track->getDescription(); ?>
+	<div class="musicLength"><?php echo $track->getFormattedLength(); ?></div>
+	<div class="musicLength"><?php echo $track->getViewCount(); ?> <?php echo _('plays'); ?></div>
+	
+	<div class="clear"></div>
+	
+	<div style="float: right; margin-top: 10px;">
+		<a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=leftnode">
+			<img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0">
+		</a>
+		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=leftnode"></script>
+	</div>
+
+	<div class="clearFull"></div>
+	
+	<div class="description">
+		<h3>Description</h3>
+		<div class="lightDivider"></div>
+		<?php echo nl2br($this->safe($track->getDescription())); ?>
+	</div>
+	
 	
 </div>

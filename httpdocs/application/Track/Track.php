@@ -15,6 +15,12 @@ class Track_Controller extends Root_Controller {
 				throw new TuneToUs_Exception(_('Sorry, the track you were looking for can not be found.'));
 			}
 			
+			$view_count = $track->getViewCount();
+			$view_count++;
+			$track->setViewCount($view_count);
+			API::getDataModel()->save($track);
+			
+			$this->js_audio_player = DIR_JAVASCRIPT . 'audio-player.js';
 			$this->track = $track;
 			
 			$this->renderLayout('play');
@@ -25,9 +31,34 @@ class Track_Controller extends Root_Controller {
 		}
 	}
 	
-	public function trackGet($track_id) {
+	public function streamGet($track_id) {
 		$this->setLayout(NULL);
 		
+		ob_start();
+
+		header('Content-Type: audio/mpeg');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+
+		$track_id = intval($track_id);
+		$track = API::getDataModel()->where('track_id = ?', $track_id)
+			->where('status = ?', STATUS_ENABLED)
+			->loadFirst(new Track());
+
+		$file_path = DIR_PRIVATE . $track->getPath() . DS . $track->getFilename();
+
+		if ( true === is_file($file_path) ) {
+			$fh = fopen($file_path, 'rb');
+			fseek($fh, 0);
+			while ( false === feof($fh) ) {
+				echo fread($fh, 1024);
+				ob_flush();
+			}
+			
+			fclose($fh);
+		}
+		
+		return true;
 	}
 	
 	public function uploadGet() {
