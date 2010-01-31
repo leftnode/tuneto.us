@@ -304,12 +304,49 @@ a.logo h1 {
 	text-shadow: 0 1px 0 #FFFFFF;
 }
 
-.navigation li a:hover span { }
+.navigation li a:hover span {
+}
+
+
+.messageList {
+	list-style: none;
+	margin: 5px 0 5px 0;
+	padding: 0;
+}
+
+.messageList li {
+	padding: 5px;
+	margin: 3px 0 3px 0;
+	cursor: pointer;
+	-moz-border-radius: 5px;
+}
+
+.messageList .error {
+	color: #6C0000;
+	border: 1px solid #800000;
+	background: #FFA7A1 url('image/messageListError.png') no-repeat 99.5% center;
+}
+
+.messageList .error a {
+	color: #480101;
+	text-decoration: underline;
+}
+
+.messageList .success {
+	color: #1E491E;
+	border: 1px solid #2D6B2D;
+	background: #CAFFCA url('image/messageListSuccess.png') no-repeat 99.5% center;
+}
+
+.messageList .success a {
+	color: #064200;
+	text-decoration: underline;
+}
 
 
 
 
-#join {
+.smallBanner {
 	padding: 7px 15px;
 	background: #fff;
 	float: right;
@@ -319,13 +356,12 @@ a.logo h1 {
 
 /*body*/
 #mainContent {
-	padding-top: 30px;
+	padding-top: 10px;
 	width: 960px;
 }
 
 #mainContent form {
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 #mainContent form label {
@@ -383,6 +419,12 @@ a.logo h1 {
 #mainContent .uploadTrack .content {
 	width: 340px;
 	margin: 20px auto;
+}
+
+#mainContent .accountRegister {
+	background: #FBFBC3;
+	-moz-border-radius: 3px;
+	padding: 10px;
 }
 
 #mainContent .browseTrackList {

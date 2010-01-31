@@ -1,9 +1,14 @@
 <div id="header">
 	
-	<div id="join">
-		<a href="<?php echo $this->url('account/register'); ?>">REGISTER</a> for added benefits
+	
+	<div class="smallBanner">
+		<?php if ( true === $is_logged_in ): ?>
+			<?php echo $this->safe($user->getFirstname()); ?>, you can <a href="<?php echo $this->url('account/logout'); ?>"><strong>LOGOUT</strong></a> for security
+		<?php else: ?>
+			<a href="<?php echo $this->url('account/register'); ?>"><strong>REGISTER</strong></a> for added benefits
+		<?php endif; ?>
 	</div>
-
+	
 	<a href="<?php echo $this->url('index'); ?>" class="logo"><h1>TuneTo.us - Free Music, Free MP3 Hosting, Music Hosting</h1></a>
 </div>
 
@@ -13,6 +18,8 @@
 		
 		<?php if ( true === $is_logged_in ): ?>
 			<li><a href="<?php echo $this->url('account/index'); ?>">My Account<span>your music</span></a></li>
+		<?php else: ?>
+			<li><a href="<?php echo $this->url('account/register'); ?>">Register<span>expand benefits</span></a></li>
 		<?php endif; ?>
 		
 		<li><a href="<?php echo $this->url('browse'); ?>">Browse Music<span>your tastes</span></a></li>

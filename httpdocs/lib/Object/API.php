@@ -63,6 +63,18 @@ class API {
 			
 			User_Session::get()->load();
 			
+			$user = new User();
+			if ( true === User_Session::get()->isLoggedIn() ) {
+				$user_id = User_Session::get()->getUserId();
+				if ( $user_id > 0 ) {
+					$user = $dataModel->where('user_id = ?', $user_id)
+						->where('status = ?', STATUS_ENABLED)
+						->loadFirst(new User());
+				}
+			}
+			
+			Artisan_Registry::push('user', $user);
+			
 			self::createToken();
 			
 			if ( POST == RM ) {
@@ -131,9 +143,9 @@ class API {
 		return Artisan_Registry::pop('db');
 	}
 	
-	/*public static function getPaginator() {
-		return new Paginator();
-	}*/
+	public static function getDataModel() {
+		return Artisan_Registry::pop('dataModel');
+	}
 	
 	public static function getToken() {
 		return Artisan_Session::get()->key(SESSION_TOKEN);
@@ -145,6 +157,10 @@ class API {
 	
 	public static function getTokenSalt() {
 		return Artisan_Session::get()->key(SESSION_TOKEN_SALT);
+	}
+	
+	public static function getUser() {
+		return Artisan_Registry::pop('user');
 	}
 
 }
