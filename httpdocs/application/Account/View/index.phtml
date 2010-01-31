@@ -19,7 +19,7 @@
 					<h4><?php echo $safe_name; ?></h4>
 					<img src="<?php echo ttu_user_get_gravatar($user->getEmailAddress()); ?>" alt="<?php echo $safe_name; ?>" class="albumCoverImage" />
 					<p class="albumText"><?php echo $safe_description; ?></p>
-					<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getLength(); ?> <?php echo _('seconds'); ?> | <?php echo _('Play'); ?></a></div>
+					<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
 					<div class="clear"></div>
 					<?php if ( $i++ != $length ): ?>
 						<div class="darkDivider"></div>

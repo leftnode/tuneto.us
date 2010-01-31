@@ -4,53 +4,28 @@
 
 <div class="latestSounds">
 	<div class="content">
-		<h2 class="mainHeader">Latest Sounds</h2>
+		<h2 class="mainHeader">Latest Tracks</h2>
 	
 		<div class="clearFull"></div>
 
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
+		<?php $i = 1; ?>
+		<?php $track_length = $latest_track_iterator->length(); ?>
 		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
-		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
-		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
-		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-		</div>
+		<?php foreach ( $latest_track_iterator as $track ): ?>
+			<?php $safe_name = $this->safe($track->getName()); ?>
+			<?php $short_description = substr($track->getDescription(), 0, 128); ?>
+			<?php $safe_description = $this->safe($short_description); ?>
+			<div class="newTrack">
+				<h4><?php echo $safe_name; ?></h4>
+				<img src="image here" alt="<?php echo $safe_name; ?>" class="albumCoverImage" />
+				<p class="albumText"><?php echo $safe_description; ?></p>
+				<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
+				<div class="clear"></div>
+				<?php if ( $i++ != $track_length ): ?>
+					<div class="darkDivider"></div>
+				<?php endif; ?>
+			</div>
+		<?php endforeach; ?>
 	</div>
 </div>
 
@@ -62,49 +37,25 @@
 	
 		<div class="clearFull"></div>
 
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
+		<?php $i = 1; ?>
+		<?php $track_length = $popular_track_iterator->length(); ?>
 		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
+		<?php foreach ( $popular_track_iterator as $track ): ?>
+			<?php $safe_name = $this->safe($track->getName()); ?>
+			<?php $short_description = substr($track->getDescription(), 0, 128); ?>
+			<?php $safe_description = $this->safe($short_description); ?>
+			<div class="newTrack">
+				<h4><?php echo $safe_name; ?></h4>
+				<img src="image here" alt="<?php echo $safe_name; ?>" class="albumCoverImage" />
+				<p class="albumText"><?php echo $safe_description; ?></p>
+				<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
+				<div class="clear"></div>
+				<?php if ( $i++ != $track_length ): ?>
+					<div class="darkDivider"></div>
+				<?php endif; ?>
+			</div>
+		<?php endforeach; ?>
 		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
-		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-			<div class="darkDivider"></div>
-		</div>
-		
-		<div class="newTrack">
-			<h4>Some Song Title Here</h4>
-			<img src="images/albumImage1.jpg" alt="New Album Cover" class="albumCoverImage" />
-			<p class="albumText">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>												
-			<div class="newMusicButton"><a href="#">3:30 min | Play</a></div>
-			<div class="clear"></div>
-		</div>
 	</div>
 </div>
 
