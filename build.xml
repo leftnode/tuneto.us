@@ -42,7 +42,7 @@
 	</target>
 
 	<target name="database">
-		<exec command="php sql-builder.php" dir="services" />
+		<exec command="php db-builder.php" dir="services" />
 	</target>
 	
 	<target name="build" depends="clean,githooks,configure,database" />
