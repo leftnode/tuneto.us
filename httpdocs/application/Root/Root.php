@@ -15,12 +15,12 @@ class Root_Controller extends Artisan_Controller {
 		$this->render('root/header', 'header');
 		
 		/* Render the menu. */
-		$this->user = TTU::getUser();
+		$this->user = TuneToUs::getUser();
 		$this->is_logged_in = ttu_user_is_logged_in();
 		$this->render('root/menu', 'menu');
 		
 		/* Render the message list, if one exists. */
-		$this->message_list = TTU::getMessenger()->display();
+		$this->message_list = TuneToUs::getMessenger()->display();
 		$this->render('root/message-list', 'message-list');
 		
 		/* Render the body. */
@@ -31,12 +31,12 @@ class Root_Controller extends Artisan_Controller {
 	}
 	
 	protected function pushErrorAndRedirect($message, $url) {
-		TTU::getMessenger()->pushError($message);
+		TuneToUs::getMessenger()->pushError($message);
 		$this->redirect($this->url($url));
 	}
 	
 	protected function pushSuccessAndRedirect($message, $url) {
-		TTU::getMessenger()->pushSuccess($message);
+		TuneToUs::getMessenger()->pushSuccess($message);
 		$this->redirect($this->url($url));
 	}
 	

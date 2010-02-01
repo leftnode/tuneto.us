@@ -26,7 +26,7 @@ class Account_Controller extends Root_Controller {
 	
 	public function logoutGet() {
 		try {
-			TTU::getMessenger()->pushSuccess(_('You are now logged out.'));
+			TuneToUs::getMessenger()->pushSuccess(_('You are now logged out.'));
 			ttu_user_logout();
 		} catch ( Exception $e ) { }
 		
@@ -56,7 +56,7 @@ class Account_Controller extends Root_Controller {
 	public function updateGet() {
 		$this->setSectionTitle(_('Update Your Profile'));
 		
-		$this->user = TTU::getUser()->model();
+		$this->user = TuneToUs::getUser()->model();
 		$this->renderLayout('update');
 	}
 	
@@ -81,7 +81,7 @@ class Account_Controller extends Root_Controller {
 			$nickname = er('nickname', $login);
 			$password = er('password', $login);
 			
-			$user = TTU::getDataModel()->where('nickname = ?', $nickname)
+			$user = TuneToUs::getDataModel()->where('nickname = ?', $nickname)
 				->where('status = ?', STATUS_ENABLED)
 				->limit(1)
 				->loadFirst(new User());
@@ -100,7 +100,7 @@ class Account_Controller extends Root_Controller {
 			
 			// Update the last time they were last logged in.
 			$user->setDateLastlogin(time());
-			TTU::getDataModel()->save($user);
+			TuneToUs::getDataModel()->save($user);
 			
 			$user_id = $user->id();
 			ttu_user_login($user_id);
@@ -133,7 +133,7 @@ class Account_Controller extends Root_Controller {
 			
 			/* Must have a unique nickname. */
 			$nickname = er('nickname', $register);
-			$user = TTU::getDataModel()->where('nickname = ?', $nickname)->loadFirst(new User());
+			$user = TuneToUs::getDataModel()->where('nickname = ?', $nickname)->loadFirst(new User());
 			
 			if ( true === $user->exists() ) {
 				throw new TuneToUs_Exception(_('The nickname you attempted to register with is already in use. Please choose another one'));
@@ -141,7 +141,7 @@ class Account_Controller extends Root_Controller {
 			
 			/* Must have a unique email address. */
 			$email_address = er('email_address', $register);
-			$user = TTU::getDataModel()->where('email_address = ?', $email_address)->loadFirst(new User());
+			$user = TuneToUs::getDataModel()->where('email_address = ?', $email_address)->loadFirst(new User());
 			
 			if ( true === $user->exists() ) {
 				throw new TuneToUs_Exception(_('The email address you attempted to register with is already in use. Please choose another one'));
@@ -165,7 +165,7 @@ class Account_Controller extends Root_Controller {
 				->setName(er('name', $register))
 				->setGender(er('gender', $register))
 				->setStatus(STATUS_ENABLED);
-			$user_id = TTU::getDataModel()->save($user);
+			$user_id = TuneToUs::getDataModel()->save($user);
 			
 			if ( $user_id < 1 ) {
 				throw new TuneToUs_Exception(_('Failed to create your account. Please try again.'));
@@ -176,9 +176,9 @@ class Account_Controller extends Root_Controller {
 			$this->pushSuccessAndRedirect(_('Your account was successfully created!'), 'account/dashboard');
 			
 		} catch ( TuneToUs_Exception $e ) {
-			TTU::getMessenger()->pushError($e->getMessage());
+			TuneToUs::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
-			TTU::getMessenger()->pushError(_('Your form failed to validate, please check the errors and try again.'));
+			TuneToUs::getMessenger()->pushError(_('Your form failed to validate, please check the errors and try again.'));
 		}
 		
 		$this->view->setValidator($validator);
@@ -204,7 +204,7 @@ class Account_Controller extends Root_Controller {
 	
 	public function uploadPost() {
 		try {
-			$user = TTU::getUser();
+			$user = TuneToUs::getUser();
 			$content_directory = $user->getContentDirectory();
 			
 			$upload = (array)$this->getParam('upload');
@@ -229,7 +229,7 @@ class Account_Controller extends Root_Controller {
 				->setViewCount(0)
 				->setListenCount(0)
 				->setStatus(STATUS_DISABLED);
-			$track_id = TTU::getDataModel()->save($track);
+			$track_id = TuneToUs::getDataModel()->save($track);
 			
 			if ( false === $track->exists() ) {
 				throw new TuneToUs_Exception(_('An error occurred when uploading your track. Please try again.'));
@@ -239,7 +239,7 @@ class Account_Controller extends Root_Controller {
 			$track_queue->setTrackId($track_id)
 				->setOutput('')
 				->setStatus(STATUS_ENABLED);
-			$track_queue_id = TTU::getDataModel()->save($track_queue);
+			$track_queue_id = TuneToUs::getDataModel()->save($track_queue);
 			
 			if ( false === $track_queue->exists() ) {
 				throw new TuneToUs_Exception(_('An error occurred when queueing your track. Please try again.'));

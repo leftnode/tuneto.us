@@ -8,7 +8,7 @@ class Track_Controller extends Root_Controller {
 		try {
 			$track_id = intval($track_id);
 			
-			$track = TTU::getDataModel()->where('track_id = ?', $track_id)->where('status = ?', STATUS_ENABLED)->loadFirst(new Track());
+			$track = TuneToUs::getDataModel()->where('track_id = ?', $track_id)->where('status = ?', STATUS_ENABLED)->loadFirst(new Track());
 			$id = $track->id();
 			
 			if ( $id != $track_id ) {
@@ -18,7 +18,7 @@ class Track_Controller extends Root_Controller {
 			$view_count = $track->getViewCount();
 			$view_count++;
 			$track->setViewCount($view_count);
-			TTU::getDataModel()->save($track);
+			TuneToUs::getDataModel()->save($track);
 			
 			$this->js_audio_player = DIR_JAVASCRIPT . 'audio-player.js';
 			$this->track = $track;
@@ -41,7 +41,7 @@ class Track_Controller extends Root_Controller {
 		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 
 		$track_id = intval($track_id);
-		$track = TTU::getDataModel()->where('track_id = ?', $track_id)
+		$track = TuneToUs::getDataModel()->where('track_id = ?', $track_id)
 			->where('status = ?', STATUS_ENABLED)
 			->loadFirst(new Track());
 
@@ -73,7 +73,7 @@ class Track_Controller extends Root_Controller {
 		$this->verifyUserAuthentication();
 		
 		try {
-			$user = TTU::getUser();
+			$user = TuneToUs::getUser();
 			$content_directory = $user->getContentDirectory();
 			
 			$upload = (array)$this->getParam('upload');
@@ -98,7 +98,7 @@ class Track_Controller extends Root_Controller {
 				->setViewCount(0)
 				->setListenCount(0)
 				->setStatus(STATUS_DISABLED);
-			$track_id = TTU::getDataModel()->save($track);
+			$track_id = TuneToUs::getDataModel()->save($track);
 			
 			if ( $track_id < 1 ) {
 				throw new TuneToUs_Exception(_('An error occurred when uploading your track. Please try again.'));
@@ -107,7 +107,7 @@ class Track_Controller extends Root_Controller {
 			$track_queue = new Track_Queue();
 			$track_queue->setTrackId($track_id)
 				->setStatus(STATUS_ENABLED);
-			$track_queue_id = TTU::getDataModel()->save($track_queue);
+			$track_queue_id = TuneToUs::getDataModel()->save($track_queue);
 			
 			if ( $track_queue_id < 1 ) {
 				throw new TuneToUs_Exception(_('An error occurred when queueing your track. Please try again.'));

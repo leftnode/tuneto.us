@@ -22,7 +22,7 @@ function __autoload($class) {
 	require_once 'lib/Object' . DS . $class_path;
 }
 
-class TTU {
+class TuneToUs {
 	private static $routerConfig = NULL;
 	private static $dbConfig = NULL;
 	private static $commandLine = false;
