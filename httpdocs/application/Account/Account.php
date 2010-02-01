@@ -57,6 +57,10 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function registerGet() {
+		if ( true === ttu_user_is_logged_in() ) {
+			$this->redirect($this->url('account/dashboard'));
+		}
+		
 		$this->register = array();
 		parent::renderLayout('register');
 	}
