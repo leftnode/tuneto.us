@@ -16,13 +16,13 @@
 		
 		<label>
 			<span class="req">Track Name</span>
-			<input type="text" name="track[name]" value="<?php echo $this->safe(er('name', $track)); ?>" class="text">
+			<input type="text" name="upload[name]" value="<?php echo $this->safe(er('name', $upload)); ?>" class="text">
 			<div class="error"><?php echo $this->error('name'); ?></div>
 		</label>
 		
 		<label>
 			<span class="req">Description</span>
-			<textarea rows="3" name="track[description]" class="textLong"><?php echo $this->safe(er('description', $track)); ?></textarea>
+			<textarea rows="3" name="upload[description]" class="textLong"><?php echo $this->safe(er('description', $upload)); ?></textarea>
 			<div class="error"><?php echo $this->error('description'); ?></div>
 		</label>
 		

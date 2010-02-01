@@ -62,7 +62,7 @@ class Root_Controller extends Artisan_Controller {
 			
 		} else {
 			if ( false === ttu_user_is_logged_in() ) {
-				$this->pushErrorAndRedirect(ERROR_NOT_LOGGED_IN, 'index/index');
+				$this->pushErrorAndRedirect(Language::__('error_not_logged_in'), 'index/index');
 			}
 		}
 	}

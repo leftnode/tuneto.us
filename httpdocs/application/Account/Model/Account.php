@@ -11,6 +11,10 @@ class Account_Validator extends Artisan_Validator {
 				'name' => array('label' => 'Your Name', 'rule_list' => array('max_length' => 64)),
 				'gender' => array('label' => 'Gender', 'rule_list' => array('not_empty' => true, 'in_array' => array(GENDER_MALE, GENDER_FEMALE)))
 			),
+			'upload' => array(
+				'name' => array('label' => 'Track Name', 'rule_list' => array('not_empty' => true, 'min_length' => 3, 'max_length' => 128)),
+				'description' => array('label' => 'Track Description', 'rule_list' => array('not_empty' => true, 'min_length' => 3))
+			),
 			'update' => array(
 			
 			)

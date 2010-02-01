@@ -9,7 +9,7 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function dashboardGet() {
-		$this->setSectionTitle(_('Your Dashboard'));
+		$this->setSectionTitle(Language::__('your_dashboard'));
 		$this->renderLayout('dashboard');
 		
 		return true;
@@ -26,7 +26,6 @@ class Account_Controller extends Root_Controller {
 	
 	public function logoutGet() {
 		try {
-			//TuneToUs::getMessenger()->pushSuccess(_('You are now logged out.'));
 			ttu_user_logout();
 		} catch ( Exception $e ) { }
 		
@@ -61,9 +60,9 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function uploadGet() {
-		$this->setSectionTitle(_('Upload New Track'));
+		$this->setSectionTitle(Language::__('account_upload_track'));
 		
-		$this->track = array();
+		$this->upload = array();
 		$this->renderLayout('upload');
 	}
 	
@@ -97,11 +96,11 @@ class Account_Controller extends Root_Controller {
 			$password_hashed = crypt_compute_hash($password, $password_salt);
 			
 			if ( $password_user !== $password_hashed ) {
-				throw new TuneToUs_Exception(_('Your account can not be found.'));
+				throw new TuneToUs_Exception(Language::__('error_account_not_found'));
 			}
 			
 			if ( false === $user->exists() ) {
-				throw new TuneToUs_Exception(_('Your account can not be found.'));
+				throw new TuneToUs_Exception(Language::__('error_account_not_found'));
 			}
 			
 			/* Update the last time they were last logged in. */
@@ -113,12 +112,11 @@ class Account_Controller extends Root_Controller {
 			ttu_user_login($user_id);
 			
 			$this->redirect($this->url('account/dashboard'));
-			
 		} catch ( TuneToUs_Exception $e ) {
-			
-		} catch ( Exception $e ) {
-			
-		}
+			TuneToUs::getMessenger()->pushError($e->getMessage());
+		} catch ( Exception $e ) { }
+		
+		parent::renderLayout('login');
 		
 		return true;
 	}
@@ -154,18 +152,20 @@ class Account_Controller extends Root_Controller {
 			
 			/* Must have a unique nickname. */
 			$nickname = er('nickname', $register);
-			$user = TuneToUs::getDataModel()->where('nickname = ?', $nickname)->loadFirst(new User());
+			$user = TuneToUs::getDataModel()->where('nickname = ?', $nickname)
+				->loadFirst(new User());
 			
 			if ( true === $user->exists() ) {
-				throw new TuneToUs_Exception(_('The nickname you attempted to register with is already in use. Please choose another one'));
+				throw new TuneToUs_Exception(Language::__('error_nickname_taken'));
 			}
 			
 			/* Must have a unique email address. */
 			$email_address = er('email_address', $register);
-			$user = TuneToUs::getDataModel()->where('email_address = ?', $email_address)->loadFirst(new User());
+			$user = TuneToUs::getDataModel()->where('email_address = ?', $email_address)
+				->loadFirst(new User());
 			
 			if ( true === $user->exists() ) {
-				throw new TuneToUs_Exception(_('The email address you attempted to register with is already in use. Please choose another one'));
+				throw new TuneToUs_Exception(Language::__('error_email_address_taken'));
 			}
 			
 			/* Fairly simple salt and password creation. */
@@ -189,18 +189,18 @@ class Account_Controller extends Root_Controller {
 			$user_id = TuneToUs::getDataModel()->save($user);
 			
 			if ( false === $user->exists() ) {
-				throw new TuneToUs_Exception(_('Failed to create your account. Please try again.'));
+				throw new TuneToUs_Exception(Language::__('error_account_creation_failed'));
 			}
 			
 			/* If they successfully created an account, log them in. */
 			ttu_user_login($user_id);
 			
-			$this->pushSuccessAndRedirect(_('Your account was successfully created!'), 'account/dashboard');
+			$this->pushSuccessAndRedirect(Language::__('success_account_created'), 'account/dashboard');
 			
 		} catch ( TuneToUs_Exception $e ) {
 			TuneToUs::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
-			TuneToUs::getMessenger()->pushError(_('Your form failed to validate, please check the errors and try again.'));
+			TuneToUs::getMessenger()->pushError(Language::__('error_form_validation_error'));
 		}
 		
 		$this->getView()->setValidator($validator);
@@ -235,12 +235,14 @@ class Account_Controller extends Root_Controller {
 			$content_directory = $user->getContentDirectory();
 			
 			$upload = (array)$this->getParam('upload');
-			$track_data = (array)$this->getFilesParam('track');
+			
+			$track_file = (array)$this->getFilesParam('track');
+			$track_image_file = (array)$this->getFilesParam('image');
 			
 			$validator = $this->buildValidator();
 			$validator->load('upload')->setData($upload)->validate();
 
-			$uploader = new Uploader_Track($track_data);
+			$uploader = new Uploader_Track($track_file);
 			$uploader->setAllowOverwrite(true)
 				->setDestinationDirectory($content_directory)
 				->upload();
@@ -254,7 +256,6 @@ class Account_Controller extends Root_Controller {
 				->setDescription(er('description', $upload))
 				->setLength(0)
 				->setViewCount(0)
-				->setListenCount(0)
 				->setStatus(STATUS_DISABLED);
 			$track_id = TuneToUs::getDataModel()->save($track);
 			
@@ -272,12 +273,20 @@ class Account_Controller extends Root_Controller {
 				throw new TuneToUs_Exception(_('An error occurred when queueing your track. Please try again.'));
 			}
 			
-			$this->pushSuccessAndRedirect(_('Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.'), 'account/dashboard');
+			TuneToUs::getMessenger()->pushSuccess(Language::__('success_account_track_uploaded'));
+			$this->redirect($this->url('account/dashboard'));
 		} catch ( TuneToUs_Exception $e ) {
-			$this->pushErrorAndRedirect($e->getMessage(), 'account/index');
+			TuneToUs::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
-			$this->pushErrorAndRedirect(ERROR_GENERAL, 'index/index');
+			TuneToUs::getMessenger()->pushError(Language::__('error_form_validation_error'));
 		}
+		
+		$this->getView()->setValidator($validator);
+		
+		$this->setSectionTitle(Language::__('account_upload_track'));
+		$this->upload = $upload;
+		
+		$this->renderLayout('upload');
 		
 		return true;
 	}

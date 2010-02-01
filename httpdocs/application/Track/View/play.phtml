@@ -2,7 +2,6 @@
 
 <div class="clearFull"></div>
 
-
 <div class="trackPlayer" style="">
 	<object type="application/x-shockwave-flash" data="<?php echo DIR_FLASH . 'player.swf'; ?>" height="24" width="290">
 		<param name="movie" value="<?php echo DIR_FLASH . 'player.swf'; ?>">
@@ -12,8 +11,8 @@
 		<param name="wmode" value="transparent">
 	</object>
 	
-	<div class="musicLength"><?php echo $track->getFormattedLength(); ?></div>
-	<div class="musicLength"><?php echo $track->getViewCount(); ?> <?php echo _('plays'); ?></div>
+	<div class="musicLength">song length</div>
+	<div class="musicLength"><?php echo $track->getViewCount(); ?> <?php echo Language::__('views'); ?></div>
 	
 	<div class="clear"></div>
 	
@@ -31,6 +30,5 @@
 		<div class="lightDivider"></div>
 		<?php echo nl2br($this->safe($track->getDescription())); ?>
 	</div>
-	
 	
 </div>
