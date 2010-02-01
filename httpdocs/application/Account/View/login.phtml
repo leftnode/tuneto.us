@@ -1,1 +1,22 @@
-login
+<h1 class="mainHeader">Log Into Your Account</h1>
+
+<div class="clearFull"></div>
+
+<div class="accountDashboard">
+	<form method="post" action="<?php echo $this->url('account/login'); ?>">
+		<label>
+			<span class="req">Nick Name</span>
+			<input type="text" name="login[nickname]" class="text">
+		</label>
+
+		<label>
+			<span class="req">Password</span>
+			<input type="password" name="login[password]" class="text">
+		</label>
+
+		<input type="hidden" name="token" value="<?php echo TTU::getToken(); ?>">
+		<input type="submit" class="submitButton" value="Login">
+	</form>
+</div>
+
+<div class="clear"></div>

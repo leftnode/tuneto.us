@@ -3,6 +3,11 @@
 	
 	<form method="post" action="<?php echo $this->url('account/update'); ?>" enctype="multipart/form-data">
 		<label>
+			<span class="req">Nick Name</span>
+			<?php echo $this->safe(er('nickname', $user)); ?>
+		</label>
+		
+		<label>
 			<span class="req">Email Address</span>
 			<input type="text" name="user[email_address]" value="<?php echo $this->safe(er('email_address', $user)); ?>" class="text">
 			<div class="error"><?php echo $this->error('email_address'); ?></div>
@@ -13,18 +18,13 @@
 			<input type="text" name="user[name]" value="<?php echo $this->safe(er('name', $user)); ?>" class="text">
 			<div class="error"><?php echo $this->error('name'); ?></div>
 		</label>
-	
+		
 		<label>
-			<span class="req">Your Name</span>
-			<input type="text" name="user[name]" value="<?php echo $this->safe(er('name', $user)); ?>" class="text">
-			<div class="error"><?php echo $this->error('name'); ?></div>
-		</label>
-	
-		<label>
+			<?php $gender = er('gender', $user); ?>
 			<span>Gender</span>
 			<select name="user[gender]">
-				<option value="male">Male</option>
-				<option value="female">Female</option>
+				<option value="<?php echo GENDER_MALE; ?>" <?php echo ( GENDER_MALE == $gender ? 'selected' : NULL ); ?>>Male</option>
+				<option value="<?php echo GENDER_FEMALE; ?>" <?php echo ( GENDER_FEMALE == $gender ? 'selected' : NULL ); ?>>Female</option>
 			</select>
 			<div class="error"><?php echo $this->error('gender'); ?></div>
 		</label>

@@ -190,7 +190,7 @@ ul.bullet li {
 	margin: 10px 0 0 0;
 }	
 
-.submit {
+/*.submit {
 	display: block;
 	width: 118px;
 	height: 37px;
@@ -201,7 +201,7 @@ ul.bullet li {
 	font-size: 11px;
 	border: none;
 	cursor: pointer;
-}
+}*/
 
 .submitButton {
 	display: block;

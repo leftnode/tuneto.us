@@ -21,13 +21,15 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function loginGet() {
-		
-		$this->renderLayout('login');
+		parent::renderLayout('login');
 	}
 	
 	public function logoutGet() {
+		try {
+			TTU::getMessenger()->pushSuccess(_('You are now logged out.'));
+			ttu_user_logout();
+		} catch ( Exception $e ) { }
 		
-		TTU::getMessenger()->pushSuccess(_('You are now logged out.'));
 		$this->redirect($this->url('index/index'));
 	}
 	
@@ -54,7 +56,7 @@ class Account_Controller extends Root_Controller {
 	public function updateGet() {
 		$this->setSectionTitle(_('Update Your Profile'));
 		
-		$this->user = array();
+		$this->user = TTU::getUser()->model();
 		$this->renderLayout('update');
 	}
 	
@@ -68,7 +70,49 @@ class Account_Controller extends Root_Controller {
 	
 	
 	public function loginPost() {
-		
+		try {
+			
+			if ( true === ttu_user_is_logged_in() ) {
+				$this->redirect($this->url('account/dashboard'));
+			}
+			
+			$login = (array)$this->getParam('login');
+			
+			$nickname = er('nickname', $login);
+			$password = er('password', $login);
+			
+			$user = TTU::getDataModel()->where('nickname = ?', $nickname)
+				->where('status = ?', STATUS_ENABLED)
+				->limit(1)
+				->loadFirst(new User());
+			
+			$password_salt = $user->getPasswordSalt();
+			$password_user = $user->getPassword();
+			$password_hashed = crypt_compute_hash($password, $password_salt);
+			
+			if ( $password_user !== $password_hashed ) {
+				throw new TuneToUs_Exception(_('Your account can not be found.'));
+			}
+			
+			if ( false === $user->exists() ) {
+				throw new TuneToUs_Exception(_('Your account can not be found.'));
+			}
+			
+			// Update the last time they were last logged in.
+			$user->setDateLastlogin(time());
+			TTU::getDataModel()->save($user);
+			
+			$user_id = $user->id();
+			ttu_user_login($user_id);
+			
+			$this->pushSuccessAndRedirect(_('You have successfully logged in!'), 'account/dashboard');
+			
+		} catch ( TuneToUs_Exception $e ) {
+			
+		} catch ( Exception $e ) {
+			
+			
+		}
 	}
 	
 	public function logoutPost() {
@@ -104,6 +148,7 @@ class Account_Controller extends Root_Controller {
 			}
 			
 			/* Fairly simple salts and password creation. */
+			$password = er('password', $register);
 			$password_salt = crypt_create_salt();
 			$password_hashed = crypt_compute_hash($password, $password_salt);
 		
@@ -131,14 +176,15 @@ class Account_Controller extends Root_Controller {
 			$this->pushSuccessAndRedirect(_('Your account was successfully created!'), 'account/dashboard');
 			
 		} catch ( TuneToUs_Exception $e ) {
-			
-		} catch ( Artisan_Exception $e ) {
-			
+			TTU::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
-			
+			TTU::getMessenger()->pushError(_('Your form failed to validate, please check the errors and try again.'));
 		}
 		
+		$this->view->setValidator($validator);
+		$this->register = $register;
 		
+		parent::renderLayout('register');
 		
 		return true;
 	}
@@ -156,6 +202,58 @@ class Account_Controller extends Root_Controller {
 		}
 	}
 	
+	public function uploadPost() {
+		try {
+			$user = TTU::getUser();
+			$content_directory = $user->getContentDirectory();
+			
+			$upload = (array)$this->getParam('upload');
+			$track_data = (array)$this->getFilesParam('track');
+			
+			$validator = $this->buildValidator();
+			$validator->load('upload')->setData($upload)->validate();
+
+			$uploader = new Uploader_Track($track_data);
+			$uploader->setAllowOverwrite(true)
+				->setDestinationDirectory($content_directory)
+				->upload();
+			
+			/* If the upload went well, create a new Track record and Track_Queue record. */
+			$track = new Track();
+			$track->setUserId($user->id())
+				->setPath($content_directory)
+				->setFilename($uploader->getFilename())
+				->setName(er('name', $upload))
+				->setDescription(er('description', $upload))
+				->setLength(0)
+				->setViewCount(0)
+				->setListenCount(0)
+				->setStatus(STATUS_DISABLED);
+			$track_id = TTU::getDataModel()->save($track);
+			
+			if ( false === $track->exists() ) {
+				throw new TuneToUs_Exception(_('An error occurred when uploading your track. Please try again.'));
+			}
+			
+			$track_queue = new Track_Queue();
+			$track_queue->setTrackId($track_id)
+				->setOutput('')
+				->setStatus(STATUS_ENABLED);
+			$track_queue_id = TTU::getDataModel()->save($track_queue);
+			
+			if ( false === $track_queue->exists() ) {
+				throw new TuneToUs_Exception(_('An error occurred when queueing your track. Please try again.'));
+			}
+			
+			$this->pushSuccessAndRedirect(_('Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.'), 'account/dashboard');
+		} catch ( TuneToUs_Exception $e ) {
+			$this->pushErrorAndRedirect($e->getMessage(), 'account/index');
+		} catch ( Exception $e ) {
+			$this->pushErrorAndRedirect(ERROR_GENERAL, 'index/index');
+		}
+		
+		return true;
+	}
 	
 	
 	protected function renderLayout($view) {

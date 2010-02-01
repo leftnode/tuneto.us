@@ -9,7 +9,7 @@ class Account_Validator extends Artisan_Validator {
 				'email_address' => array('label' => 'Email Address', 'rule_list' => array('not_empty' => true, 'email' => true, 'max_length' => 255)),
 				'password' => array('label' => 'Password', 'rule_list' => array('not_empty' => true, 'min_length' => 6)),
 				'name' => array('label' => 'Your Name', 'rule_list' => array('max_length' => 64)),
-				'gender' => array('label' => 'Gender', 'rule_list' => array('not_empty' => true, 'in_array' => array('male', 'female')))
+				'gender' => array('label' => 'Gender', 'rule_list' => array('not_empty' => true, 'in_array' => array(GENDER_MALE, GENDER_FEMALE)))
 			),
 			'update' => array(
 			
