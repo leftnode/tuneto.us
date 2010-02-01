@@ -53,12 +53,14 @@ class User extends DataObject {
 			@mkdir($second_path);
 		}
 		
-		$full_path = $second_path . $email_address . DS;
+		$email_hash = sha1($email_address);
+		
+		$full_path = $second_path . $email_hash . DS;
 		if ( false === is_dir($full_path) ) {
 			@mkdir($full_path);
 		}
 		
-		$content_directory = $first_char . DS . $second_char . DS . $email_address;
+		$content_directory = $first_char . DS . $second_char . DS . $email_hash;
 		return $content_directory;
 	}
 }
