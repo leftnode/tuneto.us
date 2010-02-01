@@ -9,6 +9,8 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function dashboardGet() {
+		$this->verifyUserSession();
+		
 		$this->setSectionTitle(Language::__('your_dashboard'));
 		$this->renderLayout('dashboard');
 		
@@ -16,6 +18,8 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function favoriteListGet() {
+		$this->verifyUserSession();
+		
 		$this->setSectionTitle(_('Your Favorites'));
 		$this->renderLayout('favorite-list');
 	}
@@ -33,11 +37,15 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function messageListGet() {
+		$this->verifyUserSession();
+		
 		$this->setSectionTitle(_('Messages'));
 		$this->renderLayout('message-list');
 	}
 	
 	public function privacyGet() {
+		$this->verifyUserSession();
+		
 		$this->setSectionTitle(_('Privacy Settings'));
 		$this->renderLayout('privacy');
 	}
@@ -48,11 +56,15 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function trackListGet() {
+		$this->verifyUserSession();
+		
 		$this->setSectionTitle(_('Your Tracks'));
 		$this->renderLayout('track-list');
 	}
 	
 	public function updateGet() {
+		$this->verifyUserSession();
+		
 		$this->setSectionTitle(_('Update Your Profile'));
 		
 		$this->user = TuneToUs::getUser()->model();
@@ -60,6 +72,8 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function uploadGet() {
+		$this->verifyUserSession();
+		
 		$this->setSectionTitle(Language::__('account_upload_track'));
 		
 		$this->upload = array();
@@ -220,16 +234,18 @@ class Account_Controller extends Root_Controller {
 		} catch ( TuneToUs_Exception $e ) {
 			
 		} catch ( Exception $e ) {
-			
+			TuneToUs::getMessenger()->pushError(Language::__('error_form_validation_error'));
 		}
 	}
 	
 	/**
 	 * Upload a track to the system.
 	 * 
-	 * @retval 
+	 * @retval bool Returns true.
 	 */
 	public function uploadPost() {
+		$this->verifyUserSession();
+		
 		try {
 			$user = TuneToUs::getUser();
 			$content_directory = $user->getContentDirectory();
@@ -291,12 +307,9 @@ class Account_Controller extends Root_Controller {
 		return true;
 	}
 	
-	
 	protected function renderLayout($view) {
 		$this->content = $this->render($view);
-		
 		parent::renderLayout('account/layout');
-		
 		return true;
 	}
 

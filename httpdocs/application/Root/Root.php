@@ -57,14 +57,17 @@ class Root_Controller extends Artisan_Controller {
 		exit;
 	}
 	
-	protected function verifyUserAuthentication($ajax=false) {
+	protected function verifyUserSession($ajax=false) {
 		if ( true === $ajax ) {
-			
+			exit(Language::__('error_not_logged_in'));
 		} else {
 			if ( false === ttu_user_is_logged_in() ) {
-				$this->pushErrorAndRedirect(Language::__('error_not_logged_in'), 'index/index');
+				TuneToUs::getMessenger()->pushError(Language::__('error_not_logged_in'));
+				$this->redirect($this->url('account/login'));
 			}
 		}
+		
+		return true;
 	}
 	
 	

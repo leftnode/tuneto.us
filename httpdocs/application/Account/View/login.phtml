@@ -3,20 +3,28 @@
 <div class="clearFull"></div>
 
 <div class="accountDashboard">
-	<form method="post" action="<?php echo $this->url('account/login'); ?>">
-		<label>
-			<span class="req">Nick Name</span>
-			<input type="text" name="login[nickname]" class="text">
-		</label>
+	<div class="loginForm">
+		<form method="post" action="<?php echo $this->url('account/login'); ?>">
+			<label>
+				<span class="req">Nick Name</span>
+				<input type="text" name="login[nickname]" class="text">
+			</label>
 
-		<label>
-			<span class="req">Password</span>
-			<input type="password" name="login[password]" class="text">
-		</label>
+			<label>
+				<span class="req">Password</span>
+				<input type="password" name="login[password]" class="text">
+			</label>
 
-		<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
-		<input type="submit" class="submitButton" value="Login">
-	</form>
+			<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
+			<input type="submit" class="submitButton" value="Login">
+		</form>
+	</div>
+	
+	<div class="registerLink">
+		<h2>Create An Account</h2>
+		
+		<a href="<?php echo $this->url('account/register'); ?>" class="registerButton">Click To Register</a>
+	</div>
 </div>
 
 <div class="clear"></div>
