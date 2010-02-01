@@ -2,8 +2,14 @@
 
 
 class Root_Controller extends Artisan_Controller {
+	/// The name of the layout to use. Can be overwritten.
 	protected $layout = 'tunetous';
 	
+	/**
+	 * Render the overall application so everything can be included at once.
+	 * @param string $view The name of the view to render.
+	 * @retval bool Returns true.
+	 */
 	protected function renderLayout($view) {
 		/* Global CSS */
 		$this->css_tunetous = DIR_CSS . 'tunetous.css';
@@ -28,7 +34,13 @@ class Root_Controller extends Artisan_Controller {
 		
 		/* And the footer. */
 		$this->render('root/footer', 'footer');
+		
+		return true;
 	}
+	
+	
+	
+	
 	
 	protected function pushErrorAndRedirect($message, $url) {
 		TuneToUs::getMessenger()->pushError($message);

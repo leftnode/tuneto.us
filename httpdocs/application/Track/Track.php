@@ -4,20 +4,22 @@ require_once 'application/Root/Root.php';
 
 class Track_Controller extends Root_Controller {
 	
+	/**
+	 * View the page to play a track.
+	 */
 	public function playGet($track_id) {
 		try {
 			$track_id = intval($track_id);
 			
-			$track = TuneToUs::getDataModel()->where('track_id = ?', $track_id)->where('status = ?', STATUS_ENABLED)->loadFirst(new Track());
-			$id = $track->id();
+			$track = TuneToUs::getDataModel()->where('track_id = ?', $track_id)
+				->where('status = ?', STATUS_ENABLED)
+				->loadFirst(new Track());
 			
-			if ( $id != $track_id ) {
-				throw new TuneToUs_Exception(_('Sorry, the track you were looking for can not be found.'));
-			}
+			//if ( false === $track->exists() ) {
+			//	throw new TuneToUs_Exception(_('Sorry, the track you were looking for can not be found.'));
+			//}
 			
-			$view_count = $track->getViewCount();
-			$view_count++;
-			$track->setViewCount($view_count);
+			$track->updateViewCount();
 			TuneToUs::getDataModel()->save($track);
 			
 			$this->js_audio_player = DIR_JAVASCRIPT . 'audio-player.js';

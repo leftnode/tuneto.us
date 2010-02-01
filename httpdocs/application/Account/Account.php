@@ -26,7 +26,7 @@ class Account_Controller extends Root_Controller {
 	
 	public function logoutGet() {
 		try {
-			TuneToUs::getMessenger()->pushSuccess(_('You are now logged out.'));
+			//TuneToUs::getMessenger()->pushSuccess(_('You are now logged out.'));
 			ttu_user_logout();
 		} catch ( Exception $e ) { }
 		
@@ -68,16 +68,22 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	
-	
+	/**
+	 * Attempts to log the user in given their nickname and password.
+	 * 
+	 */
 	public function loginPost() {
 		try {
 			
+			/* Logged in users can't re-login. */
 			if ( true === ttu_user_is_logged_in() ) {
 				$this->redirect($this->url('account/dashboard'));
 			}
 			
+			/* Get the login information. */
 			$login = (array)$this->getParam('login');
 			
+			/* Ensure they actually exist in the system. */
 			$nickname = er('nickname', $login);
 			$password = er('password', $login);
 			
@@ -98,31 +104,46 @@ class Account_Controller extends Root_Controller {
 				throw new TuneToUs_Exception(_('Your account can not be found.'));
 			}
 			
-			// Update the last time they were last logged in.
+			/* Update the last time they were last logged in. */
 			$user->setDateLastlogin(time());
 			TuneToUs::getDataModel()->save($user);
 			
+			/* Send the actual login information. */
 			$user_id = $user->id();
 			ttu_user_login($user_id);
 			
-			$this->pushSuccessAndRedirect(_('You have successfully logged in!'), 'account/dashboard');
+			$this->redirect($this->url('account/dashboard'));
 			
 		} catch ( TuneToUs_Exception $e ) {
 			
 		} catch ( Exception $e ) {
 			
-			
 		}
-	}
-	
-	public function logoutPost() {
 		
+		return true;
 	}
 	
+	/**
+	 * Alias for logoutGet() in case they send a post method for logging out.
+	 * @retval bool Returns true.
+	 */
+	public function logoutPost() {
+		$this->logoutGet();
+		return true;
+	}
+	
+	/**
+	 * Updates the user's privacy settings.
+	 * @retval bool Returns true.
+	 */
 	public function privacyPost() {
 		
 	}
 	
+	/**
+	 * Attempt to let a user register.
+	 * @retval bool Returns true.
+	 */
 	public function registerPost() {
 		try {
 			$register = (array)$this->getParam('register');
@@ -147,14 +168,14 @@ class Account_Controller extends Root_Controller {
 				throw new TuneToUs_Exception(_('The email address you attempted to register with is already in use. Please choose another one'));
 			}
 			
-			/* Fairly simple salts and password creation. */
+			/* Fairly simple salt and password creation. */
 			$password = er('password', $register);
 			$password_salt = crypt_create_salt();
 			$password_hashed = crypt_compute_hash($password, $password_salt);
 		
 			/* The content directory is where all of their information will be stored. */
 			$user = new User();
-			$content_directory = $user->createContentDirectory($email_address);
+			$content_directory = $user->createContentDirectory();
 			
 			/* Save the user. */
 			$user->setContentDirectory($content_directory)
@@ -167,10 +188,11 @@ class Account_Controller extends Root_Controller {
 				->setStatus(STATUS_ENABLED);
 			$user_id = TuneToUs::getDataModel()->save($user);
 			
-			if ( $user_id < 1 ) {
+			if ( false === $user->exists() ) {
 				throw new TuneToUs_Exception(_('Failed to create your account. Please try again.'));
 			}
 			
+			/* If they successfully created an account, log them in. */
 			ttu_user_login($user_id);
 			
 			$this->pushSuccessAndRedirect(_('Your account was successfully created!'), 'account/dashboard');
@@ -181,7 +203,7 @@ class Account_Controller extends Root_Controller {
 			TuneToUs::getMessenger()->pushError(_('Your form failed to validate, please check the errors and try again.'));
 		}
 		
-		$this->view->setValidator($validator);
+		$this->getView()->setValidator($validator);
 		$this->register = $register;
 		
 		parent::renderLayout('register');
@@ -202,6 +224,11 @@ class Account_Controller extends Root_Controller {
 		}
 	}
 	
+	/**
+	 * Upload a track to the system.
+	 * 
+	 * @retval 
+	 */
 	public function uploadPost() {
 		try {
 			$user = TuneToUs::getUser();

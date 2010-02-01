@@ -3,6 +3,12 @@
 require_once 'DataModeler/DataObject.php';
 
 class Track extends DataObject {
+	public function updateViewCount() {
+		$view_count = $this->getViewCount();
+		$this->setViewCount(++$view_count);
+		return $this;
+	}
+	
 	public function getFormattedLength() {
 		$length = $this->getLength();
 		
