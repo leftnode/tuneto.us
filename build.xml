@@ -45,5 +45,5 @@
 		<exec command="php sql-builder.php" dir="services" />
 	</target>
 	
-	<target name="build" depends="clean,githooks,configure" />
+	<target name="build" depends="clean,githooks,configure,database" />
 </project>
