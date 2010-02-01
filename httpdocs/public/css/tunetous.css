@@ -599,6 +599,17 @@ a.logo h1 {
 	float: right;
 }
 
+.trackData a {
+	display: block;
+	height: 31px;
+	width: 113px;
+	background: url('image/newMusicButton.jpg') no-repeat;
+	line-height: 27px;
+	text-align: center;
+	color: #53544d;
+	font-size: 11px;
+}
+
 .newMusicButton a {
 	display: block;
 	height: 31px;

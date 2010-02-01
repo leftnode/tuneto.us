@@ -11,7 +11,7 @@
 		<param name="wmode" value="transparent">
 	</object>
 	
-	<div class="musicLength">song length</div>
+	<div class="musicLength"><?php echo $track->getFormattedLength(); ?></div>
 	<div class="musicLength"><?php echo $track->getViewCount(); ?> <?php echo Language::__('views'); ?></div>
 	
 	<div class="clear"></div>
@@ -30,5 +30,4 @@
 		<div class="lightDivider"></div>
 		<?php echo nl2br($this->safe($track->getDescription())); ?>
 	</div>
-	
 </div>

@@ -1,3 +1,26 @@
 <div class="accountDashboard">	
-	your dashboard is here
+	<?php $track_iterator_length = $track_iterator->length(); ?>
+	<?php if ( $track_iterator_length > 0 ): ?>
+		<?php $i = 1; ?>
+		<?php foreach ( $track_iterator as $track ): ?>
+			<div>
+				<?php $track_name = $track->getName(); ?>
+				<h4>
+					<a href="<?php echo $this->url('track/play', $track->id()); ?>">
+						<?php echo $this->safe($track_name); ?>
+					</a>
+				</h4>
+				<div class="trackData">
+					<a href="<?php echo $this->url('track/play', $track->id()); ?>">
+						<?php echo $track->getFormattedLength(); ?> | <?php echo Language::__('play'); ?>
+					</a>
+				</div>
+			</div>
+			<?php if ( $i++ != $track_iterator_length ): ?>
+				<div class="lightDivider"></div>
+			<?php endif; ?>
+		<?php endforeach; ?>
+	<?php else: ?>
+		<p>You don't have any tracks uploaded yet! Upload your first track and you'll see them here.</p>
+	<?php endif; ?>
 </div>

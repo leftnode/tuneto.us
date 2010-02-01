@@ -19,6 +19,7 @@ class Language {
 			'index_welcome_text' => "Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.",
 			'index_latest_tracks' => "Latest Tracks From The Community In Real Time",
 			
+			'account_your_dashboard' => "Your Dashboard",
 			'account_upload_track' => "Upload New Track",
 			
 			

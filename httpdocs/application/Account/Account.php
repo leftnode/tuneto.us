@@ -11,7 +11,13 @@ class Account_Controller extends Root_Controller {
 	public function dashboardGet() {
 		$this->verifyUserSession();
 		
-		$this->setSectionTitle(Language::__('your_dashboard'));
+		$user = TuneToUs::getUser();
+		$this->track_iterator = TuneToUs::getDataModel()
+			->where('user_id = ?', $user->id())
+			->where('status = ?', STATUS_ENABLED)
+			->loadAll(new Track());
+
+		$this->setSectionTitle(Language::__('account_your_dashboard'));
 		$this->renderLayout('dashboard');
 		
 		return true;
