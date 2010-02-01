@@ -190,19 +190,6 @@ ul.bullet li {
 	margin: 10px 0 0 0;
 }	
 
-/*.submit {
-	display: block;
-	width: 118px;
-	height: 37px;
-	background: url('image/readMore.jpg') no-repeat;
-	line-height: 9px;
-	text-align: center;
-	color: #53544d;
-	font-size: 11px;
-	border: none;
-	cursor: pointer;
-}*/
-
 .submitButton {
 	display: block;
 	height: 31px;

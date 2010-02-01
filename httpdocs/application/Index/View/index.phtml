@@ -11,50 +11,25 @@
 <h3 class="mainHeader"><?php echo Language::__('index_latest_tracks'); ?></h3>
 <div class="homeTrackList">
 	
-	<div class="track">
-		<h4><?php echo Language::__('track_name'); ?></h4>
-		<div style="text-align: center;">
-			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+	<?php foreach ( $track_iterator as $track ): ?>
+		<div class="track">
+			<?php $track_name = $track->getName(); ?>
+			<?php if ( strlen($track_name) > 20 ): ?>
+				<?php $track_name = substr($track_name, 0, 20) . '...'; ?>
+			<?php endif; ?>
+			<h4><?php echo $this->safe($track_name); ?></h4>
+			<div style="text-align: center;">
+				<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+			</div>
+			
+			<div class="newMusicButton">
+				<a href="<?php echo $this->url('track/play', $track->id()); ?>">
+					<?php echo $track->getFormattedLength(); ?> | <?php echo Language::__('play'); ?>
+				</a>
+			</div>
 		</div>
-		
-		<div class="newMusicButton"><a href="#">8m 37s | <?php echo Language::__('play'); ?></a></div>
-	</div>
+	<?php endforeach; ?>
 	
-	<div class="track">
-		<h4><?php echo Language::__('track_name'); ?></h4>
-		<div style="text-align: center;">
-			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
-		</div>
-		
-		<div class="newMusicButton"><a href="#">8m 37s | <?php echo Language::__('play'); ?></a></div>
-	</div>
-	
-	<div class="track">
-		<h4><?php echo Language::__('track_name'); ?></h4>
-		<div style="text-align: center;">
-			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
-		</div>
-		
-		<div class="newMusicButton"><a href="#">8m 37s | <?php echo Language::__('play'); ?></a></div>
-	</div>
-	
-	<div class="track">
-		<h4><?php echo Language::__('track_name'); ?></h4>
-		<div style="text-align: center;">
-			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
-		</div>
-		
-		<div class="newMusicButton"><a href="#">8m 37s | <?php echo Language::__('play'); ?></a></div>
-	</div>
-	
-	<div class="track">
-		<h4><?php echo Language::__('track_name'); ?></h4>
-		<div style="text-align: center;">
-			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
-		</div>
-		
-		<div class="newMusicButton"><a href="#">8m 37s | <?php echo Language::__('play'); ?></a></div>
-	</div>
 </div>
 
 <div class="clear"></div>
