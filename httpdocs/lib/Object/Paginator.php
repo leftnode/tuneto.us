@@ -32,7 +32,7 @@ class Paginator {
 	}
 	
 	public function getPageList() {
-		$view = API::buildView();
+		$view = TTU::buildView();
 		
 		$page_last = ceil($this->total / $this->per_page);
 		
