@@ -2,40 +2,41 @@
 
 
 class Root_Controller extends Artisan_Controller {
-
-	public function renderLayout($view) {
-		$this->setLayout('tunetous');
-		
+	protected $layout = 'tunetous';
+	
+	protected function renderLayout($view) {
+		/* Global CSS */
 		$this->css_tunetous = DIR_CSS . 'tunetous.css';
+		
+		/* Global JS */
 		$this->js_jquery = DIR_JAVASCRIPT . 'jquery.js';
 
+		/* Render the header, which includes the CSS and JS. */
 		$this->render('root/header', 'header');
 		
-		$this->user = API::getUser();
+		/* Render the menu. */
+		$this->user = TTU::getUser();
 		$this->is_logged_in = ttu_user_is_logged_in();
 		$this->render('root/menu', 'menu');
 		
-		$this->message_list = $this->getMessage()->display();
+		/* Render the message list, if one exists. */
+		$this->message_list = TTU::getMessenger()->display();
 		$this->render('root/message-list', 'message-list');
 		
-		// Render the body
+		/* Render the body. */
 		$this->render($view, 'body');
 		
+		/* And the footer. */
 		$this->render('root/footer', 'footer');
 	}
 	
-	
-	protected function getMessage() {
-		return Message::get();
-	}
-	
 	protected function pushErrorAndRedirect($message, $url) {
-		$this->getMessage()->pushError($message);
+		TTU::getMessenger()->pushError($message);
 		$this->redirect($this->url($url));
 	}
 	
 	protected function pushSuccessAndRedirect($message, $url) {
-		$this->getMessage()->pushSuccess($message);
+		TTU::getMessenger()->pushSuccess($message);
 		$this->redirect($this->url($url));
 	}
 	
@@ -53,4 +54,7 @@ class Root_Controller extends Artisan_Controller {
 			}
 		}
 	}
+	
+	
+	
 }

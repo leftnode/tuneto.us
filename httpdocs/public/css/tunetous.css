@@ -34,6 +34,10 @@ p.light {
 	color:#9a9393;
 }
 
+p.largeText {
+	font-size: 16px;
+}
+
 p.subtext {
 	padding: 0;
 	font-style: italic;
@@ -45,6 +49,10 @@ p.subtext {
 
 .floatLeft {
 	float: left;
+}
+
+.center {
+	text-align: center;
 }
 
 .clear {
@@ -195,19 +203,19 @@ ul.bullet li {
 	cursor: pointer;
 }
 
-
-
-.formButton {
-	height: 24px;
-	width: 92px;
+.submitButton {
+	display: block;
+	height: 31px;
+	width: 113px;
+	background: url('image/newMusicButton.jpg') no-repeat;
+	line-height: 27px;
 	text-align: center;
-	background: url('image/uploadButton.gif');
-	border: 0;
-	cursor: pointer;
-	font-family: helvetica, arial, sans-serif;
-	color:#0149a9;
+	color: #000;
 	font-size: 12px;
+	border: 0;
 }
+
+
 
 
 /*search form styling*/
@@ -380,6 +388,13 @@ a.logo h1 {
 }
 
 /*body*/
+
+.welcomeText {
+	background: #FBFBC3;
+	-moz-border-radius: 3px;
+	text-shadow: 1px 1px 0 #BFF0BF;
+}
+
 #mainContent {
 	padding-top: 10px;
 	width: 960px;
@@ -409,6 +424,13 @@ a.logo h1 {
 	font-weight: bold;
 }
 
+#mainContent form label span .expl {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 11px;
+	color: #5526D2;
+}
+
 #mainContent form label .text {
 	border: 1px solid #737373;
 	padding: 3px;
@@ -417,11 +439,32 @@ a.logo h1 {
 	width: 300px;
 }
 
+#mainContent form label .textLong {
+	border: 1px solid #737373;
+	padding: 3px;
+	font-size: 12px;
+	font-family: helvetica, arial, sans-serif;
+	width: 600px;
+}
+
 #mainContent form label .smallText {
 	font-size: 11px;
 	width: 125px;
 	border: 1px solid #9E9E9E;
 	padding: 2px;
+}
+
+#mainContent .homeTrackList {
+	padding: 5px;
+}
+
+#mainContent .homeTrackList .track {
+	width: 170px;
+	float: left;
+	margin-right: 10px;
+	padding: 5px;
+	background: #e5e6df;
+	-moz-border-radius: 3px;
 }
 
 #mainContent .accountTrackList {
@@ -439,48 +482,10 @@ a.logo h1 {
 	margin: 20px auto;
 }
 
-#mainContent .latestSounds, #mainContent .popularTracks {
-	display: block;
-	width: 280px;
-	float: left;
-	margin-right: 20px;
-	background: #e5e6df;
-	-moz-border-radius: 3px;
-}
-
-#mainContent .latestSounds .content, #mainContent .popularTracks .content {
-	display: block;
-	width: 260px;
-	margin: 20px auto;
-}
-
-#mainContent .uploadTrack {
-	display: block;
-	width: 360px;
-	float: left;
-	background: #FBFBC3;
-	-moz-border-radius: 3px;
-}
-
-#mainContent .uploadTrack .content {
-	width: 340px;
-	margin: 20px auto;
-}
-
-#mainContent .uploadTrack .content .columnLeft {
-	float: left;
-	width: 170px;
-}
-
-#mainContent .uploadTrack .content .columnRight {
-	float: left;
-	width: 170px;
-}
-
 #mainContent .accountRegister {
-	background: #FBFBC3;
-	-moz-border-radius: 3px;
-	padding: 10px;
+	background: #e5e6df;
+	-moz-border-radius: 8px;
+	padding: 5px;
 }
 
 #mainContent .browseTrackList {
@@ -507,6 +512,42 @@ a.logo h1 {
 }
 
 
+#mainContent .accountMenu {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#mainContent .accountMenu li {
+	float: left;
+	background: #0073EA;
+	color: #fff;
+	text-align: center;
+	font-size: 12px;
+	padding: 5px;
+	margin-right: 10px;
+	-moz-border-radius: 8px; 
+}
+
+#mainContent .accountMenu li a {
+	color: #fff;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #000;
+}
+
+#mainContent .accountMenu li a:hover {
+	color: #DAE6F3;
+	text-shadow: 0 1px 0 #000;
+}
+
+#mainContent .accountDashboard {
+	margin-top: 10px;
+	padding: 5px;
+	background: #e5e6df;
+	-moz-border-radius: 8px;
+}
+
+
 /*new music column*/
 .newTrack { }
 .newTrack p {
@@ -527,12 +568,11 @@ a.logo h1 {
 }
 
 .albumCoverImage {
-	display: block;
 	width: 64px;
 	height: 64px;
-	float: left;
-	margin-right: 10px;
 }
+
+
 
 .musicLength {
 	display: block;
@@ -555,8 +595,7 @@ a.logo h1 {
 	text-align: center;
 	color: #53544d;
 	font-size: 11px;
-	float: left;
-	margin-top: 10px;
+	margin: auto;
 }
 
 .newMusicButton a:hover {
@@ -612,7 +651,7 @@ a.logo h1 {
 
 /*footer*/
 #footer {
-	padding: 20px 0 10px 0;
+	padding: 10px 0 10px 0;
 }
 
 #footer ul.links {
@@ -649,8 +688,9 @@ a.logo h1 {
 }
 
 #footer #copyright {
-	padding-top: 25px;
+	padding-top: 10px;
 	font-size: 11px;
 	color: #53544d;
 	display: block;
+	text-align: center;
 }

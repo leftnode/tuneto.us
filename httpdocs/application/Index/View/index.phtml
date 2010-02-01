@@ -1,79 +1,60 @@
-<h1 class="mainHeader">Welcome to TuneTo.us - Free MP3 Hosting</h1>
+<h1 class="mainHeader">Welcome to TuneTo.us - Social MP3 Hosting</h1>
 
 <div class="clearFull"></div>
 
-<div class="latestSounds">
-	<div class="content">
-		<h2 class="mainHeader">Latest Tracks</h2>
+<p class="largeText center welcomeText">
+	Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.
+</p>
+
+<p class="clearFull"></p>
+
+<h3 class="mainHeader">Latest Tracks From The Community In Real Time</h3>
+<div class="homeTrackList">
 	
-		<div class="clearFull"></div>
-
-		<?php $i = 1; ?>
-		<?php $track_length = $latest_track_iterator->length(); ?>
+	<div class="track">
+		<h4>Track Name</h4>
+		<div style="text-align: center;">
+			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+		</div>
 		
-		<?php foreach ( $latest_track_iterator as $track ): ?>
-			<?php $safe_name = $this->safe($track->getName()); ?>
-			<?php $short_description = substr($track->getDescription(), 0, 128); ?>
-			<?php $safe_description = $this->safe($short_description); ?>
-			<div class="newTrack">
-				<h4><?php echo $safe_name; ?></h4>
-				<?php echo $this->img($track->getTrackImage(), $safe_name, 'class="albumCoverImage"'); ?>
-				<p class="albumText"><?php echo $safe_description; ?></p>
-				<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
-				<div class="clear"></div>
-				<?php if ( $i++ != $track_length ): ?>
-					<div class="darkDivider"></div>
-				<?php endif; ?>
-			</div>
-		<?php endforeach; ?>
+		<div class="newMusicButton"><a href="#">8m 37s | <?php echo _('Play'); ?></a></div>
 	</div>
-</div>
-
-<div class="popularTracks">
-	<div class="content">
-		<h2 class="mainHeader">Popular Tracks</h2>
 	
-		<div class="clearFull"></div>
-
-		<?php $i = 1; ?>
-		<?php $track_length = $popular_track_iterator->length(); ?>
+	<div class="track">
+		<h4>Track Name</h4>
+		<div style="text-align: center;">
+			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+		</div>
 		
-		<?php foreach ( $popular_track_iterator as $track ): ?>
-			<?php $safe_name = $this->safe($track->getName()); ?>
-			<?php $short_description = substr($track->getDescription(), 0, 128); ?>
-			<?php $safe_description = $this->safe($short_description); ?>
-			<div class="newTrack">
-				<h4><?php echo $safe_name; ?></h4>
-				<?php echo $this->img($track->getTrackImage(), $safe_name, 'class="albumCoverImage"'); ?>
-				<p class="albumText"><?php echo $safe_description; ?></p>
-				<div class="newMusicButton"><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $track->getFormattedLength(); ?> | <?php echo _('Play'); ?></a></div>
-				<div class="clear"></div>
-				<?php if ( $i++ != $track_length ): ?>
-					<div class="darkDivider"></div>
-				<?php endif; ?>
-			</div>
-		<?php endforeach; ?>
+		<div class="newMusicButton"><a href="#">8m 37s | <?php echo _('Play'); ?></a></div>
+	</div>
+	
+	<div class="track">
+		<h4>Track Name</h4>
+		<div style="text-align: center;">
+			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+		</div>
+		
+		<div class="newMusicButton"><a href="#">8m 37s | <?php echo _('Play'); ?></a></div>
+	</div>
+	
+	<div class="track">
+		<h4>Track Name</h4>
+		<div style="text-align: center;">
+			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+		</div>
+		
+		<div class="newMusicButton"><a href="#">8m 37s | <?php echo _('Play'); ?></a></div>
+	</div>
+	
+	<div class="track">
+		<h4>Track Name</h4>
+		<div style="text-align: center;">
+			<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+		</div>
+		
+		<div class="newMusicButton"><a href="#">8m 37s | <?php echo _('Play'); ?></a></div>
 	</div>
 </div>
 
-<div class="uploadTrack">
-	<div class="content">
-		<?php if ( true === $is_logged_in ): ?>
-			<h2 class="mainHeader">Upload Your Track</h2>
-			<div class="lightDivider"></div>
-			<?php echo $upload_form; ?>
-		<?php else: ?>
-			<div class="columnLeft">
-				<h4>Login To Upload</h4>
-				<div class="lightDivider"></div>
-				<?php echo $login_form; ?>
-			</div>
-			<div class="columnRight">
-				<h4>Register To Upload</h4>
-				<div class="lightDivider"></div>
-				<?php echo $register_form; ?>
-			</div>
-		<?php endif; ?>
-	</div>
-</div>
 <div class="clear"></div>

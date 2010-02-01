@@ -2,13 +2,13 @@
 $start = microtime(true);
 
 require_once 'configure.php';
-require_once 'lib/Object/API.php';
+require_once 'lib/Object/TTU.php';
 
 try {
-	API::setDbConfig($config_db);
-	API::setRouterConfig($config_router);
-	API::init();
-	API::run();
+	TTU::setDbConfig($config_db);
+	TTU::setRouterConfig($config_router);
+	TTU::init();
+	TTU::run();
 } catch ( Exception $e ) {
 	exit($e);
 }

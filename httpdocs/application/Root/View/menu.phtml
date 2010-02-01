@@ -2,9 +2,9 @@
 
 	<div class="smallBanner">
 		<?php if ( true === $is_logged_in ): ?>
-			<?php echo $this->safe($user->getNickname()); ?>, you can <a href="<?php echo $this->url('account/logout'); ?>"><strong>LOGOUT</strong></a> for security
+			<?php echo $this->safe($user->getNickname()); ?>, you can <a href="<?php echo $this->url('account/logout'); ?>"><strong>LOGOUT</strong></a>. Don't forget to come back!
 		<?php else: ?>
-			<a href="<?php echo $this->url('account/register'); ?>"><strong>REGISTER</strong></a> for added benefits
+			<a href="<?php echo $this->url('account/login'); ?>"><strong>LOGIN</strong></a> to add your tracks
 		<?php endif; ?>
 	</div>
 	
@@ -16,9 +16,9 @@
 		<li class="first"><a href="<?php echo $this->url('index'); ?>">Home<span>upload your music</span></a></li>
 		
 		<?php if ( true === $is_logged_in ): ?>
-			<li><a href="<?php echo $this->url('account/index'); ?>">My Account<span>your music</span></a></li>
+			<li><a href="<?php echo $this->url('account/dashboard'); ?>">Dashboard<span>your music and friends</span></a></li>
 		<?php else: ?>
-			<li><a href="<?php echo $this->url('account/register'); ?>">Register<span>expanded benefits</span></a></li>
+			<li><a href="<?php echo $this->url('account/register'); ?>">Register<span>add your tracks</span></a></li>
 		<?php endif; ?>
 		
 		<li><a href="<?php echo $this->url('browse'); ?>">Browse Music<span>your tastes</span></a></li>
