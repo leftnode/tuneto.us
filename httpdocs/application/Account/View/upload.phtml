@@ -9,12 +9,6 @@
 		</label>
 		
 		<label>
-			<span>Associated Image <em class="expl">(your profile photo will be used for this track unless you upload an image)</em></span>
-			<input type="file" name="image">
-			<div class="error"><?php echo $this->error('image'); ?></div>
-		</label>
-		
-		<label>
 			<span class="req">Track Name</span>
 			<input type="text" name="upload[name]" value="<?php echo $this->safe(er('name', $upload)); ?>" class="text">
 			<div class="error"><?php echo $this->error('name'); ?></div>

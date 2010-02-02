@@ -23,6 +23,12 @@ class Track_Controller extends Root_Controller {
 				$track->updateViewCount();
 				TuneToUs::getDataModel()->save($track);
 				
+				$profile = TuneToUs::getDataModel()
+					->where('user_id = ?', $track->getUserId())
+					->where('status = ?', STATUS_ENABLED)
+					->loadFirst(new User());
+				
+				$this->profile = $profile;
 				$this->track = $track;
 				$view = 'play';
 			} else {

@@ -11,6 +11,11 @@
 		<param name="wmode" value="transparent">
 	</object>
 	
+	<div class="musicLength">
+		<a href="<?php echo $this->url('account/profile', $profile->id()); ?>">
+			<?php echo $this->safe($profile->getNickname()); ?>
+		</a>
+	</div>
 	<div class="musicLength"><?php echo $track->getFormattedLength(); ?></div>
 	<div class="musicLength"><?php echo $track->getViewCount(); ?> <?php echo Language::__('views'); ?></div>
 	
@@ -26,8 +31,6 @@
 	<div class="clearFull"></div>
 	
 	<div class="description">
-		<h3>Description</h3>
-		<div class="lightDivider"></div>
 		<?php echo nl2br($this->safe($track->getDescription())); ?>
 	</div>
 </div>
