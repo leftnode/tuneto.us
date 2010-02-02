@@ -93,9 +93,6 @@ class Image {
 			$location = $this->getLocation();
 		}
 		
-		echo($location);
-		echo '<br>';
-		
 		$type = strtolower(trim($type));
 		$image = $this->getImageResource();
 		
