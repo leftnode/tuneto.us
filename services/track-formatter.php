@@ -9,12 +9,14 @@ try {
 	TuneToUs::setDbConfig($config_db);
 	TuneToUs::init();
 	
-	$track_iterator = TuneToUs::getDataModel()->where('status = ?', STATUS_ENABLED)
+	$track_iterator = TuneToUs::getDataModel()
+		->where('status = ?', STATUS_ENABLED)
 		->loadAll(new Track_Queue());
 	
 	foreach ( $track_iterator as $track_queue ) {
 		$track_id = $track_queue->getTrackId();
-		$track = TuneToUs::getDataModel()->where('track_id = ?', $track_id)
+		$track = TuneToUs::getDataModel()
+			->where('track_id = ?', $track_id)
 			->loadFirst(new Track());
 		
 		/* Get the length of the track */
