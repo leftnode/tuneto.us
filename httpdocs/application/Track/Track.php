@@ -6,12 +6,16 @@ class Track_Controller extends Root_Controller {
 	
 	/**
 	 * View the page to play a track.
+	 * 
+	 * @param integer $track_id The ID of the track to view.
+	 * @retval bool Returns true.
 	 */
 	public function playGet($track_id) {
 		try {
 			$track_id = intval($track_id);
 			
-			$track = TuneToUs::getDataModel()->where('track_id = ?', $track_id)
+			$track = TuneToUs::getDataModel()
+				->where('track_id = ?', $track_id)
 				->where('status = ?', STATUS_ENABLED)
 				->loadFirst(new Track());
 
@@ -29,8 +33,16 @@ class Track_Controller extends Root_Controller {
 		} catch ( Exception $e ) { }
 		
 		$this->renderLayout($view);
+		
+		return true;
 	}
 	
+	/**
+	 * Stream a track through HTTP.
+	 * 
+	 * @param integer $track_id The ID of the track to stream.
+	 * @retval bool Returns true.
+	 */
 	public function streamGet($track_id) {
 		$this->setLayout(NULL);
 		
@@ -42,7 +54,8 @@ class Track_Controller extends Root_Controller {
 			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 
 			$track_id = intval($track_id);
-			$track = TuneToUs::getDataModel()->where('track_id = ?', $track_id)
+			$track = TuneToUs::getDataModel()
+				->where('track_id = ?', $track_id)
 				->where('status = ?', STATUS_ENABLED)
 				->loadFirst(new Track());
 
