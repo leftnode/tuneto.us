@@ -15,7 +15,9 @@
 
 		<div class="clearFull"></div>
 		
-		<div class="dashboardImage">image goes here</div>
+		<div class="dashboardImage">
+			<?php echo $this->img($this->url('account/photo', $user->id(), PHOTO)); ?>
+		</div>
 	</div>
 	
 	<div class="dashboardRight">

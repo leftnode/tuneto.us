@@ -51,13 +51,61 @@ class Account_Controller extends Root_Controller {
 		$this->renderLayout('message-list');
 	}
 	
-	public function photoGet($user_id) {
+	public function photoGet($user_id, $type) {
 		try {
+			$user_id = intval($user_id);
+			$user = TuneToUs::getDataModel()
+				->where('user_id = ?', $user_id)
+				->where('status = ?', STATUS_ENABLED)
+				->loadFirst(new User());
 			
+			$photo_found = false;
+			if ( true === $user->exists() ) {
+				$content_directory = $user->getContentDirectory();
+				
+				switch ( $type ) {
+					case PHOTO: {
+						$photo = $user->getPhoto();
+						break;
+					}
+					
+					case PHOTO_THUMBNAIL:
+					default: {
+						$photo = $user->getPhotoThumbnail();
+						break;
+					}
+				}
+				
+				$photopath = DIR_PRIVATE . $content_directory . DS . $photo;
+				
+				if ( true === is_file($photopath) ) {
+					$photo_found = true;
+				}
+			}
 			
+			if ( false === $photo_found ) {
+				switch ( $type ) {
+					case PHOTO: {
+						$photopath = DIR_SITE_ROOT . DIR_IMAGE . 'anonymous-photo.jpg';
+						break;
+					}
+					
+					case PHOTO_THUMBNAIL:
+					default: {
+						$photopath = DIR_SITE_ROOT . DIR_IMAGE . 'anonymous-photo-thumbnail.jpg';
+						break;
+					}
+				}
+			}
 			
+			$image = imagecreatefromjpeg($photopath);
+			header('Content-Type: image/jpeg');
+			imagejpeg($image, NULL, 100);
+			
+			exit;
 		} catch ( Exception $e ) { }
 	}
+	
 	
 	public function privacyGet() {
 		$this->verifyUserSession();
@@ -360,22 +408,28 @@ class Account_Controller extends Root_Controller {
 			
 			$photo_name = er('name', $photo);
 			if ( false === empty($photo_name) ) {
-				$uploader = new Uploader($photo);
-				$uploader->setOverwrite(true)
-					->setUploadDirectory(DIR_PRIVATE . $content_directory)
+				$destination_directory = DIR_PRIVATE . $content_directory;
+				
+				$uploader = new Uploader();
+				$uploader->setData($photo)
+					->setDirectory($destination_directory)
 					->upload();
 				
 				/* Resize the main photo and thumbnail. */
 				$image_filename = $uploader->getFilename();
-				$image_location = DIR_PRIVATE . $content_directory . DS . $image_filename;
+				$image_location = $destination_directory . DS . $image_filename;
 				
 				$image = new Image($image_location);
-				$image->resize(640, 480)->writeJpg();
-				$photo_fullsize = $image->getLocation();
+				$image->resize(300, 300)
+					->setDirectory($destination_directory)
+					->writeJpg($image_filename);
+				$photo_fullsize = $image->getFilename();
 				
 				$image = new Image($image_location);
-				$image->resize(96, 96)->writeJpg(DIR_PRIVATE . $content_directory . DS . 'tn-' . $image_filename);
-				$photo_thumbnail = $image->getLocation();
+				$image->resize(96, 96)
+					->setDirectory($destination_directory)
+					->writeJpg('tn-' . $image_filename);
+				$photo_thumbnail = $image->getFilename();
 				
 				$user->setPhoto($photo_fullsize)
 					->setPhotoThumbnail($photo_thumbnail);

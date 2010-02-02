@@ -3,8 +3,6 @@
 require_once 'DataModeler/DataObject.php';
 
 class User extends DataObject {
-	
-	
 	public function setEmailAddress($email_address) {
 		if ( false === filter_var($email_address, FILTER_VALIDATE_EMAIL) ) {
 			throw new TuneToUs_Exception(_('The email address for this user is not valid.'));

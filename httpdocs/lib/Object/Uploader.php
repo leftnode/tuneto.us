@@ -2,14 +2,14 @@
 
 
 class Uploader {
+	private $directory = NULL;
 	private $filename = NULL;
 	private $upload_directory = NULL;
 	private $data = array();
 	private $overwrite = true;
 
-	public function __construct($data, $overwrite=true) {
-		$this->setData($data);
-		$this->setOverwrite($overwrite);
+	public function __construct() {
+
 	}
 
 	public function __destruct() {
@@ -21,8 +21,9 @@ class Uploader {
 		return $this;
 	}
 	
-	public function setFilename($filename) {
-		$this->filename = $filename;
+	public function setDirectory($directory) {
+		$directory = rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+		$this->directory = $directory;
 		return $this;
 	}
 	
@@ -75,21 +76,15 @@ class Uploader {
 		
 		$this->data = $data;
 		
-		$filename = $data['name'];
-		$filename = substr(sha1(mt_rand(0, 100000)), 0, 16) . '-' . $filename;
+		$filename = substr(sha1(mt_rand(0, 100000)), 0, 16) . '-' . $data['name'];
 		$this->setFilename($filename);
 		
-		return true;
-	}
-	
-	public function setUploadDirectory($upload_directory) {
-		$upload_directory = rtrim($upload_directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-		$this->upload_directory = $upload_directory;
 		return $this;
 	}
-	
-	
-	
+
+	public function getDirectory() {
+		return $this->directory;
+	}
 	
 	public function getFilename() {
 		return $this->filename;
@@ -97,14 +92,6 @@ class Uploader {
 	
 	public function getData() {
 		return $this->data;
-	}
-	
-	public function getUploadDirectory() {
-		return $this->upload_directory;
-	}
-	
-	public function getOverwrite() {
-		return $this->overwrite;
 	}
 	
 	
@@ -115,16 +102,21 @@ class Uploader {
 			throw new Exception(Language::__(''));
 		}
 		
-		$overwrite = $this->getOverwrite();
-		$filepath = $this->getUploadDirectory() . $this->getFilename();
-		if ( true === is_file($filepath) && false === $overwrite ) {
-			throw new Exception(Language::__(''));
-		}
+		$directory = $this->getDirectory();
+		$filename = $this->getFilename();
+		
+		$filepath = $directory . $filename;
 		
 		if ( false === @move_uploaded_file($data['tmp_name'], $filepath) ) {
 			throw new Exception(Language::__(''));
 		}
 		
 		return true;
+	}
+	
+	
+	private function setFilename($filename) {
+		$this->filename = $filename;
+		return $this;
 	}
 }

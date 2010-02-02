@@ -20,13 +20,13 @@
 
 		<div class="clearFull"></div>
 		
-		<div class="dashboardImage">image goes here</div>
+		<div class="dashboardImage">
+			<?php echo $this->img($this->url('account/photo', $profile->id(), PHOTO)); ?>
+		</div>
 		
 		<?php if ( true === $can_follow ): ?>
 			you can follow this user!
 		<?php endif; ?>
-		
-		
 	</div>
 	
 	<div class="dashboardRight">

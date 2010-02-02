@@ -75,6 +75,7 @@
 			<span>Your Photo</span>
 			<input type="file" name="photo" ></textarea>
 			<div class="error"><?php echo $this->error('photo'); ?></div>
+			<?php echo $this->img($this->url('account/photo', $profile->id(), PHOTO_THUMBNAIL)); ?>
 		</label>
 		
 		<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
