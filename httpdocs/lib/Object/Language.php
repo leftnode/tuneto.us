@@ -11,6 +11,7 @@ class Language {
 			'error_not_logged_in' => "Please register or log in first to view this section of the website.",
 			'error_track_not_found' => "Track Not Found",
 			'error_track_not_found_header' => "We Hope We Didn't Make The Error",
+			'error_profile_not_found' => "Profile Not Found",
 			
 			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
@@ -21,7 +22,9 @@ class Language {
 			
 			'account_your_dashboard' => "Your Dashboard",
 			'account_upload_track' => "Upload New Track",
+			'account_profile' => "Profile For <em>%s</em>",
 			
+			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",
 			
 			
 			
