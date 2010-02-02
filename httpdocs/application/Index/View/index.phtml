@@ -9,10 +9,9 @@
 <p class="clearFull"></p>
 
 <h3 class="mainHeader"><?php echo Language::__('index_latest_tracks'); ?></h3>
-<div class="homeTrackList">
-	
+<div>
 	<?php foreach ( $track_iterator as $track ): ?>
-		<div class="track">
+		<div class="trackLarge">
 			<?php $track_name = $track->getName(); ?>
 			<?php if ( strlen($track_name) > 20 ): ?>
 				<?php $track_name = substr($track_name, 0, 20) . '...'; ?>
@@ -29,7 +28,6 @@
 			</div>
 		</div>
 	<?php endforeach; ?>
-	
 </div>
 
 <div class="clear"></div>
