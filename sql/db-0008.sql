@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `follower_count` INT( 10 ) NOT NULL DEFAULT '0' AFTER `content_directory` , ADD `following_count` INT( 10 ) NOT NULL DEFAULT '0' AFTER `follower_count`;

@@ -1,0 +1,1 @@
+ALTER TABLE `user_friend` ADD INDEX ( `user_id` );
