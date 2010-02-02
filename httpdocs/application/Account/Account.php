@@ -51,6 +51,14 @@ class Account_Controller extends Root_Controller {
 		$this->renderLayout('message-list');
 	}
 	
+	public function photoGet($user_id) {
+		try {
+			
+			
+			
+		} catch ( Exception $e ) { }
+	}
+	
 	public function privacyGet() {
 		$this->verifyUserSession();
 		
@@ -124,9 +132,11 @@ class Account_Controller extends Root_Controller {
 	public function updateGet() {
 		$this->verifyUserSession();
 		
-		$this->setSectionTitle(_('Update Your Profile'));
+		$this->setSectionTitle(Language::__('account_update_your_profile'));
 		
-		$this->user = TuneToUs::getUser()->model();
+		$this->profile = TuneToUs::getUser();
+		$this->user = $this->profile->model();
+		
 		$this->renderLayout('update');
 	}
 	
@@ -333,16 +343,86 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	public function updatePost() {
-		$this->setLayout(NULL);
+		$this->verifyUserSession();
 		
 		try {
+			$user_form_data = (array)$this->getParam('user');
+			$photo = (array)$this->getFilesParam('photo');
 			
+			$validator = $this->buildValidator();
+			$validator->load('update')
+				->setData($user_form_data)
+				->validate();
+			
+			$user = TuneToUs::getUser();
+			$user_id = $user->id();
+			$content_directory = $user->getContentDirectory();
+			
+			$photo_name = er('name', $photo);
+			if ( false === empty($photo_name) ) {
+				$uploader = new Uploader($photo);
+				$uploader->setOverwrite(true)
+					->setUploadDirectory(DIR_PRIVATE . $content_directory)
+					->upload();
+				
+				/* Resize the main photo and thumbnail. */
+				$image_filename = $uploader->getFilename();
+				$image_location = DIR_PRIVATE . $content_directory . DS . $image_filename;
+				
+				$image = new Image($image_location);
+				$image->resize(640, 480)->writeJpg();
+				$photo_fullsize = $image->getLocation();
+				
+				$image = new Image($image_location);
+				$image->resize(96, 96)->writeJpg(DIR_PRIVATE . $content_directory . DS . 'tn-' . $image_filename);
+				$photo_thumbnail = $image->getLocation();
+				
+				$user->setPhoto($photo_fullsize)
+					->setPhotoThumbnail($photo_thumbnail);
+			}
+			
+			/* Check the email address to ensure it isn't used elsewhere, but only do this if it's changed. */
+			$user_form_data_email_address = er('email_address', $user_form_data);
+			$user_email_address = $user->getEmailAddress();
+			
+			if ( $user_email_address != $user_form_data_email_address ) {
+				$user_email = TuneToUs::getDataModel()
+					->where('email_address = ?', $user_form_data_email_address)
+					->loadFirst(new User());
+				
+				if ( true === $user_email->exists() ) {
+					throw new TuneToUs_Exception(Language::__('error_email_address_taken'));
+				}
+			}
+			
+			$user->setEmailAddress($user_form_data_email_address)
+				->setName(er('name', $user_form_data))
+				->setGender(er('gender', $user_form_data))
+				->setCountry(er('country', $user_form_data))
+				->setBiography(er('biography', $user_form_data))
+				->setInterests(er('interests', $user_form_data))
+				->setMusic(er('music', $user_form_data))
+				->setMovies(er('movies', $user_form_data))
+				->setBooks(er('books', $user_form_data))
+				->setWebsite1(er('website1', $user_form_data));
+			TuneToUs::getDataModel()->save($user);
+			
+			TuneToUs::getMessenger()->pushSuccess(Language::__('success_profile_updated'));
 			
 		} catch ( TuneToUs_Exception $e ) {
-			
+			TuneToUs::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
-			TuneToUs::getMessenger()->pushError(Language::__('error_form_validation_error'));
+			TuneToUs::getMessenger()->pushError($e->getMessage());
 		}
+		
+		$this->getView()->setValidator($validator);
+		
+		$this->setSectionTitle(Language::__('account_update_your_profile'));
+		
+		$this->profile = TuneToUs::getUser();
+		$this->user = $user_form_data;
+		
+		$this->renderLayout('update');
 	}
 	
 	/**
@@ -368,8 +448,8 @@ class Account_Controller extends Root_Controller {
 				->validate();
 
 			$uploader = new Uploader_Track($track_file);
-			$uploader->setAllowOverwrite(true)
-				->setDestinationDirectory($content_directory)
+			$uploader->setOverwrite(true)
+				->setUploadDirectory(DIR_PRIVATE . $content_directory)
 				->upload();
 			
 			/* If the upload went well, create a new Track record and Track_Queue record. */

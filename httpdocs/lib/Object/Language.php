@@ -15,12 +15,14 @@ class Language {
 			
 			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
+			'success_profile_updated' => "Your profile was successfully updated.",
 			
 			
 			'index_welcome_text' => "Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.",
 			'index_latest_tracks' => "Latest Tracks From The Community In Real Time",
 			
 			'account_your_dashboard' => "Your Dashboard",
+			'account_update_your_profile' => "Update Your Profile",
 			'account_upload_track' => "Upload New Track",
 			'account_profile' => "Profile For <em>%s</em>",
 			

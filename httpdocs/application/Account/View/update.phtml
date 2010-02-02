@@ -4,7 +4,7 @@
 	<form method="post" action="<?php echo $this->url('account/update'); ?>" enctype="multipart/form-data">
 		<label>
 			<span class="req">Nick Name</span>
-			<?php echo $this->safe(er('nickname', $user)); ?>
+			<?php echo $this->safe($profile->getNickname()); ?>
 		</label>
 		
 		<label>

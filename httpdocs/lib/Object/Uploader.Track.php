@@ -1,18 +1,16 @@
 <?php
 
+require_once 'lib/Object/Uploader.php';
+
 class Uploader_Track extends Uploader {
 	
-	public function setUploadData($uploadData) {
-		$type = strtolower(er('type', $uploadData));
+	public function setData($data) {
+		$type = strtolower(er('type', $data));
 		if ( 'audio/mpeg' !== $type ) {
-			$error = self::ERROR_UPLOAD_INCORRECT_TYPE;
+			throw new TuneToUs_Exception(Language::__(''));
 		}
 		
-		if ( false === empty($error) ) {
-			throw new TuneToUs_Exception($error);
-		}
-		
-		parent::setUploadData($uploadData);
+		parent::setData($data);
 	}
 	
 	public function upload() {
@@ -21,13 +19,11 @@ class Uploader_Track extends Uploader {
 	}
 	
 	private function createTrackName() {
-		// Make everything all nice and pretty like
-		$track_name = $this->fileName;
-		$track_name = strtolower($track_name);
-		$track_name = preg_replace('/[^a-z0-9_\-\.]/i', '-', $track_name);
-		$track_name = preg_replace('/[\-]{1,}/i', '-', $track_name);
-		$this->fileName = $track_name;
-		
+		$filename = $this->getFilename();
+		$filename = strtolower($filename);
+		$filename = preg_replace('/[^a-z0-9_\-\.]/i', '-', $filename);
+		$filename = preg_replace('/[\-]{1,}/i', '-', $filename);
+		$this->setFilename($filename);
 		return true;
 	}
 }

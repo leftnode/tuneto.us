@@ -2,126 +2,127 @@
 
 
 class Uploader {
-	protected $fileName = NULL;
-	protected $uploadData = array();
-	protected $destinationDirectory = NULL;
-	
-	protected $allowOverwrite = false;
-	
-	const ERROR_UPLOAD_NO_DATA = 'No upload data was present.';
-	const ERROR_UPLOAD_FILE_EXISTS = 'The destination file already exists.';
-	const ERROR_UPLOAD_FAILED = 'Uploading the file failed. It could not be created properly.';
-	const ERROR_UPLOAD_DESTINATION_DOES_NOT_EXIST = 'The destination for this upload does not exist.';
-	const ERROR_UPLOAD_INI_SIZE = 'Your file is too large!';
-	const ERROR_UPLOAD_FORM_SIZE = 'Your file is too large!';
-	const ERROR_UPLOAD_PARTIAL = 'Only part of your file was uploaded!';
-	const ERROR_UPLOAD_NO_FILE = 'No file was present to be uploaded.';
-	const ERROR_UPLOAD_NO_TMP_DIR = 'A temporary directory does not exist to copy your upload to.';
-	const ERROR_UPLOAD_CANT_WRITE = 'The temporary upload file can not be created.';
-	const ERROR_UPLOAD_EXTENSION = 'This type of upload is not allowed.';
-	const ERROR_UPLOAD_INCORRECT_TYPE = 'You are attempting to upload an incorrect file type.';
+	private $filename = NULL;
+	private $upload_directory = NULL;
+	private $data = array();
+	private $overwrite = true;
 
-	public function __construct($uploadData = array(), $allow_overwrite=false) {
-		$this->setUploadData($uploadData);
-		$this->setAllowOverwrite($allow_overwrite);
+	public function __construct($data, $overwrite=true) {
+		$this->setData($data);
+		$this->setOverwrite($overwrite);
 	}
 
 	public function __destruct() {
 		
 	}
 	
-	public function getFilename() {
-		return $this->fileName;
-	}
-	
-	public function setAllowOverwrite($overwrite) {
-		$this->allowOverwrite = $overwrite;
+	public function setOverwrite($overwrite) {
+		$this->overwrite = $overwrite;
 		return $this;
 	}
 	
-	public function setUploadData($uploadData) {
-		if ( false === is_array($uploadData) || 0 == count($uploadData) ) {
-			throw new TuneToUs_Exception(self::ERROR_UPLOAD_NO_DATA);
+	public function setFilename($filename) {
+		$this->filename = $filename;
+		return $this;
+	}
+	
+	public function setData($data) {
+		if ( false === is_array($data) || 0 == count($data) ) {
+			throw new Exception(Language::__(''));
 		}
 
 		$error = NULL;
-		switch ( $uploadData['error'] ) {
+		switch ( $data['error'] ) {
 			case UPLOAD_ERR_INI_SIZE: {
-				$error = self::ERROR_UPLOAD_INI_SIZE;
+				$error = Language::__('');
 				break;
 			}
 			
 			case UPLOAD_ERR_FORM_SIZE: {
-				$error = self::ERROR_UPLOAD_FORM_SIZE;
+				$error = Language::__('');
 				break;
 			}
 			
 			case UPLOAD_ERR_PARTIAL: {
-				$error = self::ERROR_UPLOAD_PARTIAL;
+				$error = Language::__('');
 				break;
 			}
 			
 			case UPLOAD_ERR_NO_FILE: {
-				$error = self::ERROR_UPLOAD_NO_FILE;
+				$error = Language::__('');
 				break;
 			}
 			
 			case UPLOAD_ERR_NO_TMP_DIR: {
-				$error = self::ERROR_UPLOAD_NO_TMP_DIR;
+				$error = Language::__('');
 				break;
 			}
 			
 			case UPLOAD_ERR_CANT_WRITE: {
-				$error = self::ERROR_UPLOAD_CANT_WRITE;
+				$error = Language::__('');
 				break;
 			}
 			
 			case UPLOAD_ERR_EXTENSION: {
-				$error = self::ERROR_UPLOAD_EXTENSION;
+				$error = Language::__('');
 				break;
 			}
 		}
 		
 		if ( false === empty($error) ) {
-			throw new TuneToUs_Exception($error);
+			throw new Exception($error);
 		}
 		
-		$this->uploadData = $uploadData;
-		$this->fileName = er('name', $uploadData);
-		$this->fileName = uniqid('ttu-') . '-' . $this->fileName;
+		$this->data = $data;
+		
+		$filename = $data['name'];
+		$filename = substr(sha1(mt_rand(0, 100000)), 0, 16) . '-' . $filename;
+		$this->setFilename($filename);
 		
 		return true;
 	}
 	
-	public function setDestinationDirectory($dest_dir) {
-		$dest_dir = DIR_PRIVATE . $dest_dir;
-		if ( false === is_dir($dest_dir) ) {
-			throw new TuneToUs_Exception(self::ERROR_UPLOAD_DESTINATION_DOES_NOT_EXIST);
-		}
-		
-		/* Add the DIRECTORY_SEPARATOR to the last character of the dest_dir if its not one already. */
-		$dest_dir = rtrim($dest_dir, DS) . DS;
-		
-		$this->destinationDirectory = $dest_dir;
+	public function setUploadDirectory($upload_directory) {
+		$upload_directory = rtrim($upload_directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+		$this->upload_directory = $upload_directory;
 		return $this;
 	}
 	
-	public function getDestinationDirectory() {
-		return $this->destinationDirectory;
+	
+	
+	
+	public function getFilename() {
+		return $this->filename;
 	}
 	
+	public function getData() {
+		return $this->data;
+	}
+	
+	public function getUploadDirectory() {
+		return $this->upload_directory;
+	}
+	
+	public function getOverwrite() {
+		return $this->overwrite;
+	}
+	
+	
+	
 	public function upload() {
-		if ( 0 == count($this->uploadData) ) {
-			throw new TuneToUs_Exception(self::ERROR_UPLOAD_NO_DATA);
+		$data = $this->getData();
+		if ( 0 === count($data) || true === empty($data) ) {
+			throw new Exception(Language::__(''));
 		}
 		
-		$final_file = $this->destinationDirectory . $this->fileName;
-		if ( true === is_file($final_file) && false === $this->allowOverwrite ) {
-			throw new TuneToUs_Exception(self::ERROR_UPLOAD_FILE_EXISTS);
+		$overwrite = $this->getOverwrite();
+		$filepath = $this->getUploadDirectory() . $this->getFilename();
+		if ( true === is_file($filepath) && false === $overwrite ) {
+			throw new Exception(Language::__(''));
 		}
 		
-		if ( false === @move_uploaded_file($this->uploadData['tmp_name'], $final_file) ) {
-			throw new TuneToUs_Exception(self::ERROR_UPLOAD_FAILED);
+		if ( false === @move_uploaded_file($data['tmp_name'], $filepath) ) {
+			throw new Exception(Language::__(''));
 		}
 		
 		return true;
