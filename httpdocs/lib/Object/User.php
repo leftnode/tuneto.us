@@ -13,7 +13,7 @@ class User extends DataObject {
 	}
 
 
-	public function createContentDirectory() {
+	public function createDirectory() {
 		/**
 		 * While it's not good to use sha1() on a uniqid, this isn't for
 		 * encryption purposes, just random string generation purposes.
@@ -24,12 +24,12 @@ class User extends DataObject {
 		$char1 = substr($uniqid_sha1, 0, 1);
 		$char2 = substr($uniqid_sha1, 1, 1);
 		
-		$content_directory = $char1 . DS . $char2 . DS . $uniqid;
-		$full_path = DIR_PRIVATE . $content_directory;
+		$directory = $char1 . DS . $char2 . DS . $uniqid;
+		$full_path = DIR_PRIVATE . $directory;
 		if ( false === is_dir($full_path) ) {
 			@mkdir($full_path, 0777, true);
 		}
 		
-		return $content_directory;
+		return $directory;
 	}
 }

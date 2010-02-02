@@ -1,0 +1,1 @@
+ALTER TABLE `user` DROP `country`, DROP `birthday`, DROP `biography`, DROP `interests`, DROP `music`, DROP `movies`, DROP `books`, DROP `website1`, DROP `website2`, DROP `website3`;

@@ -21,7 +21,7 @@ try {
 		
 		/* Get the length of the track */
 		$track_length = 0;
-		$track_file_path = DIR_PRIVATE . $track->getPath() . DS . $track->getFilename();
+		$track_file_path = DIR_PRIVATE . $track->getDirectory() . DS . $track->getFilename();
 		if ( true === is_file($track_file_path) ) {
 			$track_file_path_safe = escapeshellarg($track_file_path);
 			

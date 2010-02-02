@@ -65,7 +65,7 @@ class Track_Controller extends Root_Controller {
 				->where('status = ?', STATUS_ENABLED)
 				->loadFirst(new Track());
 
-			$file_path = DIR_PRIVATE . $track->getPath() . DS . $track->getFilename();
+			$file_path = DIR_PRIVATE . $track->getDirectory() . DS . $track->getFilename();
 
 			if ( true === is_file($file_path) ) {
 				$fh = fopen($file_path, 'rb');

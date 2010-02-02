@@ -18,7 +18,7 @@
 			<?php endif; ?>
 			<h4><?php echo $this->safe($track_name); ?></h4>
 			<div style="text-align: center;">
-				<?php echo $this->img(DIR_IMAGE . 'trackImage.png', 'name', 'class="albumCoverImage"'); ?>
+				<?php echo $this->img($this->url('image/viewthumbnail', $track->getImageId())); ?>
 			</div>
 			
 			<div class="newMusicButton">

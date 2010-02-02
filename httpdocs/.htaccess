@@ -8,7 +8,7 @@ Options Indexes +FollowSymLinks
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
 	
-	RewriteRule ^(.*)$ index.php?_u=$1 [QSA,L]
+	RewriteRule ^(.*)$ /index.php?_u=$1 [QSA,L]
 </IfModule>
 
 DirectoryIndex index.php index.html

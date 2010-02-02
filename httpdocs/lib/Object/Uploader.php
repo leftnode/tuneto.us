@@ -76,7 +76,9 @@ class Uploader {
 		
 		$this->data = $data;
 		
-		$filename = substr(sha1(mt_rand(0, 100000)), 0, 16) . '-' . $data['name'];
+		$filename = $data['name'];
+		$filename = str_replace(' ', '-', $filename);
+		$filename = substr(sha1(mt_rand(0, 100000)), 0, 16) . '-' . $filename;
 		$this->setFilename($filename);
 		
 		return $this;

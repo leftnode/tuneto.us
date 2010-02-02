@@ -43,70 +43,7 @@ class Account_Controller extends Root_Controller {
 		
 		$this->redirect($this->url('index/index'));
 	}
-	
-	public function messageListGet() {
-		$this->verifyUserSession();
-		
-		$this->setSectionTitle(_('Messages'));
-		$this->renderLayout('message-list');
-	}
-	
-	public function photoGet($user_id, $type) {
-		try {
-			$user_id = intval($user_id);
-			$user = TuneToUs::getDataModel()
-				->where('user_id = ?', $user_id)
-				->where('status = ?', STATUS_ENABLED)
-				->loadFirst(new User());
-			
-			$photo_found = false;
-			if ( true === $user->exists() ) {
-				$content_directory = $user->getContentDirectory();
-				
-				switch ( $type ) {
-					case PHOTO: {
-						$photo = $user->getPhoto();
-						break;
-					}
-					
-					case PHOTO_THUMBNAIL:
-					default: {
-						$photo = $user->getPhotoThumbnail();
-						break;
-					}
-				}
-				
-				$photopath = DIR_PRIVATE . $content_directory . DS . $photo;
-				
-				if ( true === is_file($photopath) ) {
-					$photo_found = true;
-				}
-			}
-			
-			if ( false === $photo_found ) {
-				switch ( $type ) {
-					case PHOTO: {
-						$photopath = DIR_SITE_ROOT . DIR_IMAGE . 'anonymous-photo.jpg';
-						break;
-					}
-					
-					case PHOTO_THUMBNAIL:
-					default: {
-						$photopath = DIR_SITE_ROOT . DIR_IMAGE . 'anonymous-photo-thumbnail.jpg';
-						break;
-					}
-				}
-			}
-			
-			$image = imagecreatefromjpeg($photopath);
-			header('Content-Type: image/jpeg');
-			imagejpeg($image, NULL, 100);
-		} catch ( Exception $e ) { }
-		
-		exit;
-	}
-	
-	
+
 	public function privacyGet() {
 		$this->verifyUserSession();
 		
@@ -114,45 +51,7 @@ class Account_Controller extends Root_Controller {
 		$this->renderLayout('privacy');
 	}
 	
-	public function profileGet($profile_id) {
-		$profile = TuneToUs::getDataModel()
-			->where('user_id = ?', $profile_id)
-			->where('status = ?', STATUS_ENABLED)
-			->loadFirst(new User());
-		
-		if ( true === $profile->exists() ) {
-			$user = TuneToUs::getUser();
-			$this->track_iterator = TuneToUs::getDataModel()
-				->where('user_id = ?', $profile->id())
-				->where('status <> ?', STATUS_DISABLED)
-				->limit(10)
-				->loadAll(new Track());
-			
-			$user_is_logged_in = ttu_user_is_logged_in();
-			
-			$this->user_is_logged_in = $user_is_logged_in;
-			$this->user = $user;
-			$this->profile = $profile;
-			
-			$this->can_follow = false;
-			if ( true === $user_is_logged_in && $user->id() != $profile->id() ) {
-				$user_follow = TuneToUs::getDataModel()
-					->where('follower_id = ?', $user->id())
-					->where('following_id = ?', $profile->id())
-					->loadFirst(new User_Follow());
-					
-				if ( false === $user_follow->exists() ) {
-					$this->can_follow = true;
-				}
-			}
-			
-			$view = 'profile';
-		} else {
-			$view = 'profile-disabled';
-		}
-		
-		parent::renderLayout($view);
-	}
+	
 	
 	public function registerGet() {
 		if ( true === ttu_user_is_logged_in() ) {
@@ -177,17 +76,7 @@ class Account_Controller extends Root_Controller {
 		$this->renderLayout('track-list');
 	}
 	
-	public function updateGet() {
-		$this->verifyUserSession();
-		
-		$this->setSectionTitle(Language::__('account_update_your_profile'));
-		
-		$this->profile = TuneToUs::getUser();
-		$this->user = $this->profile->model();
-		
-		$this->renderLayout('update');
-	}
-	
+
 	public function uploadGet() {
 		$this->verifyUserSession();
 		
@@ -354,10 +243,10 @@ class Account_Controller extends Root_Controller {
 		
 			/* The content directory is where all of their information will be stored. */
 			$user = new User();
-			$content_directory = $user->createContentDirectory();
+			$directory = $user->createDirectory();
 			
 			/* Save the user. */
-			$user->setContentDirectory($content_directory)
+			$user->setDirectory($directory)
 				->setNickname($nickname)
 				->setPassword($password_hashed)
 				->setPasswordSalt($password_salt)
@@ -390,94 +279,45 @@ class Account_Controller extends Root_Controller {
 		return true;
 	}
 	
-	public function updatePost() {
+	public function updatePhotoPost() {
 		$this->verifyUserSession();
 		
 		try {
-			$user_form_data = (array)$this->getParam('user');
-			$photo = (array)$this->getFilesParam('photo');
-			
-			$validator = $this->buildValidator();
-			$validator->load('update')
-				->setData($user_form_data)
-				->validate();
+			$image_file_data = (array)$this->getFilesParam('image');
 			
 			$user = TuneToUs::getUser();
-			$user_id = $user->id();
-			$content_directory = $user->getContentDirectory();
+			$directory = $user->getDirectory();
+			$destination_directory = DIR_PRIVATE . $directory;
 			
-			$photo_name = er('name', $photo);
-			if ( false === empty($photo_name) ) {
-				$destination_directory = DIR_PRIVATE . $content_directory;
-				
-				$uploader = new Uploader();
-				$uploader->setData($photo)
-					->setDirectory($destination_directory)
-					->upload();
-				
-				/* Resize the main photo and thumbnail. */
-				$image_filename = $uploader->getFilename();
-				$image_location = $destination_directory . DS . $image_filename;
-				
-				$image = new Image($image_location);
-				$image->resize(300, 300)
-					->setDirectory($destination_directory)
-					->writeJpg($image_filename);
-				$photo_fullsize = $image->getFilename();
-				
-				$image = new Image($image_location);
-				$image->resize(96, 96)
-					->setDirectory($destination_directory)
-					->writeJpg('tn-' . $image_filename);
-				$photo_thumbnail = $image->getFilename();
-				
-				$user->setPhoto($photo_fullsize)
-					->setPhotoThumbnail($photo_thumbnail);
+			$image_name = er('name', $image_file_data);
+			if ( true === empty($image_name) ) {
+				throw new TuneToUs_Exception(Language::__('error_select_image'));
 			}
+		
+			$uploader = new Uploader();
+			$uploader->setData($image_file_data)
+				->setDirectory($destination_directory)
+				->upload();
 			
-			/* Check the email address to ensure it isn't used elsewhere, but only do this if it's changed. */
-			$user_form_data_email_address = er('email_address', $user_form_data);
-			$user_email_address = $user->getEmailAddress();
+			$image_filename = $uploader->getFilename();
+		
+			$image_id = ttu_create_image_record($directory, $image_filename);
 			
-			if ( $user_email_address != $user_form_data_email_address ) {
-				$user_email = TuneToUs::getDataModel()
-					->where('email_address = ?', $user_form_data_email_address)
-					->loadFirst(new User());
-				
-				if ( true === $user_email->exists() ) {
-					throw new TuneToUs_Exception(Language::__('error_email_address_taken'));
-				}
-			}
-			
-			$user->setEmailAddress($user_form_data_email_address)
-				->setName(er('name', $user_form_data))
-				->setGender(er('gender', $user_form_data))
-				->setCountry(er('country', $user_form_data))
-				->setBiography(er('biography', $user_form_data))
-				->setInterests(er('interests', $user_form_data))
-				->setMusic(er('music', $user_form_data))
-				->setMovies(er('movies', $user_form_data))
-				->setBooks(er('books', $user_form_data))
-				->setWebsite1(er('website1', $user_form_data));
+			$user->setImageId($image_id);
 			TuneToUs::getDataModel()->save($user);
 			
-			TuneToUs::getMessenger()->pushSuccess(Language::__('success_profile_updated'));
-			
+			TuneToUs::getMessenger()->pushSuccess(Language::__('success_photo_updated'));
 		} catch ( TuneToUs_Exception $e ) {
 			TuneToUs::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
-			TuneToUs::getMessenger()->pushError($e->getMessage());
+			TuneToUs::getMessenger()->pushError(Language::__('error_form_validation_error'));
 		}
+
+		$this->redirect($this->url('account/dashboard'));
 		
-		$this->getView()->setValidator($validator);
-		
-		$this->setSectionTitle(Language::__('account_update_your_profile'));
-		
-		$this->profile = TuneToUs::getUser();
-		$this->user = $user_form_data;
-		
-		$this->renderLayout('update');
+		return true;
 	}
+	
 	
 	/**
 	 * Upload a track to the system.
@@ -489,32 +329,52 @@ class Account_Controller extends Root_Controller {
 		
 		try {
 			$user = TuneToUs::getUser();
-			$content_directory = $user->getContentDirectory();
 			
-			$upload = (array)$this->getParam('upload');
+			$track_data = (array)$this->getParam('track');
 			
-			$track_file = (array)$this->getFilesParam('track');
-			$track_image_file = (array)$this->getFilesParam('image');
+			$track_file_data = (array)$this->getFilesParam('track');
+			$image_file_data = (array)$this->getFilesParam('image');
+
+			$directory = $user->getDirectory();
+			$destination_directory = DIR_PRIVATE . $directory;
+			
+			$track_name = er('name', $track_file_data);
+			if ( true === empty($track_name) ) {
+				throw new TuneToUs_Exception(Language::__('error_select_track'));
+			}
 			
 			$validator = $this->buildValidator();
-			$validator->load('upload')
-				->setData($upload)
+			$validator->load('track')
+				->setData($track_data)
 				->validate();
 
-			$destination_directory = DIR_PRIVATE . $content_directory;
+			/* Attempt to upload the image with the track. */
+			$image_id = 0;
+			$image_name = er('name', $image_file_data);
+			if ( false === empty($image_name) ) {
+				$uploader = new Uploader();
+				$uploader->setData($image_file_data)
+					->setDirectory($destination_directory)
+					->upload();
+				
+				$image_filename = $uploader->getFilename();
+			
+				$image_id = ttu_create_image_record($directory, $image_filename);
+			}
 
 			$uploader = new Uploader_Track();
-			$uploader->setData($track_file)
+			$uploader->setData($track_file_data)
 				->setDirectory($destination_directory)
 				->upload();
 			
 			/* If the upload went well, create a new Track record and Track_Queue record. */
 			$track = new Track();
 			$track->setUserId($user->id())
-				->setPath($content_directory)
+				->setImageId($image_id)
+				->setDirectory($directory)
 				->setFilename($uploader->getFilename())
-				->setName(er('name', $upload))
-				->setDescription(er('description', $upload))
+				->setName(er('name', $track_data))
+				->setDescription(er('description', $track_data))
 				->setLength(0)
 				->setViewCount(0)
 				->setStatus(STATUS_PROCESSING);
@@ -545,7 +405,7 @@ class Account_Controller extends Root_Controller {
 		$this->getView()->setValidator($validator);
 		
 		$this->setSectionTitle(Language::__('account_upload_track'));
-		$this->upload = $upload;
+		$this->track = $track_data;
 		
 		$this->renderLayout('upload');
 		

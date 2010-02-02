@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `image_id` INT( 10 ) NOT NULL AFTER `date_lastlogin` , ADD INDEX ( `image_id` );

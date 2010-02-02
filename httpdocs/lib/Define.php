@@ -16,5 +16,6 @@ define('STATUS_SUCCESS', 1, false);
 define('GENDER_MALE', 'male', false);
 define('GENDER_FEMALE', 'female', false);
 
-define('PHOTO', 'large', false);
-define('PHOTO_THUMBNAIL', 'tn', false);
+define('IMAGE_LARGE', 'large', false);
+define('IMAGE_THUMBNAIL', 'thumbnail', false);
+define('IMAGE_MICRO', 'micro', false);

@@ -1,0 +1,1 @@
+ALTER TABLE `track` ADD `image_id` INT( 10 ) NOT NULL AFTER `user_id` , ADD INDEX ( `image_id` );

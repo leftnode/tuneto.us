@@ -1,0 +1,1 @@
+ALTER TABLE `user` CHANGE `photo` `image_large` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL , CHANGE `photo_thumbnail` `image_thumbnail` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;

@@ -3,21 +3,33 @@
 	<div class="dashboardLeft">
 		<h2><?php echo $this->safe($user->getNickname()); ?></h2>
 
-		<div class="followerBox">
-			<?php echo $user->getFollowerCount(); ?>
-			<span>followers</span>
+		<div class="mainImage">
+			<div class="dashboardImage">
+				<?php echo $this->img($this->url('image/viewlarge', $user->getImageId())); ?>
+			</div>
+			
+			<form method="post" action="<?php echo $this->url('account/updatephoto'); ?>" enctype="multipart/form-data" class="center">
+				<label>
+					<input type="file" name="image" size="20" style="font-size: 10px;">
+					<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
+					<input type="submit" value="Update Photo" style="font-size: 10px">
+				</label>
+			</form>
 		</div>
-
-		<div class="followerBox">
-			<?php echo $user->getFollowingCount(); ?>
-			<span>following</span>
-		</div>
-
-		<div class="clearFull"></div>
 		
-		<div class="dashboardImage">
-			<?php echo $this->img($this->url('account/photo', $user->id(), PHOTO)); ?>
+		<div class="followerCounts">
+			<div class="followerBox">
+				<?php echo $user->getFollowerCount(); ?>
+				<span><a href="<?php echo $this->url('account/followers'); ?>">followers</a></span>
+			</div>
+
+			<div class="followerBox">
+				<?php echo $user->getFollowingCount(); ?>
+				<span><a href="<?php echo $this->url('account/following'); ?>">following</a></span>
+			</div>
 		</div>
+		
+		<div class="clear"></div>
 	</div>
 	
 	<div class="dashboardRight">
@@ -27,15 +39,24 @@
 		<?php if ( $track_iterator_length > 0 ): ?>
 			<?php $i = 1; ?>
 			<?php foreach ( $track_iterator as $track ): ?>
+				<?php $id = 'mp3-mini-player-' . $track->id(); ?>
+				<?php $track_name = $track->getName(); ?>
+
 				<div>
-					<?php $track_name = $track->getName(); ?>
 					<h4><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h4>
-					<div class="trackData">
-						<a href="<?php echo $this->url('track/play', $track->id()); ?>">
-							<?php echo $track->getFormattedLength(); ?> | <?php echo Language::__('play'); ?>
-						</a>
+					<div>
+						<?php echo $this->img($this->url('image/viewmicro', $track->getImageId()), '', 'class="imageMicro"'); ?>
+						<div id="<?php echo $id; ?>"></div>
 					</div>
+					<script type="text/javascript">
+						var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#E5E6DF");
+						so.addVariable('autoPlay', 'no');
+						so.addVariable('soundPath', '<?php echo $this->url('track/stream', $track->id()); ?>');
+						so.addVariable('playerSkin', '6');
+						so.write("<?php echo $id; ?>");
+					</script>
 				</div>
+				
 				<?php if ( $i++ != $track_iterator_length ): ?>
 					<div class="lightDivider"></div>
 				<?php endif; ?>

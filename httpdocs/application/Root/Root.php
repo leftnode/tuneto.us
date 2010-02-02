@@ -16,6 +16,7 @@ class Root_Controller extends Artisan_Controller {
 		
 		/* Global JS */
 		$this->js_jquery = DIR_JAVASCRIPT . 'jquery.js';
+		$this->js_swfobject = DIR_JAVASCRIPT . 'swfobject.js';
 
 		/* Render the header, which includes the CSS and JS. */
 		$this->render('root/header', 'header');

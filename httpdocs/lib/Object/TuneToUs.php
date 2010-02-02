@@ -16,6 +16,7 @@ require_once 'DataModeler/DataModel.php';
 require_once 'DataModeler/DataObject.php';
 
 require_once 'lib/Function/User.php';
+require_once 'lib/Function/Image.php';
 
 function __autoload($class) {
 	$class_path = str_replace('_', '.', $class) . '.php';

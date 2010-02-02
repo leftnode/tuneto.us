@@ -1,0 +1,1 @@
+ALTER TABLE `track` ADD `image_large` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `filename` , ADD `image_thumbnail` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `image_large` , ADD `image_micro` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `image_thumbnail`;

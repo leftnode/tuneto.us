@@ -12,10 +12,13 @@ class Language {
 			'error_track_not_found' => "Track Not Found",
 			'error_track_not_found_header' => "We Hope We Didn't Make The Error",
 			'error_profile_not_found' => "Profile Not Found",
+			'error_select_image' => "Please select an image to upload.",
+			'error_select_track' => "Please select an MP3 to upload.",
 			
 			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
 			'success_profile_updated' => "Your profile was successfully updated.",
+			'success_photo_updated' => "Your photo was successfully updated.",
 			
 			
 			'index_welcome_text' => "Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.",

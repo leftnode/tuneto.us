@@ -3,13 +3,13 @@
 <div class="clearFull"></div>
 
 <div class="contentBox">
-	<object type="application/x-shockwave-flash" data="<?php echo DIR_FLASH . 'player.swf'; ?>" height="24" width="290">
-		<param name="movie" value="<?php echo DIR_FLASH . 'player.swf'; ?>">
-		<param name="FlashVars" value="soundFile=<?php echo $this->url('track/stream', $track->id()); ?>&leftbg=0xA4FAAC&lefticon=0x3EA748&rightbg=0x68C1D5&rightbghover=0x5196A6&righticon=0xffffff&righticonhover=0xffffff&text=0x666666&slider=0x3EA748&track=0xFFFFFF&border=0x666666&loader=0xA4FAAC&loop=no&autostart=no">
-		<param name="quality" value="high">
-		<param name="menu" value="false">
-		<param name="wmode" value="transparent">
-	</object>
+	<div id="mp3-player"></div>
+	<script type="text/javascript">
+		 var so = new SWFObject("/public/flash/mp3-player.swf", "mp3-player", "192", "67", "7", "#000");
+		 so.addVariable("autoPlay", "no");
+		 so.addVariable("soundPath", "<?php echo $this->url('track/stream', $track->id()); ?>");
+		 so.write("mp3-player");
+	</script>
 	
 	<div class="musicLength">
 		<a href="<?php echo $this->url('account/profile', $profile->id()); ?>">

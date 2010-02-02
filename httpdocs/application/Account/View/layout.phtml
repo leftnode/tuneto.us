@@ -5,8 +5,11 @@
 <ul class="accountMenu">
 	<li><a href="<?php echo $this->url('account/dashboard'); ?>">Dashboard</a></li>
 	<li><a href="<?php echo $this->url('account/upload'); ?>">Upload Track</a></li>
-	<li><a href="<?php echo $this->url('account/update'); ?>">Update Profile</a></li>
-	<li style="float: right"><a href="<?php echo $this->url('account/profile', $user->id()); ?>">My Public Profile</a></li>
+	<li><a href="<?php echo $this->url('account/settings'); ?>">Settings</a></li>
+	<li><a href="<?php echo $this->url('account/tracklist'); ?>">My Tracks</a></li>
+	<li><a href="<?php echo $this->url('account/favoritelist'); ?>">Favorites</a></li>
+	
+	<li style="float: right"><a href="<?php echo $this->url('profile/view', $user->id()); ?>">My Public Profile</a></li>
 </ul>
 	
 <div class="clear"></div>
