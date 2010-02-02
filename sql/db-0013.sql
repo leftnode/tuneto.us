@@ -1,0 +1,1 @@
+ALTER TABLE user_follower DROP INDEX friend_id;

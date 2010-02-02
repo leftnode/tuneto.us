@@ -1,0 +1,1 @@
+ALTER TABLE `user_follower` CHANGE `friend_id` `follower_id` INT( 10 ) NOT NULL;

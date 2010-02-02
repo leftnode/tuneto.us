@@ -1,0 +1,1 @@
+ALTER TABLE `user_follower` CHANGE `user_follow_id` `user_follower_id` INT( 10 ) NOT NULL AUTO_INCREMENT;

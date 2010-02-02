@@ -1,0 +1,1 @@
+RENAME TABLE `user_friend`  TO `user_follower`;

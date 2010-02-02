@@ -1,0 +1,1 @@
+ALTER TABLE `user_following` ADD INDEX ( `following_id` );

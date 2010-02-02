@@ -1,0 +1,1 @@
+ALTER TABLE `user_follow` DROP INDEX `follower_id` , ADD INDEX `follower_group` ( `follower_id` , `following_id` );
