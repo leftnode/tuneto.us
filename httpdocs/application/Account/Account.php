@@ -101,9 +101,9 @@ class Account_Controller extends Root_Controller {
 			$image = imagecreatefromjpeg($photopath);
 			header('Content-Type: image/jpeg');
 			imagejpeg($image, NULL, 100);
-			
-			exit;
 		} catch ( Exception $e ) { }
+		
+		exit;
 	}
 	
 	
@@ -501,9 +501,11 @@ class Account_Controller extends Root_Controller {
 				->setData($upload)
 				->validate();
 
-			$uploader = new Uploader_Track($track_file);
-			$uploader->setOverwrite(true)
-				->setUploadDirectory(DIR_PRIVATE . $content_directory)
+			$destination_directory = DIR_PRIVATE . $content_directory;
+
+			$uploader = new Uploader_Track();
+			$uploader->setData($track_file)
+				->setDirectory($destination_directory)
 				->upload();
 			
 			/* If the upload went well, create a new Track record and Track_Queue record. */

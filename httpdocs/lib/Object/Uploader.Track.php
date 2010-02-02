@@ -10,7 +10,7 @@ class Uploader_Track extends Uploader {
 			throw new TuneToUs_Exception(Language::__(''));
 		}
 		
-		parent::setData($data);
+		return parent::setData($data);
 	}
 	
 	public function upload() {

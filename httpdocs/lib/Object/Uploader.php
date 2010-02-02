@@ -94,8 +94,6 @@ class Uploader {
 		return $this->data;
 	}
 	
-	
-	
 	public function upload() {
 		$data = $this->getData();
 		if ( 0 === count($data) || true === empty($data) ) {
@@ -114,8 +112,7 @@ class Uploader {
 		return true;
 	}
 	
-	
-	private function setFilename($filename) {
+	protected function setFilename($filename) {
 		$this->filename = $filename;
 		return $this;
 	}
