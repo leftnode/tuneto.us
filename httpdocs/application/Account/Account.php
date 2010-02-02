@@ -12,11 +12,13 @@ class Account_Controller extends Root_Controller {
 		$this->verifyUserSession();
 		
 		$user = TuneToUs::getUser();
+		$this->user = $user;
 		$this->track_iterator = TuneToUs::getDataModel()
 			->where('user_id = ?', $user->id())
-			->where('status = ?', STATUS_ENABLED)
+			->where('status <> ?', STATUS_DISABLED)
+			->limit(10)
 			->loadAll(new Track());
-
+		
 		$this->setSectionTitle(Language::__('account_your_dashboard'));
 		$this->renderLayout('dashboard');
 		
@@ -56,6 +58,28 @@ class Account_Controller extends Root_Controller {
 		$this->renderLayout('privacy');
 	}
 	
+	public function profileGet($profile_id) {
+		$profile = TuneToUs::getDataModel()
+			->where('user_id = ?', $profile_id)
+			->where('status = ?', STATUS_ENABLED)
+			->loadFirst(new User());
+		
+		if ( true === $profile->exists() ) {
+			$this->track_iterator = TuneToUs::getDataModel()
+				->where('user_id = ?', $profile->id())
+				->where('status <> ?', STATUS_DISABLED)
+				->limit(10)
+				->loadAll(new Track());
+			
+			$this->profile = $profile;
+			$view = 'profile';
+		} else {
+			$view = 'profile-disabled';
+		}
+		
+		parent::renderLayout($view);
+	}
+	
 	public function registerGet() {
 		if ( true === ttu_user_is_logged_in() ) {
 			$this->redirect($this->url('account/dashboard'));
@@ -63,6 +87,13 @@ class Account_Controller extends Root_Controller {
 		
 		$this->register = array();
 		parent::renderLayout('register');
+	}
+	
+	public function settingsGet() {
+		$this->verifyUserSession();
+		
+		$this->setSectionTitle(_('Your Settings'));
+		$this->renderLayout('settings');
 	}
 	
 	public function trackListGet() {
@@ -110,7 +141,8 @@ class Account_Controller extends Root_Controller {
 			$nickname = er('nickname', $login);
 			$password = er('password', $login);
 			
-			$user = TuneToUs::getDataModel()->where('nickname = ?', $nickname)
+			$user = TuneToUs::getDataModel()
+				->where('nickname = ?', $nickname)
 				->where('status = ?', STATUS_ENABLED)
 				->limit(1)
 				->loadFirst(new User());
@@ -172,11 +204,14 @@ class Account_Controller extends Root_Controller {
 			
 			/* Automatic form validation. */
 			$validator = $this->buildValidator();
-			$validator->load('register')->setData($register)->validate();
+			$validator->load('register')
+				->setData($register)
+				->validate();
 			
 			/* Must have a unique nickname. */
 			$nickname = er('nickname', $register);
-			$user = TuneToUs::getDataModel()->where('nickname = ?', $nickname)
+			$user = TuneToUs::getDataModel()
+				->where('nickname = ?', $nickname)
 				->loadFirst(new User());
 			
 			if ( true === $user->exists() ) {
@@ -185,7 +220,8 @@ class Account_Controller extends Root_Controller {
 			
 			/* Must have a unique email address. */
 			$email_address = er('email_address', $register);
-			$user = TuneToUs::getDataModel()->where('email_address = ?', $email_address)
+			$user = TuneToUs::getDataModel()
+				->where('email_address = ?', $email_address)
 				->loadFirst(new User());
 			
 			if ( true === $user->exists() ) {
@@ -266,7 +302,9 @@ class Account_Controller extends Root_Controller {
 			$track_image_file = (array)$this->getFilesParam('image');
 			
 			$validator = $this->buildValidator();
-			$validator->load('upload')->setData($upload)->validate();
+			$validator->load('upload')
+				->setData($upload)
+				->validate();
 
 			$uploader = new Uploader_Track($track_file);
 			$uploader->setAllowOverwrite(true)
@@ -282,7 +320,7 @@ class Account_Controller extends Root_Controller {
 				->setDescription(er('description', $upload))
 				->setLength(0)
 				->setViewCount(0)
-				->setStatus(STATUS_DISABLED);
+				->setStatus(STATUS_PROCESSING);
 			$track_id = TuneToUs::getDataModel()->save($track);
 			
 			if ( false === $track->exists() ) {
@@ -291,7 +329,6 @@ class Account_Controller extends Root_Controller {
 			
 			$track_queue = new Track_Queue();
 			$track_queue->setTrackId($track_id)
-				->setOutput('')
 				->setStatus(STATUS_ENABLED);
 			$track_queue_id = TuneToUs::getDataModel()->save($track_queue);
 			
@@ -301,6 +338,7 @@ class Account_Controller extends Root_Controller {
 			
 			TuneToUs::getMessenger()->pushSuccess(Language::__('success_account_track_uploaded'));
 			$this->redirect($this->url('account/dashboard'));
+			
 		} catch ( TuneToUs_Exception $e ) {
 			TuneToUs::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
@@ -320,6 +358,7 @@ class Account_Controller extends Root_Controller {
 	protected function renderLayout($view) {
 		$this->content = $this->render($view);
 		parent::renderLayout('account/layout');
+		
 		return true;
 	}
 
