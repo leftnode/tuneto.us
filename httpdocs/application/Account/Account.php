@@ -82,7 +82,7 @@ class Account_Controller extends Root_Controller {
 		
 		$this->setSectionTitle(Language::__('account_upload_track'));
 		
-		$this->upload = array();
+		$this->track = array();
 		$this->renderLayout('upload');
 	}
 	
