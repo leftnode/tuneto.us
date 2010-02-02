@@ -1,26 +1,45 @@
-<div class="accountDashboard">	
-	<?php $track_iterator_length = $track_iterator->length(); ?>
-	<?php if ( $track_iterator_length > 0 ): ?>
-		<?php $i = 1; ?>
-		<?php foreach ( $track_iterator as $track ): ?>
-			<div>
-				<?php $track_name = $track->getName(); ?>
-				<h4>
-					<a href="<?php echo $this->url('track/play', $track->id()); ?>">
-						<?php echo $this->safe($track_name); ?>
-					</a>
-				</h4>
-				<div class="trackData">
-					<a href="<?php echo $this->url('track/play', $track->id()); ?>">
-						<?php echo $track->getFormattedLength(); ?> | <?php echo Language::__('play'); ?>
-					</a>
+<div class="contentBox">
+
+	<div class="dashboardLeft">
+		<h2><?php echo $this->safe($user->getNickname()); ?></h2>
+
+		<div class="followerBox">
+			<?php echo $user->getFollowerCount(); ?>
+			<span>followers</span>
+		</div>
+
+		<div class="followerBox">
+			<?php echo $user->getFollowingCount(); ?>
+			<span>following</span>
+		</div>
+
+		<div class="clearFull"></div>
+		
+		<div class="dashboardImage">image goes here</div>
+	</div>
+	
+	<div class="dashboardRight">
+		<h2>Your Last 10 Tracks</h2>
+		
+		<?php $track_iterator_length = $track_iterator->length(); ?>
+		<?php if ( $track_iterator_length > 0 ): ?>
+			<?php $i = 1; ?>
+			<?php foreach ( $track_iterator as $track ): ?>
+				<div>
+					<?php $track_name = $track->getName(); ?>
+					<h4><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h4>
+					<div class="trackData">
+						<a href="<?php echo $this->url('track/play', $track->id()); ?>">
+							<?php echo $track->getFormattedLength(); ?> | <?php echo Language::__('play'); ?>
+						</a>
+					</div>
 				</div>
-			</div>
-			<?php if ( $i++ != $track_iterator_length ): ?>
-				<div class="lightDivider"></div>
-			<?php endif; ?>
-		<?php endforeach; ?>
-	<?php else: ?>
-		<p>You don't have any tracks uploaded yet! Upload your first track and you'll see them here.</p>
-	<?php endif; ?>
+				<?php if ( $i++ != $track_iterator_length ): ?>
+					<div class="lightDivider"></div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<p><?php echo Language::__('account_upload_tracks_first'); ?></p>
+		<?php endif; ?>
+	</div>
 </div>
