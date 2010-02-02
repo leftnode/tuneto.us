@@ -65,13 +65,31 @@ class Account_Controller extends Root_Controller {
 			->loadFirst(new User());
 		
 		if ( true === $profile->exists() ) {
+			$user = TuneToUs::getUser();
 			$this->track_iterator = TuneToUs::getDataModel()
 				->where('user_id = ?', $profile->id())
 				->where('status <> ?', STATUS_DISABLED)
 				->limit(10)
 				->loadAll(new Track());
 			
+			$user_is_logged_in = ttu_user_is_logged_in();
+			
+			$this->user_is_logged_in = $user_is_logged_in;
+			$this->user = $user;
 			$this->profile = $profile;
+			
+			$this->can_follow = false;
+			if ( true === $user_is_logged_in && $user->id() != $profile->id() ) {
+				$user_follow = TuneToUs::getDataModel()
+					->where('follower_id = ?', $user->id())
+					->where('following_id = ?', $profile->id())
+					->loadFirst(new User_Follow());
+					
+				if ( false === $user_follow->exists() ) {
+					$this->can_follow = true;
+				}
+			}
+			
 			$view = 'profile';
 		} else {
 			$view = 'profile-disabled';
@@ -121,6 +139,49 @@ class Account_Controller extends Root_Controller {
 		$this->renderLayout('upload');
 	}
 	
+	
+	
+	public function followPost($follower_id, $following_id) {
+		$this->verifyUserSession(true);
+		
+		try {
+			$follower_id = intval($follower_id);
+			$following_id = intval($following_id);
+		
+			/* Make sure there isn't a connection already. */
+			$user_follower = TuneToUs::getDataModel()
+				->where('follower_id = ?', $follower_id)
+				->where('following_id = ?', $following_id)
+				->loadFirst(new User_Follower());
+			
+			if ( false === $user_follower->exists() ) {
+				$follower_user = TuneToUs::getDataModel()
+					->where('user_id = ?', $follower_id)
+					->loadFirst(new User());
+				
+				$following_user = TuneToUs::getDataModel()
+					->where('user_id = ?', $following_id)
+					->loadFirst(new User());
+
+				if ( true === $following_user->exists() && true === $following_user->exists() ) {
+					$user_follower = new User_Follower();
+					$user_follower->setFollowerId($follower_id)
+						->setFollowingId($following_id);
+					
+					TuneToUs::getDataModel()->save($user_follower);
+					
+					$this->ajaxResponse(STATUS_SUCCESS, 'you are now following this user.');
+				}
+			}
+			
+		} catch ( TuneToUs_Exception $e ) {
+			
+		} catch ( Exception $e ) {
+			
+		}
+		
+		return true;
+	}
 	
 	/**
 	 * Attempts to log the user in given their nickname and password.

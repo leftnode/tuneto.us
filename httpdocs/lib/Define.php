@@ -10,5 +10,9 @@ define('STATUS_DISABLED', 0, false);
 define('STATUS_ENABLED', 1, false);
 define('STATUS_PROCESSING', 2, false);
 
+define('STATUS_FAILURE', 0, false);
+define('STATUS_SUCCESS', 1, false);
+
 define('GENDER_MALE', 'male', false);
 define('GENDER_FEMALE', 'female', false);
+

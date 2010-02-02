@@ -43,7 +43,7 @@ class TuneToUs {
 		
 		$dsn = "mysql:host={$db_hostname};port=3306;dbname={$db_database}";
 		$pdo = new PDO($dsn, $db_username, $db_password);
-	
+
 		$sql = "SET character_set_results = 'utf8',
 			character_set_client = 'utf8',
 			character_set_connection = 'utf8',

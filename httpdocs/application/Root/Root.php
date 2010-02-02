@@ -70,6 +70,14 @@ class Root_Controller extends Artisan_Controller {
 		return true;
 	}
 	
-	
+	protected function ajaxResponse($status, $msg) {
+		$response = array(
+			's' => intval($status),
+			'm' => trim($msg)
+		);
+		
+		echo json_encode($response);
+		return true;
+	}
 	
 }
