@@ -6,8 +6,9 @@ require_once 'lib/Object/TuneToUs.php';
 
 /* Run the application. */
 try {
-	TuneToUs::setDbConfig($config_db);
-	TuneToUs::setRouterConfig($config_router);
+	TuneToUs::setConfigDb($config_db);
+	TuneToUs::setConfigRouter($config_router);
+	TuneToUs::setConfigEmail($config_email);
 	TuneToUs::init();
 	TuneToUs::run();
 } catch ( Exception $e ) {
