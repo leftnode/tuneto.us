@@ -54,3 +54,10 @@ $config_router = array(
 	'default_layout' => 'index',
 	'rewrite' => true
 );
+
+$config_email = array(
+	'locale' => 'en_US.utf8',
+	'from' => '##EMAIL_FROM##',
+	'from_name' => '##EMAIL_FROM_NAME##',
+	'html' => false
+);
