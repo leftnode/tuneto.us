@@ -6,7 +6,8 @@ require_once 'configure.php';
 require_once 'lib/Object/TuneToUs.php';
 
 try {
-	TuneToUs::setDbConfig($config_db);
+	TuneToUs::setConfigDb($config_db);
+	TuneToUs::setConfigEmail($config_email);
 	TuneToUs::init();
 	
 	$track_iterator = TuneToUs::getDataModel()
@@ -22,35 +23,46 @@ try {
 		/* Get the length of the track */
 		$track_length = 0;
 		$track_file_path = DIR_PRIVATE . $track->getDirectory() . DS . $track->getFilename();
+		
+		/* Initially disable the track so if stuff fails, it stays disabled. */
+		$track->setStatus(STATUS_DISABLED);
+		
 		if ( true === is_file($track_file_path) ) {
+			$length_match = array();
 			$track_file_path_safe = escapeshellarg($track_file_path);
 			
-			$output = system("ffmpeg -i {$track_file_path_safe}");
-			$length = system("ffmpeg -i {$track_file_path_safe} 2>&1 | grep \"Duration\" | cut -d ' ' -f 4 | sed s/,//");
+			$output = shell_exec("ffmpeg -i {$track_file_path_safe} 2>&1");
+			preg_match('/Duration: (\d\d:\d\d:\d\d).(\d\d)/i', $output, $length_match);
 			
-			$length_bits = explode(':', $length);
+			if ( count($length_match) > 0 ) {
+				$length_bits = explode(':', $length_match[1]);
 			
-			$hour = intval($length_bits[0]);
-			$minute = intval($length_bits[1]);
-			$second = intval($length_bits[2]);
+				if ( 3 === count($length_bits) ) {
+					$hour = intval($length_bits[0]);
+					$minute = intval($length_bits[1]);
+					$second = intval($length_bits[2]);
 			
-			$track_length = ($hour * 60 * 60) + ($minute * 60) + $second;
+					$track_length = ($hour * 60 * 60) + ($minute * 60) + $second;
 			
-			if ( $track_length > 0 ) {
-				$track->setLength($track_length)
-					->setStatus(STATUS_ENABLED);
-				TuneToUs::getDataModel()->save($track);
+					if ( $track_length > 0 ) {
+						$track->setLength($track_length)
+							->setStatus(STATUS_ENABLED);
+					}
+				}
 			}
 			
 			$track_queue->setOutput($output)
 				->setStatus(STATUS_DISABLED);
 			TuneToUs::getDataModel()->save($track_queue);
+
 		} else {
 			$output = $track_file_path . ' is not a valid file.';
 			$track_queue->setOutput($output)
 				->setStatus(STATUS_DISABLED);
 			TuneToUs::getDataModel()->save($track_queue);
 		}
+		
+		TuneToUs::getDataModel()->save($track);
 	}
 } catch ( Exception $e ) {
 	exit($e->getMessage());
