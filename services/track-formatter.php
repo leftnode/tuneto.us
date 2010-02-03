@@ -59,7 +59,7 @@ try {
 						if ( 1 == $setting_email_finished_processing ) {
 							TuneToUs::getEmailer()->send('track-processed', $user->getEmailAddress(), array(
 								'nickname' => $user->getNickname(),
-								'track_url' => $view->url('track/play', $track->getId()),
+								'track_url' => $view->url('track/play', $track->id()),
 								'from_name' => $config_email['from_name']
 								)
 							);
@@ -70,7 +70,7 @@ try {
 			
 			$track_queue->setOutput($output)
 				->setStatus(STATUS_DISABLED);
-			TuneToUs::getDataModel()->save($track_queue);
+			//TuneToUs::getDataModel()->save($track_queue);
 
 		} else {
 			$output = $track_file_path . ' is not a valid file.';
@@ -79,7 +79,7 @@ try {
 			TuneToUs::getDataModel()->save($track_queue);
 		}
 		
-		TuneToUs::getDataModel()->save($track);
+		//TuneToUs::getDataModel()->save($track);
 	}
 } catch ( Exception $e ) {
 	exit($e->getMessage());

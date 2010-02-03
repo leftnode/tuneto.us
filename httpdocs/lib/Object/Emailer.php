@@ -88,22 +88,24 @@ class Emailer {
 	public function send($email_name, $to_address, $replace_list=array()) {
 		$this->load($email_name);
 		
-		if ( true === empty($this->subject) || true === empty($this->body) ) {
+		$subject = $this->getSubject();
+		$body = $this->getBody();
+		$alt_body = $this->getAltBody();
+		if ( true === empty($subject) || true === empty($body) ) {
 			return false;
 		}
 		
 		if ( count($replace_list) > 0 ) {
 			$body = $this->getTemplate()
 				->setReplaceList($replace_list)
-				->setTemplateCode($this->getBody())
+				->setTemplateCode($body)
 				->parse();
-			
 			$this->setBody($body);
-			
+
 			$alt_body = $this->getTemplate()
-				->setTemplateCode($this->getAltBody())
+				->setReplaceList($replace_list)
+				->setTemplateCode($alt_body)
 				->parse();
-			
 			$this->setAltBody($alt_body);
 		}
 		
