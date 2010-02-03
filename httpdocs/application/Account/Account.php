@@ -32,6 +32,7 @@ class Account_Controller extends Root_Controller {
 			$this->track_iterator = TuneToUs::getDataModel()
 				->where('user_id = ?', $user->id())
 				->where('status <> ?', STATUS_DISABLED)
+				->orderBy('date_create', 'DESC')
 				->limit(10)
 				->loadAll(new Track());
 		} catch ( Exception $e ) { }
@@ -123,6 +124,18 @@ class Account_Controller extends Root_Controller {
 	 */
 	public function trackListGet() {
 		$this->verifyUserSession();
+		
+		try {
+			
+			$user = TuneToUs::getUser();
+			$this->user = $user;
+			$this->track_list = TuneToUs::getDataModel()
+				->where('user_id = ?', $user->id())
+				->where('status <> ?', STATUS_DISABLED)
+				->orderBy('date_create', 'DESC')
+				->loadAll(new Track());
+				
+		} catch ( Exception $e ) { }
 		
 		$this->setSectionTitle(Language::__('account_track_list'));
 		$this->renderLayout('track-list');
