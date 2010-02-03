@@ -17,12 +17,16 @@
 					<?php else: ?>
 						<h5><?php echo $this->safe($track_name); ?></h5>
 					<?php endif; ?>
+
+					<!--<div class="floatRight">
+						<a href="#" title="delete"><?php echo $this->img(DIR_IMAGE . 'button-delete.gif'); ?></a>
+					</div>-->
 					
 					<div>
 						<?php echo $this->img($this->url('image/viewmicro', $track->getImageId()), '', 'class="image"'); ?>
 						<div id="<?php echo $id; ?>">
 							<?php if ( false === $track->canPlay() ): ?>
-								<?php echo Language::__('track_currently_processing'); ?>
+								<?php echo Language::__('processing_track'); ?>
 							<?php else: ?>
 								<script type="text/javascript">
 									var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#ffffff");
@@ -34,6 +38,8 @@
 							<?php endif; ?>
 						</div>
 					</div>
+					
+					
 				</div>
 			<?php endforeach; ?>
 		<?php else: ?>
