@@ -7,6 +7,7 @@ require_once 'lib/Object/TuneToUs.php';
 
 try {
 	TuneToUs::setConfigDb($config_db);
+	TuneToUs::setConfigRouter($config_router);
 	TuneToUs::setConfigEmail($config_email);
 	TuneToUs::init();
 	
@@ -14,11 +15,17 @@ try {
 		->where('status = ?', STATUS_ENABLED)
 		->loadAll(new Track_Queue());
 	
+	$view = TuneToUs::buildView();
+	
 	foreach ( $track_iterator as $track_queue ) {
 		$track_id = $track_queue->getTrackId();
 		$track = TuneToUs::getDataModel()
 			->where('track_id = ?', $track_id)
 			->loadFirst(new Track());
+		
+		$user = TuneToUs::getDataModel()
+			->where('user_id = ?', $track->getUserId())
+			->loadFirst(new User());
 		
 		/* Get the length of the track */
 		$track_length = 0;
@@ -47,6 +54,16 @@ try {
 					if ( $track_length > 0 ) {
 						$track->setLength($track_length)
 							->setStatus(STATUS_ENABLED);
+						
+						$setting_email_finished_processing = $user->getSettingEmailFinishedProcessing();
+						if ( 1 == $setting_email_finished_processing ) {
+							TuneToUs::getEmailer()->send('track-processed', $user->getEmailAddress(), array(
+								'nickname' => $user->getNickname(),
+								'track_url' => $view->url('track/play', $track->getId()),
+								'from_name' => $config_email['from_name']
+								)
+							);
+						}
 					}
 				}
 			}
