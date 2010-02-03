@@ -27,6 +27,9 @@ class Language {
 			'account_your_dashboard' => "Your Dashboard",
 			'account_update_your_profile' => "Update Your Profile",
 			'account_upload_track' => "Upload New Track",
+			'account_favorites' => "Your Favorite Tracks",
+			'account_settings' => "Account Settings",
+			'account_track_list' => "Your Tracks",
 			'account_profile' => "Profile For <em>%s</em>",
 			
 			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",

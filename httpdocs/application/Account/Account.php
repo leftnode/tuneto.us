@@ -2,40 +2,75 @@
 
 require_once 'application/Root/Root.php';
 
+/**
+ * Handles all account management, including registration, uploading a track,
+ * changing privacy settings, logging in/out, and updating a user's photo.
+ * 
+ * @author vmc <vmc@leftnode.com>
+ */
 class Account_Controller extends Root_Controller {
 	
+	/**
+	 * Alias for dashboardGet().
+	 */
 	public function indexGet() {
 		$this->dashboardGet();
 	}
 	
+	/**
+	 * Displays the central dashboard for the currently logged in user. Can
+	 * only be used if the user is logged in.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function dashboardGet() {
 		$this->verifyUserSession();
 		
-		$user = TuneToUs::getUser();
-		$this->user = $user;
-		$this->track_iterator = TuneToUs::getDataModel()
-			->where('user_id = ?', $user->id())
-			->where('status <> ?', STATUS_DISABLED)
-			->limit(10)
-			->loadAll(new Track());
-		
+		try {
+			$user = TuneToUs::getUser();
+			$this->user = $user;
+			$this->track_iterator = TuneToUs::getDataModel()
+				->where('user_id = ?', $user->id())
+				->where('status <> ?', STATUS_DISABLED)
+				->limit(10)
+				->loadAll(new Track());
+		} catch ( Exception $e ) { }
+			
 		$this->setSectionTitle(Language::__('account_your_dashboard'));
 		$this->renderLayout('dashboard');
 		
 		return true;
 	}
 	
+	/**
+	 * Displays a management interface for a list of favorite tracks the logged
+	 * in user has made.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function favoriteListGet() {
 		$this->verifyUserSession();
 		
-		$this->setSectionTitle(_('Your Favorites'));
+		$this->setSectionTitle(Language::__('account_favorites'));
 		$this->renderLayout('favorite-list');
+		
+		return true;
 	}
 	
+	/**
+	 * Displays the login form. This uses the parent class' renderLayout()
+	 * method so it doesn't display the menu.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function loginGet() {
 		parent::renderLayout('login');
+		return true;
 	}
 	
+	/**
+	 * Logs a logged in user out of the system.
+	 */
 	public function logoutGet() {
 		try {
 			ttu_user_logout();
@@ -44,15 +79,12 @@ class Account_Controller extends Root_Controller {
 		$this->redirect($this->url('index/index'));
 	}
 
-	public function privacyGet() {
-		$this->verifyUserSession();
-		
-		$this->setSectionTitle(_('Privacy Settings'));
-		$this->renderLayout('privacy');
-	}
-	
-	
-	
+	/**
+	 * Displays the registration form. If the user is logged in, this method redirects
+	 * them to the dashboard.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function registerGet() {
 		if ( true === ttu_user_is_logged_in() ) {
 			$this->redirect($this->url('account/dashboard'));
@@ -60,23 +92,44 @@ class Account_Controller extends Root_Controller {
 		
 		$this->register = array();
 		parent::renderLayout('register');
+		
+		return true;
 	}
 	
+	/**
+	 * Displays the form to manage the user's settings.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function settingsGet() {
 		$this->verifyUserSession();
 		
-		$this->setSectionTitle(_('Your Settings'));
+		$this->setSectionTitle(Language::__('account_settings'));
 		$this->renderLayout('settings');
+		
+		return true;
 	}
 	
+	/**
+	 * Displays a list of tracks the user has uploaded. Gives them an interface
+	 * to disable or enable tracks.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function trackListGet() {
 		$this->verifyUserSession();
 		
-		$this->setSectionTitle(_('Your Tracks'));
+		$this->setSectionTitle(Language::__('account_track_list'));
 		$this->renderLayout('track-list');
+		
+		return true;
 	}
 	
-
+	/**
+	 * Displays the form to upload a new track.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function uploadGet() {
 		$this->verifyUserSession();
 		
@@ -84,6 +137,8 @@ class Account_Controller extends Root_Controller {
 		
 		$this->track = array();
 		$this->renderLayout('upload');
+		
+		return true;
 	}
 	
 	
@@ -92,34 +147,7 @@ class Account_Controller extends Root_Controller {
 		$this->verifyUserSession(true);
 		
 		try {
-			$follower_id = intval($follower_id);
-			$following_id = intval($following_id);
-		
-			/* Make sure there isn't a connection already. */
-			$user_follower = TuneToUs::getDataModel()
-				->where('follower_id = ?', $follower_id)
-				->where('following_id = ?', $following_id)
-				->loadFirst(new User_Follower());
 			
-			if ( false === $user_follower->exists() ) {
-				$follower_user = TuneToUs::getDataModel()
-					->where('user_id = ?', $follower_id)
-					->loadFirst(new User());
-				
-				$following_user = TuneToUs::getDataModel()
-					->where('user_id = ?', $following_id)
-					->loadFirst(new User());
-
-				if ( true === $following_user->exists() && true === $following_user->exists() ) {
-					$user_follower = new User_Follower();
-					$user_follower->setFollowerId($follower_id)
-						->setFollowingId($following_id);
-					
-					TuneToUs::getDataModel()->save($user_follower);
-					
-					$this->ajaxResponse(STATUS_SUCCESS, 'you are now following this user.');
-				}
-			}
 			
 		} catch ( TuneToUs_Exception $e ) {
 			
@@ -131,8 +159,11 @@ class Account_Controller extends Root_Controller {
 	}
 	
 	/**
-	 * Attempts to log the user in given their nickname and password.
+	 * Attempts to log the user in given their nickname and password. Uses
+	 * the parent class' renderLayout() to render the layout to not show the
+	 * account menu.
 	 * 
+	 * @retval bool Returns true.
 	 */
 	public function loginPost() {
 		try {
@@ -187,27 +218,27 @@ class Account_Controller extends Root_Controller {
 	
 	/**
 	 * Alias for logoutGet() in case they send a post method for logging out.
+	 * 
 	 * @retval bool Returns true.
 	 */
 	public function logoutPost() {
 		$this->logoutGet();
 		return true;
 	}
-	
+
 	/**
-	 * Updates the user's privacy settings.
-	 * @retval bool Returns true.
-	 */
-	public function privacyPost() {
-		
-	}
-	
-	/**
-	 * Attempt to let a user register.
+	 * Attempt to let a user register. Will continue to let the user attempt
+	 * to register until they give up or successfully register.
+	 * 
 	 * @retval bool Returns true.
 	 */
 	public function registerPost() {
 		try {
+			/* Logged in users can not register. */
+			if ( true === ttu_user_is_logged_in() ) {
+				$this->redirect($this->url('account/dashboard'));
+			}
+			
 			$register = (array)$this->getParam('register');
 			
 			/* Automatic form validation. */
@@ -279,6 +310,11 @@ class Account_Controller extends Root_Controller {
 		return true;
 	}
 	
+	/**
+	 * Updates the currently logged in user's photo.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function updatePhotoPost() {
 		$this->verifyUserSession();
 		
@@ -412,6 +448,11 @@ class Account_Controller extends Root_Controller {
 		return true;
 	}
 	
+	/**
+	 * Renders a custom layout for most of the account pages.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	protected function renderLayout($view) {
 		$this->content = $this->render($view);
 		parent::renderLayout('account/layout');
@@ -419,8 +460,12 @@ class Account_Controller extends Root_Controller {
 		return true;
 	}
 
-
-	public function setSectionTitle($title) {
+	/**
+	 * Each account section has a title, and this method sets that.
+	 * 
+	 * @retval Account_Controller Returns this for chaining.
+	 */
+	private function setSectionTitle($title) {
 		$this->__set('section_title', $title);
 		return $this;
 	}
