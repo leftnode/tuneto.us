@@ -45,7 +45,7 @@ class Language {
 			'account_profile' => "Profile For <em>%s</em>",
 			
 			
-			'track_currently_processing' => "Currently Processing Track",
+			'processing_track' => "Processing Track",
 			
 			'play' => "Play",
 			'plays' => "Plays",
