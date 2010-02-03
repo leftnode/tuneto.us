@@ -7,18 +7,18 @@ class Profile_Controller extends Root_Controller {
 	
 	public function viewGet($profile_id) {
 		
-		$profile = TuneToUs::getDataModel()
-			->where('user_id = ?', $profile_id)
-			->where('status = ?', STATUS_ENABLED)
-			->loadFirst(new User());
+		$profile = TuneToUs::getUser($profile_id);
 		
 		if ( true === $profile->exists() ) {
-			$user = TuneToUs::getUser();
 			$this->track_iterator = TuneToUs::getDataModel()
 				->where('user_id = ?', $profile->id())
-				->where('status <> ?', STATUS_DISABLED)
+				->where('status = ?', STATUS_ENABLED)
+				->orderBy('date_create', 'DESC')
 				->limit(10)
 				->loadAll(new Track());
+				
+			/*$user = TuneToUs::getUser();
+			
 			
 			$user_is_logged_in = ttu_user_is_logged_in();
 			
@@ -36,7 +36,9 @@ class Profile_Controller extends Root_Controller {
 				if ( false === $user_follow->exists() ) {
 					$this->can_follow = true;
 				}
-			}
+			}*/
+			
+			$this->profile = $profile;
 			
 			$view = 'profile';
 		} else {

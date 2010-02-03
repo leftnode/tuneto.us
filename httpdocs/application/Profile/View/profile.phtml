@@ -1,0 +1,65 @@
+<h1 class="mainHeader"><?php echo $this->safe($profile->getNickname()); ?></h1>
+
+<div class="contentBox">
+
+	<div class="dashboardLeft">
+		<div class="mainImage">
+			<div class="dashboardImage">
+				<?php echo $this->img($this->url('image/viewlarge', $profile->getImageId())); ?>
+			</div>
+		</div>
+		
+		<div class="followerCounts">
+			<div class="followerBox">
+				<?php echo $profile->getFollowerList()->length(); ?>
+				<span><a href="<?php echo $this->url('profile/followers', $profile->id()); ?>">followers</a></span>
+			</div>
+
+			<div class="followerBox">
+				<?php echo $profile->getFollowingList()->length(); ?>
+				<span><a href="<?php echo $this->url('profile/following', $profile->id()); ?>">following</a></span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="dashboardRight">
+		<h2>Last 10 Tracks</h2>
+
+		<div class="trackList">
+			<?php $track_iterator_length = $track_iterator->length(); ?>
+			<?php if ( $track_iterator_length > 0 ): ?>
+				<?php $i = 1; ?>
+				<?php foreach ( $track_iterator as $track ): ?>
+					<?php $id = 'mp3-mini-player-' . $track->id(); ?>
+					<?php $track_name = $track->getName(); ?>
+					
+					<div class="trackListItem">
+						<h5><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h5>
+						
+						<div>
+							<?php echo $this->img($this->url('image/viewmicro', $track->getImageId()), '', 'class="image"'); ?>
+							<div id="<?php echo $id; ?>">
+								<script type="text/javascript">
+									var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#ffffff");
+									so.addVariable('autoPlay', 'no');
+									so.addVariable('soundPath', '<?php echo $this->url('track/stream', $track->id()); ?>');
+									so.addVariable('playerSkin', '6');
+									so.write("<?php echo $id; ?>");
+								</script>
+							</div>
+						</div>
+					</div>
+				<?php endforeach; ?>
+				
+				<div class="clearFull center">
+					<a href="<?php echo $this->url('profile/tracklist', $profile->id()); ?>"><?php echo Language::__('account_view_all_tracks'); ?></a>
+				</div>
+			<?php else: ?>
+				<p><?php echo Language::__('profile_upload_tracks_first'); ?></p>
+			<?php endif; ?>
+		</div>
+	</div>
+	
+	<div class="clear"></div>
+	
+</div>
