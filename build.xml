@@ -15,6 +15,9 @@
 		<input propertyname="dbpassword" promptChar="?">Database Password</input>
 		<input propertyname="dbname" promptChar="?">Database Name</input>
 		
+		<input propertyname="email_from" promptChar="?">From Email Address</input>
+		<input propertyname="email_from_name" promptChar="?">From Email Name</input>
+		
 		<input propertyname="cookie_domain" promptChar="?">Cookie Domain</input>
 		
 		<input propertyname="site_root" promptChar="?">Site Root</input>
@@ -29,6 +32,9 @@
 					<token key="DBUSERNAME" value="${dbusername}" />
 					<token key="DBPASSWORD" value="${dbpassword}" />
 					<token key="DBNAME" value="${dbname}" />
+					
+					<token key="EMAIL_FROM" value="${email_from}" />
+					<token key="EMAIL_FROM_NAME" value="${email_from_name}" />
 					
 					<token key="COOKIE_DOMAIN" value="${cookie_domain}" />
 					
