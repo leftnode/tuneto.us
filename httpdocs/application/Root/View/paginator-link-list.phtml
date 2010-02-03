@@ -1,0 +1,16 @@
+<?php $param_list_string = ttu_get_param_list_string(array('_u', 'page')); ?>
+<ul class="pagination">
+	<?php if ( $page != 1 ): ?>
+		<li><a href="<?php echo $param_list_string; ?>page=1">&laquo; first</a></li>
+	<?php endif; ?>
+	<?php for ( $i=1; $i<=$page_last; $i++ ): ?>
+		<?php if ( $i != $page ): ?>
+			<li><a href="<?php echo $param_list_string; ?>page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+		<?php else: ?>
+			<li class="current"><?php echo $i; ?></li>
+		<?php endif; ?>
+	<?php endfor; ?>
+	<?php if ( $page != $page_last ): ?>
+		<li><a href="<?php echo $param_list_string; ?>page=<?php echo $page_last; ?>">&raquo; last</a></li>
+	<?php endif; ?>
+</ul>
