@@ -42,10 +42,9 @@
 					
 				</div>
 			<?php endforeach; ?>
+			<?php echo $paginator->getPageList(); ?>
 		<?php else: ?>
 			<p><?php echo Language::__('account_upload_tracks_first'); ?></p>
 		<?php endif; ?>
 	</div>
-	
-	<?php echo $paginator->getPageList(); ?>
 </div>
