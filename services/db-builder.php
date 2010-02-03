@@ -8,7 +8,7 @@ require_once 'lib/Object/TuneToUs.php';
 require_once 'ArtisanSystem/Db.php';
 require_once 'ArtisanSystem/Db.Builder.php';
 
-TuneToUs::setDbConfig($config_db);
+TuneToUs::setConfigDb($config_db);
 TuneToUs::init(true, false);
 
 $db = new Artisan_Db($config_db);
