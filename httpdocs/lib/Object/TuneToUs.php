@@ -81,7 +81,8 @@ class TuneToUs {
 			 */
 			$user_id = ttu_user_get_userid();
 			if ( $user_id > 0 && true === ttu_user_is_logged_in() ) {
-				$user = $dataModel->where('user_id = ?', $user_id)->loadFirst(new User());
+				$user_model = new User_Model($dataAdapter);
+				$user = $user_model->where('user_id = ?', $user_id)->loadFirst(new User());
 			} else {
 				$user = new User();
 			}
@@ -133,6 +134,10 @@ class TuneToUs {
 		$hashed_token = crypt_compute_hash($token, $salt);
 		
 		return ( $secret_token === $hashed_token );
+	}
+	
+	public static function getDataAdapter() {
+		return Artisan_Registry::pop('dataAdapter');
 	}
 	
 	public static function getDataModel() {

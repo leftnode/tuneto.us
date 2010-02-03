@@ -19,6 +19,7 @@ class Language {
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
 			'success_profile_updated' => "Your profile was successfully updated.",
 			'success_photo_updated' => "Your photo was successfully updated.",
+			'success_settings_updated' => "Your settings were successfully updated.",
 			
 			
 			'index_welcome_text' => "Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.",

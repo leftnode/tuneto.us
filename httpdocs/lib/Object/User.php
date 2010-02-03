@@ -3,6 +3,19 @@
 require_once 'DataModeler/DataObject.php';
 
 class User extends DataObject {
+	private $following_list = NULL;
+	private $follower_list = NULL;
+	
+	public function setFollowingList(DataIterator $list) {
+		$this->following_list = $list;
+		return $this;
+	}
+	
+	public function setFollowerList(DataIterator $list) {
+		$this->follower_list = $list;
+		return $this;
+	}
+	
 	public function setEmailAddress($email_address) {
 		if ( false === filter_var($email_address, FILTER_VALIDATE_EMAIL) ) {
 			throw new TuneToUs_Exception(_('The email address for this user is not valid.'));
@@ -10,6 +23,15 @@ class User extends DataObject {
 		
 		$this->__set('email_address', $email_address);
 		return $this;
+	}
+	
+	
+	public function getFollowingList() {
+		return $this->following_list;
+	}
+	
+	public function getFollowerList() {
+		return $this->follower_list;
 	}
 
 

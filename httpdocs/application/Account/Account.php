@@ -28,6 +28,7 @@ class Account_Controller extends Root_Controller {
 		
 		try {
 			$user = TuneToUs::getUser();
+			
 			$this->user = $user;
 			$this->track_iterator = TuneToUs::getDataModel()
 				->where('user_id = ?', $user->id())
@@ -348,6 +349,7 @@ class Account_Controller extends Root_Controller {
 				->setSettingEmailFinishedProcessing($setting_email_finished_processing);
 			
 			TuneToUs::getDataModel()->save($user);
+			TuneToUs::getMessenger()->pushSuccess(Language::__('success_settings_updated'));
 
 		} catch ( TuneToUs_Exception $e ) {
 			TuneToUs::getMessenger()->pushError($e->getMessage());
