@@ -24,11 +24,6 @@ img {
 	border: 5px solid #fff;
 }
 
-.imageMicro {
-	border: 0;
-	float: left;
-}
-
 p {
 	padding: 5px;
 	padding-left: 0;
@@ -54,6 +49,10 @@ p.subtext {
 
 .floatLeft {
 	float: left;
+}
+
+.floatRight {
+	float: right;
 }
 
 .center {
