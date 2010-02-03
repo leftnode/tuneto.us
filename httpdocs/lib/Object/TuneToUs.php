@@ -7,6 +7,7 @@ require_once 'ArtisanSystem/Db.php';
 require_once 'ArtisanSystem/Registry.php';
 require_once 'ArtisanSystem/Router.php';
 require_once 'ArtisanSystem/Session.php';
+require_once 'ArtisanSystem/Template.php';
 require_once 'ArtisanSystem/Validator.php';
 require_once 'ArtisanSystem/View.php';
 
@@ -25,23 +26,28 @@ function __autoload($class) {
 }
 
 class TuneToUs {
-	private static $routerConfig = NULL;
-	private static $dbConfig = NULL;
-	private static $commandLine = false;
+	private static $config_router = array();
+	private static $config_db = array();
+	private static $config_email = array();
+	private static $is_cli = false;
 	
-	public static function setRouterConfig(array $config) {
-		self::$routerConfig = $config;
+	public static function setConfigRouter(array $config) {
+		self::$config_router = $config;
 	}
 	
-	public static function setDbConfig(array $config) {
-		self::$dbConfig = $config;
+	public static function setConfigDb(array $config) {
+		self::$config_db = $config;
+	}
+	
+	public static function setConfigEmail(array $config) {
+		self::$config_email = $config;
 	}
 	
 	public static function init() {
-		$db_hostname = self::$dbConfig['server'];
-		$db_username = self::$dbConfig['username'];
-		$db_password = self::$dbConfig['password'];
-		$db_database = self::$dbConfig['database'];
+		$db_hostname = self::$config_db['server'];
+		$db_username = self::$config_db['username'];
+		$db_password = self::$config_db['password'];
+		$db_database = self::$config_db['database'];
 		
 		$dsn = "mysql:host={$db_hostname};port=3306;dbname={$db_database}";
 		$pdo = new PDO($dsn, $db_username, $db_password);
@@ -60,9 +66,9 @@ class TuneToUs {
 		Artisan_Registry::push('dataAdapter', $dataAdapter);
 		Artisan_Registry::push('dataModel', $dataModel);
 		
-		self::$commandLine = ( 'cli' === php_sapi_name() ? true : false );
+		self::$is_cli = ( 'cli' === php_sapi_name() ? true : false );
 
-		if ( false === self::$commandLine ) {
+		if ( false === self::$is_cli ) {
 			/* Start session management */
 			Artisan_Session::get()->start(SESSION_NAME);
 			
@@ -92,20 +98,20 @@ class TuneToUs {
 		}
 		
 		setlocale(LC_ALL, 'en_US.utf8');
-		bindtextdomain('lang', DIR_LOCALE);
-		textdomain('lang');
+		//bindtextdomain('lang', DIR_LOCALE);
+		//textdomain('lang');
 	}
 	
 	public static function run() {
-		$artisanRouter = new Artisan_Router(self::$routerConfig);
+		$artisanRouter = new Artisan_Router(self::$config_router);
 		echo $artisanRouter->dispatch();
 	}
 	
 	public static function buildView() {
-		$view = new Artisan_View(self::$routerConfig['root_dir']);
-		$view->setIsRewrite(self::$routerConfig['rewrite'])
-			->setSiteRoot(self::$routerConfig['site_root'])
-			->setSiteRootSecure(self::$routerConfig['site_root_secure']);
+		$view = new Artisan_View(self::$config_router['root_dir']);
+		$view->setIsRewrite(self::$config_router['rewrite'])
+			->setSiteRoot(self::$config_router['site_root'])
+			->setSiteRootSecure(self::$config_router['site_root_secure']);
 		return $view;
 	}
 	
@@ -135,6 +141,10 @@ class TuneToUs {
 	
 	public static function getDb() {
 		return Artisan_Registry::pop('db');
+	}
+	
+	public static function getEmailer() {
+		return new Emailer(self::$config_email);
 	}
 	
 	public static function getMessenger() {
