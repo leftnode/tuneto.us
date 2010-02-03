@@ -40,10 +40,9 @@ class Language {
 			
 			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",
 			
-			
-			
-			
 			'account_profile' => "Profile For <em>%s</em>",
+			
+			'profile_upload_tracks_first' => "This person hasn't uploaded any tracks yet.",
 			
 			
 			'processing_track' => "Processing Track",
