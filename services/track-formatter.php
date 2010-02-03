@@ -29,16 +29,33 @@ try {
 		
 		/* Get the length of the track */
 		$track_length = 0;
-		$track_file_path = DIR_PRIVATE . $track->getDirectory() . DS . $track->getFilename();
+		$track_directory = $track->getDirectory();
+		$track_filename = $track->getFilename();
+		$track_filepath = DIR_PRIVATE . $track_directory . DS . $track_filename;
 		
 		/* Initially disable the track so if stuff fails, it stays disabled. */
 		$track->setStatus(STATUS_DISABLED);
 		
-		if ( true === is_file($track_file_path) ) {
+		if ( true === is_file($track_filepath) ) {
 			$length_match = array();
-			$track_file_path_safe = escapeshellarg($track_file_path);
+			$track_filepath_safe = escapeshellarg($track_filepath);
 			
-			$output = shell_exec("ffmpeg -i {$track_file_path_safe} 2>&1");
+			/* If the track isn't an MP3, convert it to one. */
+			if ( 0 === preg_match('/\.mp3$/i', $track_filename) ) {
+				/* Get the raw track name without extension to convert to mp3. */
+				$track_filename = preg_replace('/\.[a-z0-9]+$/i', NULL, $track_filename) . '.mp3';
+			
+				/* Now convert it to an mp3. */
+				$track_filepath_new = DIR_PRIVATE . $track_directory . DS . $track_filename;
+				$track_filepath_new_safe = escapeshellarg($track_filepath_new);
+
+				shell_exec("ffmpeg -i {$track_filepath_safe} -vn -ar 44100 -ab 192 {$track_filepath_new_safe} 2>&1");
+				$track_filepath_safe = $track_filepath_new_safe;
+				
+				$track->setFilename($track_filename);
+			}
+			
+			$output = shell_exec("ffmpeg -i {$track_filepath_safe} 2>&1");
 			preg_match('/Duration: (\d\d:\d\d:\d\d).(\d\d)/i', $output, $length_match);
 			
 			if ( count($length_match) > 0 ) {
