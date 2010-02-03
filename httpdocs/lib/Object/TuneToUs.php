@@ -15,6 +15,7 @@ require_once 'DataModeler/DataIterator.php';
 require_once 'DataModeler/DataModel.php';
 require_once 'DataModeler/DataObject.php';
 
+require_once 'lib/Function/General.php';
 require_once 'lib/Function/User.php';
 require_once 'lib/Function/Image.php';
 
@@ -128,6 +129,10 @@ class TuneToUs {
 		return ( $secret_token === $hashed_token );
 	}
 	
+	public static function getDataModel() {
+		return Artisan_Registry::pop('dataModel');
+	}
+	
 	public static function getDb() {
 		return Artisan_Registry::pop('db');
 	}
@@ -136,16 +141,16 @@ class TuneToUs {
 		return Messenger::get();
 	}
 	
-	public static function getDataModel() {
-		return Artisan_Registry::pop('dataModel');
-	}
-	
-	public static function getToken() {
-		return $_SESSION[SESSION_TOKEN];
+	public static function getPaginator() {
+		return new Paginator();
 	}
 	
 	public static function getSecretToken() {
 		return $_SESSION[SESSION_TOKEN_SECRET];
+	}
+	
+	public static function getToken() {
+		return $_SESSION[SESSION_TOKEN];
 	}
 	
 	public static function getTokenSalt() {
