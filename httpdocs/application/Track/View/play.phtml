@@ -3,17 +3,49 @@
 <div class="clearFull"></div>
 
 <div class="contentBox">
-	<div id="mp3-player"></div>
-	<script type="text/javascript">
-		 var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-player.swf'; ?>", "mp3-player", "192", "67", "7", "#000");
-		 so.addVariable("autoPlay", "no");
-		 so.addVariable("soundPath", "<?php echo $this->url('track/stream', $track->id()); ?>");
-		 so.write("mp3-player");
-	</script>
+	<div class="trackLeft">
+		<div class="mainImage">
+			<?php echo $this->img($this->url('image/viewlarge', $track->getImageId())); ?>
+		</div>
+		
+		<div class="mp3Player">
+			<div id="mp3-player"></div>
+			<div style="text-align: right"><strong>345,000 plays</strong></div>
+			
+			<div class="clearFull"></div>
+			
+			<script type="text/javascript">
+				var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-player.swf'; ?>", "mp3-player", "192", "67", "7", "#000");
+				so.addVariable("autoPlay", "no");
+				so.addVariable("soundPath", "<?php echo $this->url('track/stream', $track->id()); ?>");
+				so.write("mp3-player");
+			</script>
+			
+			<div class="followerBox">
+				10
+				<span>favorites</span>
+			</div>
+			
+			<div class="followerBox">
+				<span>favorite this track</span>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="trackRight">
+		<div class="trackInfo">
+			track right
+			show stuff about the user here
+		
+			<div class="lightDivider"></div>
+			<h3>Embed</h3>
+		</div>
+	</div>
 	
 	<div class="clearFull"></div>
 	
-	<div class="description">
+	<!--<div class="description">
 		<?php echo nl2br($this->safe($track->getDescription())); ?>
-	</div>
+	</div>-->
 </div>

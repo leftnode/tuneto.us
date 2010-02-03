@@ -587,6 +587,45 @@ a.logo h1 {
 
 
 
+
+
+
+
+
+
+
+
+#mainContent .contentBox .trackLeft {
+	float: left;
+	width: 590px;
+	margin-right: 10px;
+}
+
+#mainContent .contentBox .trackRight {
+	float: left;
+	width: 350px
+}
+
+#mainContent .contentBox .trackLeft .mainImage {
+	width: 310px;
+	float: left;
+	margin-right: 10px;
+	text-align: center;
+}
+
+#mainContent .contentBox .trackLeft .mp3Player {
+	float: left;
+}
+
+#mainContent .contentBox .trackRight .trackInfo {
+	padding: 5px;
+	background: #fff;
+	-moz-border-radius: 5px;
+}
+
+
+
+
 /*new music column*/
 .newTrack { }
 .newTrack p {
