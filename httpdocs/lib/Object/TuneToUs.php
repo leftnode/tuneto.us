@@ -82,7 +82,8 @@ class TuneToUs {
 			$user_id = ttu_user_get_userid();
 			if ( $user_id > 0 && true === ttu_user_is_logged_in() ) {
 				$user_model = new User_Model($dataAdapter);
-				$user = $user_model->where('user_id = ?', $user_id)->loadFirst(new User());
+				$user = $user_model->where('user_id = ?', $user_id)
+					->loadFirst(new User());
 			} else {
 				$user = new User();
 			}
@@ -99,8 +100,6 @@ class TuneToUs {
 		}
 		
 		setlocale(LC_ALL, 'en_US.utf8');
-		//bindtextdomain('lang', DIR_LOCALE);
-		//textdomain('lang');
 	}
 	
 	public static function run() {
@@ -172,7 +171,16 @@ class TuneToUs {
 		return $_SESSION[SESSION_TOKEN_SALT];
 	}
 	
-	public static function getUser() {
-		return Artisan_Registry::pop('user');
+	public static function getUser($user_id=0) {
+		$user_id = intval($user_id);
+		if ( $user_id > 0 ) {
+			$user_model = new User_Model(self::getDataAdapter());
+			$user = $user_model->where('user_id = ?', $user_id)
+				->loadFirst(new User());
+			return $user;
+		} else {
+			return Artisan_Registry::pop('user');
+		}
 	}
+	
 }
