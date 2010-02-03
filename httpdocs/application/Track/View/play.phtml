@@ -5,29 +5,12 @@
 <div class="contentBox">
 	<div id="mp3-player"></div>
 	<script type="text/javascript">
-		 var so = new SWFObject("/public/flash/mp3-player.swf", "mp3-player", "192", "67", "7", "#000");
+		 var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-player.swf'; ?>", "mp3-player", "192", "67", "7", "#000");
 		 so.addVariable("autoPlay", "no");
 		 so.addVariable("soundPath", "<?php echo $this->url('track/stream', $track->id()); ?>");
 		 so.write("mp3-player");
 	</script>
 	
-	<div class="musicLength">
-		<a href="<?php echo $this->url('account/profile', $profile->id()); ?>">
-			<?php echo $this->safe($profile->getNickname()); ?>
-		</a>
-	</div>
-	<div class="musicLength"><?php echo $track->getFormattedLength(); ?></div>
-	<div class="musicLength"><?php echo $track->getViewCount(); ?> <?php echo Language::__('views'); ?></div>
-	
-	<div class="clear"></div>
-	
-	<div style="float: right; margin-top: 10px;">
-		<a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=leftnode">
-			<img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0">
-		</a>
-		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=leftnode"></script>
-	</div>
-
 	<div class="clearFull"></div>
 	
 	<div class="description">

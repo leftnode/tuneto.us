@@ -1,3 +1,25 @@
 <div class="contentBox">	
-	settings
+	<p>
+		<?php echo Language::__('account_settings_help'); ?>
+	</p>
+	
+	<form method="post" action="<?php echo $this->url('account/settings'); ?>">
+		<label>
+			<input type="checkbox" name="setting_allow_followers" value="1" <?php echo ( 1 == $setting_allow_followers ? 'checked' : NULL ); ?>>
+			<?php echo Language::__('account_setting_allow_followers'); ?>
+		</label>
+	
+		<label>
+			<input type="checkbox" name="setting_email_new_follower" value="1" <?php echo ( 1 == $setting_email_new_follower ? 'checked' : NULL ); ?>>
+			<?php echo Language::__('account_setting_email_new_follower'); ?>
+		</label>
+	
+		<label>
+			<input type="checkbox" name="setting_email_finished_processing" value="1" <?php echo ( 1 == $setting_email_finished_processing ? 'checked' : NULL ); ?>>
+			<?php echo Language::__('account_setting_email_finished_processing'); ?>
+		</label>
+	
+		<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
+		<input type="submit" class="submitButton" value="<?php echo Language::__('account_update_settings'); ?>">
+	</form>
 </div>

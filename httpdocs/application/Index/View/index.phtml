@@ -9,23 +9,33 @@
 <p class="clearFull"></p>
 
 <h3 class="mainHeader"><?php echo Language::__('index_latest_tracks'); ?></h3>
-<div>
+<div class="trackList">
 	<?php foreach ( $track_iterator as $track ): ?>
-		<div class="trackLarge">
+		<?php $id = 'mp3-mini-player-' . $track->id(); ?>
+		
+		<div class="trackListItemLarge">
 			<?php $track_name = $track->getName(); ?>
 			<?php if ( strlen($track_name) > 20 ): ?>
 				<?php $track_name = substr($track_name, 0, 20) . '...'; ?>
 			<?php endif; ?>
-			<h4><?php echo $this->safe($track_name); ?></h4>
-			<div style="text-align: center;">
-				<?php echo $this->img($this->url('image/viewthumbnail', $track->getImageId())); ?>
-			</div>
 			
-			<div class="newMusicButton">
+			<h4><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h4>
+			<div class="image">
 				<a href="<?php echo $this->url('track/play', $track->id()); ?>">
-					<?php echo $track->getFormattedLength(); ?> | <?php echo Language::__('play'); ?>
+					<?php echo $this->img($this->url('image/viewthumbnail', $track->getImageId())); ?>
 				</a>
 			</div>
+			
+			<div id="<?php echo $id; ?>" class="center">
+				<script type="text/javascript">
+					var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#E5E6DF");
+					so.addVariable('autoPlay', 'no');
+					so.addVariable('soundPath', '<?php echo $this->url('track/stream', $track->id()); ?>');
+					so.addVariable('playerSkin', '6');
+					so.write("<?php echo $id; ?>");
+				</script>
+			</div>
+			
 		</div>
 	<?php endforeach; ?>
 </div>

@@ -35,35 +35,49 @@
 	<div class="dashboardRight">
 		<h2>Your Last 10 Tracks</h2>
 		
-		<?php $track_iterator_length = $track_iterator->length(); ?>
-		<?php if ( $track_iterator_length > 0 ): ?>
-			<?php $i = 1; ?>
-			<?php foreach ( $track_iterator as $track ): ?>
-				<?php $id = 'mp3-mini-player-' . $track->id(); ?>
-				<?php $track_name = $track->getName(); ?>
-
-				<div>
-					<h4><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h4>
-					<div>
-						<?php echo $this->img($this->url('image/viewmicro', $track->getImageId()), '', 'class="imageMicro"'); ?>
-						<div id="<?php echo $id; ?>"></div>
+		<div class="trackList">
+			<?php $track_iterator_length = $track_iterator->length(); ?>
+			<?php if ( $track_iterator_length > 0 ): ?>
+				<?php $i = 1; ?>
+				<?php foreach ( $track_iterator as $track ): ?>
+					<?php $id = 'mp3-mini-player-' . $track->id(); ?>
+					<?php $track_name = $track->getName(); ?>
+					<?php $status = $track->getStatus(); ?>
+					
+					<div class="trackListItem">
+						<?php if ( true === $track->canPlay() ): ?>
+							<h5><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h5>
+						<?php else: ?>
+							<h5><?php echo $this->safe($track_name); ?></h5>
+						<?php endif; ?>
+						
+						<div>
+							<?php echo $this->img($this->url('image/viewmicro', $track->getImageId()), '', 'class="image"'); ?>
+							<div id="<?php echo $id; ?>">
+								<?php if ( false === $track->canPlay() ): ?>
+									<?php echo Language::__('track_currently_processing'); ?>
+								<?php else: ?>
+									<script type="text/javascript">
+										var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#ffffff");
+										so.addVariable('autoPlay', 'no');
+										so.addVariable('soundPath', '<?php echo $this->url('track/stream', $track->id()); ?>');
+										so.addVariable('playerSkin', '6');
+										so.write("<?php echo $id; ?>");
+									</script>
+								<?php endif; ?>
+							</div>
+						</div>
 					</div>
-					<script type="text/javascript">
-						var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#E5E6DF");
-						so.addVariable('autoPlay', 'no');
-						so.addVariable('soundPath', '<?php echo $this->url('track/stream', $track->id()); ?>');
-						so.addVariable('playerSkin', '6');
-						so.write("<?php echo $id; ?>");
-					</script>
-				</div>
-				
-				<?php if ( $i++ != $track_iterator_length ): ?>
-					<div class="lightDivider"></div>
-				<?php endif; ?>
-			<?php endforeach; ?>
-		<?php else: ?>
-			<p><?php echo Language::__('account_upload_tracks_first'); ?></p>
-		<?php endif; ?>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<p><?php echo Language::__('account_upload_tracks_first'); ?></p>
+			<?php endif; ?>
+		</div>
+		
+		<div class="clearFull center">
+			<a href="<?php echo $this->url('account/tracklist'); ?>"><?php echo Language::__('account_view_all_tracks'); ?></a>
+		</div>
+		
 	</div>
 	
 	

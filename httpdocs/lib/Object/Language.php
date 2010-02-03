@@ -30,11 +30,22 @@ class Language {
 			'account_favorites' => "Your Favorite Tracks",
 			'account_settings' => "Account Settings",
 			'account_track_list' => "Your Tracks",
-			'account_profile' => "Profile For <em>%s</em>",
+			'account_view_all_tracks' => "View All Tracks",
+			'account_update_settings' => "Update Settings",
+			'account_settings_help' => "By changing your settings, you can adjust how you use the website, and how other members can see your profile.",
+			'account_setting_allow_followers' => "Allow other members on the site to follow your profile.",
+			'account_setting_email_new_follower' => "Send me an email when a new user starts following my profile.",
+			'account_setting_email_finished_processing' => "Send me an email when a track I've recently uploaded is finished processing.",
 			
 			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",
 			
 			
+			
+			
+			'account_profile' => "Profile For <em>%s</em>",
+			
+			
+			'track_currently_processing' => "Currently Processing Track",
 			
 			'play' => "Play",
 			'plays' => "Plays",

@@ -104,6 +104,11 @@ class Account_Controller extends Root_Controller {
 	public function settingsGet() {
 		$this->verifyUserSession();
 		
+		$user = TuneToUs::getUser();
+		$this->setting_allow_followers = $user->getSettingAllowFollowers();
+		$this->setting_email_new_follower = $user->getSettingEmailNewFollower();
+		$this->setting_email_finished_processing = $user->getSettingEmailFinishedProcessing();
+		
 		$this->setSectionTitle(Language::__('account_settings'));
 		$this->renderLayout('settings');
 		
@@ -306,6 +311,38 @@ class Account_Controller extends Root_Controller {
 		$this->register = $register;
 		
 		parent::renderLayout('register');
+		
+		return true;
+	}
+	
+	/**
+	 * Displays the form to manage the user's settings.
+	 * 
+	 * @retval bool Returns true.
+	 */
+	public function settingsPost() {
+		$this->verifyUserSession();
+		
+		try {
+			$user = TuneToUs::getUser();
+			
+			$setting_allow_followers = intval(er('setting_allow_followers', $_POST, 0));
+			$setting_email_new_follower = intval(er('setting_email_new_follower', $_POST, 0));
+			$setting_email_finished_processing = intval(er('setting_email_finished_processing', $_POST, 0));
+			
+			$user->setSettingAllowFollowers($setting_allow_followers)
+				->setSettingEmailNewFollower($setting_email_new_follower)
+				->setSettingEmailFinishedProcessing($setting_email_finished_processing);
+			
+			TuneToUs::getDataModel()->save($user);
+
+		} catch ( TuneToUs_Exception $e ) {
+			TuneToUs::getMessenger()->pushError($e->getMessage());
+		} catch ( Exception $e ) {
+			TuneToUs::getMessenger()->pushError(Language::__('error_form_validation_error'));
+		}
+		
+		$this->redirect($this->url('account/settings'));
 		
 		return true;
 	}

@@ -474,16 +474,6 @@ a.logo h1 {
 	text-shadow: 0 1px 0 #000;
 }
 
-#mainContent .trackLarge {
-	width: 170px;
-	height: 160px;
-	float: left;
-	margin-right: 10px;
-	padding: 5px;
-	background: #e5e6df;
-	-moz-border-radius: 3px;
-}
-
 #mainContent .contentBox {
 	margin-top: 10px;
 	padding: 5px;
@@ -561,6 +551,39 @@ a.logo h1 {
 
 #mainContent .contentBox .dashboardImage {
 	text-align: center;
+}
+
+#mainContent .contentBox .trackList {
+
+}
+
+#mainContent .contentBox .trackList .trackListItem {
+	background: #fff;
+	padding: 3px;
+	-moz-border-radius: 3px;
+	margin-top: 10px;
+	overflow: auto;
+}
+
+#mainContent .trackList .trackListItem .image {
+	float: left;
+	margin-right: 5px;
+	border: 0;
+}
+
+#mainContent .trackList .trackListItemLarge {
+	width: 170px;
+	height: 160px;
+	float: left;
+	margin-right: 10px;
+	padding: 5px;
+	background: #e5e6df;
+	-moz-border-radius: 3px;
+}
+
+#mainContent .trackList .trackListItemLarge .image {
+	text-align: center;
+	height: 110px;
 }
 
 

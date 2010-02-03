@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `follower_count` MEDIUMINT( 5 ) NOT NULL DEFAULT '0' AFTER `gender` , ADD `following_count` MEDIUMINT( 5 ) NOT NULL DEFAULT '0' AFTER `follower_count`;

@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `setting_allow_followers` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `following_count` , ADD `setting_email_new_follower` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `setting_allow_followers` , ADD `setting_email_finished_processing` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `setting_email_new_follower`;
