@@ -32,7 +32,7 @@ class Paginator {
 	}
 	
 	public function getPageList() {
-		$view = Tunetous::buildView();
+		$view = TuneToUs::buildView();
 		
 		$page_last = ceil($this->total / $this->per_page);
 		
@@ -42,7 +42,7 @@ class Paginator {
 		
 		$view->page = $this->page;
 		$view->page_last = $page_last;
-	
-		return $view->render('root', 'paginator-link-list');
+		
+		return $view->render('Root', 'paginator-link-list');
 	}
 }
