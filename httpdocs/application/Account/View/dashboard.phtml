@@ -28,8 +28,6 @@
 				<span><a href="<?php echo $this->url('account/following'); ?>">following</a></span>
 			</div>
 		</div>
-		
-		<div class="clear"></div>
 	</div>
 	
 	<div class="dashboardRight">
@@ -42,7 +40,6 @@
 				<?php foreach ( $track_iterator as $track ): ?>
 					<?php $id = 'mp3-mini-player-' . $track->id(); ?>
 					<?php $track_name = $track->getName(); ?>
-					<?php $status = $track->getStatus(); ?>
 					
 					<div class="trackListItem">
 						<?php if ( true === $track->canPlay() ): ?>
@@ -69,16 +66,16 @@
 						</div>
 					</div>
 				<?php endforeach; ?>
+		
+				<div class="clearFull center">
+					<a href="<?php echo $this->url('account/tracklist'); ?>"><?php echo Language::__('account_view_all_tracks'); ?></a>
+				</div>
 			<?php else: ?>
 				<p><?php echo Language::__('account_upload_tracks_first'); ?></p>
 			<?php endif; ?>
 		</div>
-		
-		<div class="clearFull center">
-			<a href="<?php echo $this->url('account/tracklist'); ?>"><?php echo Language::__('account_view_all_tracks'); ?></a>
-		</div>
-		
 	</div>
 	
+	<div class="clear"></div>
 	
 </div>
