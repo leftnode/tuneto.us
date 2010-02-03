@@ -6,7 +6,8 @@ class Uploader_Track extends Uploader {
 	
 	public function setData($data) {
 		$type = strtolower(er('type', $data));
-		if ( 'audio/mpeg' !== $type ) {
+		
+		if ( 0 === preg_match('/audio|video/i', $type) ) {
 			throw new TuneToUs_Exception(Language::__(''));
 		}
 		
