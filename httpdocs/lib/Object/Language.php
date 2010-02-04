@@ -16,6 +16,7 @@ class Language {
 			'error_select_image' => "Please select an image to upload.",
 			'error_select_track' => "Please select an MP3 to upload.",
 			'error_track_already_favorited' => "You have already added this track to your favorites.",
+			'error_already_following' => "You are already following this person.",
 			
 			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
@@ -23,6 +24,7 @@ class Language {
 			'success_photo_updated' => "Your photo was successfully updated.",
 			'success_settings_updated' => "Your settings were successfully updated.",
 			'success_track_favorited' => "You have added this track to your favorite list.",
+			'success_profile_followed' => "You are now following this user's updates.",
 			
 			'index_welcome_text' => "Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.",
 			'index_latest_tracks' => "Latest Tracks From The Community In Real Time",
@@ -49,6 +51,7 @@ class Language {
 			
 			'profile_upload_tracks_first' => "This person hasn't uploaded any tracks yet.",
 			'profile_public' => "Public Profile",
+			'profile_follow' => "Follow This User",
 			
 			'track_add_to_favorites' => "Add To Favorites",
 			
