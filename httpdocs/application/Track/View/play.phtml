@@ -69,7 +69,13 @@
 			<div class="clearFull"></div>
 			
 			<div>URL</div>
-			<input type="text" readonly onclick="this.select()" value="<?php echo $this->safe($this->url('track/stream', $track->id())); ?>">
+			<input type="text" readonly onclick="this.select()" value="<?php echo $this->safe($this->url('track/play', $track->id())); ?>">
+			
+			<div class="clearFull"></div>
+			
+			<div>Forum/BBCode</div>
+			<?php $image_dir = trim(DIR_IMAGE, DS); ?>
+			<input type="text" readonly onclick="this.select()" value="[url=<?php echo $this->url('track/play', $track->id()); ?>][img]<?php echo $this->url($image_dir, 'image-click-to-play-thumbnail.jpg'); ?>[/img]">
 		</div>
 	</div>
 	
