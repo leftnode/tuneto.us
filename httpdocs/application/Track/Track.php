@@ -64,13 +64,16 @@ class Track_Controller extends Root_Controller {
 				$can_favorite = false;
 				
 				$user = TuneToUs::getUser();
-				if ( true === $user->exists() ) {
+				if ( true === ttu_user_is_logged_in() ) {
+					/**
+					 * Doing a direct query here rather than filtering on their
+					 * favorite list because its cheaper, surprisingly.
+					 */
 					$track_favorite_model = new Track_Favorite_Model(TuneToUs::getDataAdapter());
 					$track_favorite = $track_favorite_model->where('track_id = ?', $track_id)
 						->where('user_id = ?', $user->id())
 						->loadFirst(new Track_Favorite());
 					$can_favorite = !$track_favorite->exists();
-						
 				}
 				
 				$this->can_favorite = $can_favorite;
@@ -127,5 +130,4 @@ class Track_Controller extends Root_Controller {
 		
 		return true;
 	}
-	
 }
