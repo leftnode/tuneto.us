@@ -1,0 +1,1 @@
+ALTER TABLE `page` ADD `view_count` MEDIUMINT( 5 ) NOT NULL DEFAULT '0' AFTER `content`;

@@ -56,6 +56,7 @@ class Root_Controller extends Artisan_Controller {
 	}
 	
 	protected function redirect($url) {
+		header("Status: 200");
 		header("Location: " . $url);
 		exit;
 	}

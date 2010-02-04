@@ -82,7 +82,7 @@ class Imager {
 		$init_height = imagesy($image);
 
 		/* If it's wider than taller, we want to use the max width. */
-		if ( $init_width > $max_width && $init_height > $max_height ) {
+		if ( $init_width > $max_width || $init_height > $max_height ) {
 			if ( $init_width > $init_height ) {
 				$ratio = $max_width / $init_width;
 				$height = intval($init_height * $ratio);

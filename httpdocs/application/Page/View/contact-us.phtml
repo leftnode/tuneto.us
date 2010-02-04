@@ -1,0 +1,40 @@
+<h1 class="mainHeader"><?php echo Language::__('page_contact_us'); ?></h1>
+
+<div class="clearFull"></div>
+
+<div class="contentBox">
+	<form method="post" action="<?php echo $this->url('page/contactus'); ?>">
+		<p>
+			We'd love to hear from you. 
+		</p>
+		
+		<label>
+			<span class="req">Your Email Address <em class="expl">(we'll contact you back with this)</em></span>
+			<input type="text" name="contact_us[from_email_address]" value="<?php echo $this->safe(er('from_email_address', $contact_us)); ?>" class="text">
+			<div class="error"><?php echo $this->error('from_email_address'); ?></div>
+		</label>
+		
+		<label>
+			<span class="req">Your Name</em></span>
+			<input type="text" name="contact_us[from_name]" value="<?php echo $this->safe(er('from_name', $contact_us)); ?>" class="text">
+			<div class="error"><?php echo $this->error('from_name'); ?></div>
+		</label>
+	
+		<label>
+			<span class="req">Subject <em class="expl">(use subject DMCA Request for those)</em></span>
+			<input type="text" name="contact_us[subject]" value="<?php echo $this->safe(er('subject', $contact_us)); ?>" class="text">
+			<div class="error"><?php echo $this->error('subject'); ?></div>
+		</label>
+	
+		<label>
+			<span class="req">Message <em class="expl">(please don't be too mean)</em></span>
+			<textarea name="contact_us[message]" class="textLong" rows="10"><?php echo $this->safe(er('message', $contact_us)); ?></textarea>
+			<div class="error"><?php echo $this->error('message'); ?></div>
+		</label>
+		
+		<p><strong>Bold fields are required.</strong></p>
+		
+		<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
+		<input type="submit" class="submitButton" value="Contact Us">
+	</form>
+</div>

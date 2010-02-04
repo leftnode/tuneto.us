@@ -17,6 +17,8 @@ class Language {
 			'error_select_track' => "Please select an MP3 to upload.",
 			'error_track_already_favorited' => "You have already added this track to your favorites.",
 			'error_already_following' => "You are already following this person.",
+			'error_page_not_found' => "Page Not Found",
+			'error_page_not_found_text' => "Sorry, the page you request can not be found.",
 			
 			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
@@ -25,6 +27,7 @@ class Language {
 			'success_settings_updated' => "Your settings were successfully updated.",
 			'success_track_favorited' => "You have added this track to your favorite list.",
 			'success_profile_followed' => "You are now following this user's updates.",
+			'success_contact_sent' => "Your contact form was successfully sent, you'll be hearing back shortly.",
 			
 			'index_welcome_text' => "Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.",
 			'index_latest_tracks' => "Latest Tracks From The Community In Real Time",
@@ -44,10 +47,10 @@ class Language {
 			'account_no_favorites' => "You do not have any favorite tracks yet! Visit a track's page and click Add To Favorites.",
 			'account_my_tracks_help' => "This is a list of tracks you have uploaded. If you remove a track from the system, it will be removed from all people who have favorited it as well.",
 			'account_favorite_help' => "This is a list of your favorite tracks. You can add to this list by visiting a new track and clicking Add To Favorites.",
-			
 			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",
-			
 			'account_profile' => "Profile For <em>%s</em>",
+			
+			'page_contact_us' => "Contact Us",
 			
 			'profile_upload_tracks_first' => "This person hasn't uploaded any tracks yet.",
 			'profile_public' => "Public Profile",

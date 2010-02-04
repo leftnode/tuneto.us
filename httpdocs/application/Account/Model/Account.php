@@ -21,4 +21,4 @@ class Account_Validator extends Artisan_Validator {
 			$this->model_name = $model;
 		}
 	}
-} 
+}
