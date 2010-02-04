@@ -16,8 +16,8 @@ class User_Model extends DataModel {
 	}
 	
 	private function loadFollowingList(User $user) {
-		$data_model = new DataModel($this->getDataAdapter());
-		$following_list = $data_model->where('follower_id = ?', $user->id())
+		$user_following_model = new User_Follow_Model($this->getDataAdapter());
+		$following_list = $user_following_model->where('follower_id = ?', $user->id())
 			->loadAll(new User_Follow());
 		
 		$user->setFollowingList($following_list);
@@ -25,8 +25,8 @@ class User_Model extends DataModel {
 	}
 	
 	private function loadFollowerList(User $user) {
-		$data_model = new DataModel($this->getDataAdapter());
-		$follower_list = $data_model->where('following_id = ?', $user->id())
+		$user_follower_model = new User_Follow_Model($this->getDataAdapter());
+		$follower_list = $user_follower_model->where('following_id = ?', $user->id())
 			->loadAll(new User_Follow());
 		
 		$user->setFollowerList($follower_list);
