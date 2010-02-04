@@ -61,6 +61,11 @@ class Account_Controller extends Root_Controller {
 		return true;
 	}
 	
+	/**
+	 * Display a list of people who are following this user.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function followerListGet() {
 		$this->verifyUserSession();
 		
@@ -70,8 +75,15 @@ class Account_Controller extends Root_Controller {
 			$this->empty_response = Language::__('account_no_followers');
 			$this->renderLayout('follow-list');
 		} catch ( Exception $e ) { }
+		
+		return true;
 	}
 	
+	/**
+	 * Display a list of people who this user is following.
+	 * 
+	 * @retval bool Returns true.
+	 */
 	public function followingListGet() {
 		$this->verifyUserSession();
 		
@@ -81,6 +93,8 @@ class Account_Controller extends Root_Controller {
 			$this->empty_response = Language::__('account_no_following');
 			$this->renderLayout('follow-list');
 		} catch ( Exception $e ) { }
+		
+		return true;
 	}
 	
 	/**
@@ -176,23 +190,6 @@ class Account_Controller extends Root_Controller {
 		
 		$this->track = array();
 		$this->renderLayout('upload');
-		
-		return true;
-	}
-	
-	
-	
-	public function followPost($follower_id, $following_id) {
-		$this->verifyUserSession(true);
-		
-		try {
-			
-			
-		} catch ( TuneToUs_Exception $e ) {
-			
-		} catch ( Exception $e ) {
-			
-		}
 		
 		return true;
 	}

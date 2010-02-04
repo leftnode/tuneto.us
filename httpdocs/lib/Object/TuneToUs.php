@@ -135,6 +135,18 @@ class TuneToUs {
 		return ( $secret_token === $hashed_token );
 	}
 	
+	public static function getConfigDb() {
+		return self::$config_db;
+	}
+	
+	public static function getConfigEmail() {
+		return self::$config_email;
+	}
+	
+	public static function getConfigRouter() {
+		return self::$config_router;
+	}
+	
 	public static function getDataAdapter() {
 		return Artisan_Registry::pop('dataAdapter');
 	}

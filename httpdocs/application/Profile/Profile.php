@@ -37,13 +37,12 @@ class Profile_Controller extends Root_Controller {
 			/* Send out the email if they want it. */
 			$setting_email_new_follower = $profile->getSettingEmailNewFollower();
 			if ( 1 == $setting_email_new_follower ) {
-				$emailer = TuneToUs::getEmailer();
-				$emailer->send('new-follower', $profile->getEmailAddress(), array(
+				TuneToUs::getEmailer()->send('new-follower', $profile->getEmailAddress(), array(
 					'nickname' => $profile->getNickname(),
-					'site_url' => $user->getNickname(),
+					'site_url' => er('site_root', TuneToUs::getConfigRouter()),
 					'follower_nickname' => $user->getNickname(),
 					'profile_url' => $this->url('profile/view', $user->id()),
-					'from_name' => er('from_name', $emailer->getConfig())
+					'from_name' => er('from_name', TuneToUs::getConfigEmail())
 					)
 				);
 			}
