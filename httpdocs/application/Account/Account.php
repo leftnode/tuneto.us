@@ -37,7 +37,7 @@ class Account_Controller extends Root_Controller {
 				->limit(10)
 				->loadAll(new Track());
 		} catch ( Exception $e ) { }
-			
+		
 		$this->setSectionTitle(Language::__('account_your_dashboard'));
 		$this->renderLayout('dashboard');
 		
