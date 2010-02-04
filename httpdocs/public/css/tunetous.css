@@ -590,6 +590,17 @@ a.logo h1 {
 	overflow: auto;
 }
 
+
+#mainContent .contentBox #trackUploader {
+	display: none;
+}
+
+#mainContent .contentBox #trackUploader img {
+	border: 0;
+}
+
+
+
 #mainContent .trackList .trackListItem .image {
 	float: left;
 	margin-right: 5px;

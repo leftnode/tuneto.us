@@ -1,7 +1,7 @@
 <div class="contentBox">	
 	<p><strong>Bold fields are required.</strong></p>
 	
-	<form method="post" action="<?php echo $this->url('account/upload'); ?>" enctype="multipart/form-data">
+	<form method="post" action="<?php echo $this->url('account/upload'); ?>" enctype="multipart/form-data" id="trackUploadForm">
 		<label>
 			<span class="req">Your MP3/Video File <em class="expl">(non-MP3 files will be converted to MP3's)</em></span>
 			<input type="file" name="track">
@@ -24,13 +24,18 @@
 			<div class="error"><?php echo $this->error('description'); ?></div>
 		</label>
 		
-		<p>
-			By uploading this file, you agree to our <a href="<?php echo $this->url('page/view', 'terms'); ?>">Terms of Agreement</a> and assert you are the copyright owner of this file.
-		</p>
-		
-		<input type="hidden" name="MAX_FILE_SIZE" value="52428800">
-		<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
-		<input type="submit" class="submitButton" value="Upload Track">
+		<div id="trackUploadButton">
+			<div>By uploading this file, you agree to our <a href="<?php echo $this->url('page/view', 'terms'); ?>">Terms of Agreement</a> and assert you are the copyright owner of this file.</div>
+			<input type="hidden" name="MAX_FILE_SIZE" value="52428800">
+			<input type="hidden" name="token" value="<?php echo TuneToUs::getToken(); ?>">
+			<input type="submit" class="submitButton" value="Upload Track">
+		</div>
 	</form>
 
+	<div class="clearFull"></div>
+	
+	<div id="trackUploader">
+		<div><?php echo Language::__('account_track_uploading'); ?></div>
+		<?php echo $this->img(DIR_IMAGE . 'loader.gif'); ?>
+	</div>
 </div>

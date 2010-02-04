@@ -187,6 +187,7 @@ class Account_Controller extends Root_Controller {
 	public function uploadGet() {
 		$this->verifyUserSession();
 		
+		echo SID;
 		$this->setSectionTitle(Language::__('account_upload_track'));
 		
 		$this->track = array();
@@ -432,7 +433,7 @@ class Account_Controller extends Root_Controller {
 	 */
 	public function uploadPost() {
 		$this->verifyUserSession();
-		
+
 		try {
 			$user = TuneToUs::getUser();
 			
@@ -444,16 +445,16 @@ class Account_Controller extends Root_Controller {
 			$directory = $user->getDirectory();
 			$destination_directory = DIR_PRIVATE . $directory;
 			
+			$validator = $this->buildValidator();
+			$validator->load('track')
+				->setData($track_data)
+				->validate();
+			
 			$track_name = er('name', $track_file_data);
 			if ( true === empty($track_name) ) {
 				throw new TuneToUs_Exception(Language::__('error_select_track'));
 			}
 			
-			$validator = $this->buildValidator();
-			$validator->load('track')
-				->setData($track_data)
-				->validate();
-
 			/* Attempt to upload the image with the track. */
 			$image_id = 0;
 			$image_name = er('name', $image_file_data);

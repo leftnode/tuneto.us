@@ -13,5 +13,10 @@
 		$("a[rel^=prettyphoto]").prettyPhoto({
 			theme: 'facebook'
 		});
+		
+		$('#trackUploadForm').live('submit', function() {
+			$('#trackUploadButton').css('display', 'none');
+			$('#trackUploader').css('display', 'block');
+		});
 	});
 </script>

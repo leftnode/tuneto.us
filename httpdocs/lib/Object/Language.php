@@ -54,6 +54,7 @@ class Language {
 			'account_profile' => "Profile For <em>%s</em>",
 			'account_no_following' => "You are not following anyone yet.",
 			'account_no_followers' => "No one is following you yet.",
+			'account_track_uploading' => "Please give us a moment while your track uploads.",
 			
 			'page_contact_us' => "Contact Us",
 			
