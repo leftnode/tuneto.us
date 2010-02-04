@@ -19,13 +19,13 @@
 		
 		<div class="followerCounts">
 			<div class="followerBox floatLeft outerLeft">
-				<?php echo $user->getFollowerList()->length(); ?>
-				<span><a href="<?php echo $this->url('account/followers'); ?>">followers</a></span>
-			</div>
-
-			<div class="followerBox floatLeft outerRight">
 				<?php echo $user->getFollowingList()->length(); ?>
-				<span><a href="<?php echo $this->url('account/following'); ?>">following</a></span>
+				<span><a href="<?php echo $this->url('account/followinglist'); ?>" title="people who I'm following">following</a></span>
+			</div>
+			
+			<div class="followerBox floatLeft outerRight">
+				<?php echo $user->getFollowerList()->length(); ?>
+				<span><a href="<?php echo $this->url('account/followerlist'); ?>" title="people who are following me">followers</a></span>
 			</div>
 		</div>
 	</div>

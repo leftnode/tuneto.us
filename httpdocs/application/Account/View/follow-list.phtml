@@ -1,0 +1,21 @@
+<?php $paginator = TuneToUs::getPaginator(); ?>
+<?php $follow_list = $paginator->set($follow_list)->get(); ?>
+
+<div class="contentBox">
+	<div class="trackList">
+		<?php $follow_list_length = $follow_list->length(); ?>
+		<?php if ( $follow_list_length > 0 ): ?>
+			<?php $i = 1; ?>
+			<?php foreach ( $follow_list as $follow ): ?>
+				<div class="trackListItem">
+					<h5><a href="<?php echo $this->url('profile/view', $follow->id()); ?>"><?php echo $this->safe($follow->getNickname()); ?></a></h5>
+					<div><?php echo $this->img($this->url('image/viewmicro', $follow->getImageId()), '', 'class="image"'); ?></div>
+				</div>
+			<?php endforeach; ?>
+			
+			<?php echo $paginator->getPageList(); ?>
+		<?php else: ?>
+			<p><?php echo $empty_response; ?></p>
+		<?php endif; ?>
+	</div>
+</div>

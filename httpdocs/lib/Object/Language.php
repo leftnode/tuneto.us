@@ -41,6 +41,8 @@ class Language {
 			'account_track_list' => "Your Tracks",
 			'account_view_all_tracks' => "View All Tracks",
 			'account_update_settings' => "Update Settings",
+			'account_following' => "You Are Following These Users",
+			'account_followers' => "These Users Are Following You",
 			'account_settings_help' => "By changing your settings, you can adjust how you use the website, and how other members can see your profile.",
 			'account_setting_allow_followers' => "Allow other members on the site to follow your profile.",
 			'account_setting_email_new_follower' => "Send me an email when a new user starts following my profile.",
@@ -50,14 +52,19 @@ class Language {
 			'account_favorite_help' => "This is a list of your favorite tracks. You can add to this list by visiting a new track and clicking Add To Favorites.",
 			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",
 			'account_profile' => "Profile For <em>%s</em>",
+			'account_no_following' => "You are not following anyone yet!",
+			'account_no_followers' => "No one is following you yet!",
 			
 			'page_contact_us' => "Contact Us",
 			
 			'profile_upload_tracks_first' => "This user hasn't uploaded any tracks yet.",
+			'profile_no_followers' => "This user is not following anyone yet.",
 			'profile_public' => "Public Profile",
 			'profile_track_list' => "Tracks For %s",
 			'profile_follow' => "Follow This User",
 			'profile_return' => "Return To Profile",
+			'profile_followers' => "%s Is Following",
+			'profile_following' => "%s Has These Followers",
 			
 			'track_add_to_favorites' => "Add To Favorites",
 			

@@ -61,16 +61,55 @@ class Profile_Controller extends Root_Controller {
 		return true;
 	}
 	
+	public function followerListGet($profile_id) {
+		try {
+			$profile = TuneToUs::getUser($profile_id);
+			
+			if ( true === $profile->exists() ) {
+				$this->title = sprintf(Language::__('profile_following'), $this->getView()->safe($profile->getNickname()));
+				$this->follow_list = $profile->getFollowerList();
+				$this->profile = $profile;
+				$view = 'follow-list';
+			} else {
+				$view = 'profile-disabled';
+			}
+			
+			$this->renderLayout($view);
+		} catch ( Exception $e ) { }
+	}
+	
+	public function followingListGet($profile_id) {
+		try {
+			$profile = TuneToUs::getUser($profile_id);
+			
+			if ( true === $profile->exists() ) {
+				$this->title = sprintf(Language::__('profile_followers'), $this->getView()->safe($profile->getNickname()));
+				$this->follow_list = $profile->getFollowingList();
+				$this->profile = $profile;
+				$view = 'follow-list';
+			} else {
+				$view = 'profile-disabled';
+			}
+			
+			$this->renderLayout($view);
+		} catch ( Exception $e ) { }
+	}
+	
 	public function trackListGet($profile_id) {
 		try {
 			$profile = TuneToUs::getUser($profile_id);
 			
-			$this->track_list = $profile->getTrackList()
-				->filter('status = ?', STATUS_ENABLED)
-				->fetch();
+			if ( true === $profile->exists() ) {
+				$this->track_list = $profile->getTrackList()
+					->filter('status = ?', STATUS_ENABLED)
+					->fetch();
+				$this->profile = $profile;
+				$view = 'track-list';
+			} else {
+				$view = 'profile-disabled';
+			}
 			
-			$this->profile = $profile;
-			$this->renderLayout('track-list');
+			$this->renderLayout($view);
 		} catch ( Exception $e ) { }
 	}
 	

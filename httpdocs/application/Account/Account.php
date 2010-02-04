@@ -61,6 +61,28 @@ class Account_Controller extends Root_Controller {
 		return true;
 	}
 	
+	public function followerListGet() {
+		$this->verifyUserSession();
+		
+		try {
+			$this->setSectionTitle(Language::__('account_followers'));
+			$this->follow_list = TuneToUs::getUser()->getFollowerList();
+			$this->empty_response = Language::__('account_no_followers');
+			$this->renderLayout('follow-list');
+		} catch ( Exception $e ) { }
+	}
+	
+	public function followingListGet() {
+		$this->verifyUserSession();
+		
+		try {
+			$this->setSectionTitle(Language::__('account_following'));
+			$this->follow_list = TuneToUs::getUser()->getFollowingList();
+			$this->empty_response = Language::__('account_no_following');
+			$this->renderLayout('follow-list');
+		} catch ( Exception $e ) { }
+	}
+	
 	/**
 	 * Displays the login form. This uses the parent class' renderLayout()
 	 * method so it doesn't display the menu.

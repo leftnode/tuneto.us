@@ -27,23 +27,46 @@ class User_Model extends DataModel {
 		return $user;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	// people this user is following
 	private function loadFollowingList(User $user) {
 		$user_following_model = new User_Follow_Model($this->getDataAdapter());
-		$following_list = $user_following_model->where('follower_id = ?', $user->id())
-			->loadAll(new User_Follow());
+		
+		$following_list = $user_following_model->fieldsFrom()
+			->innerJoin(new User_Follow(), 'following_id')
+			->where('follower_id = ?', $user->id())
+			->loadAll(new User());
 		$user->setFollowingList($following_list);
 		
 		return $user;
 	}
 	
+	// People who are following this user
 	private function loadFollowerList(User $user) {
-		$user_follower_model = new User_Follow_Model($this->getDataAdapter());
-		$follower_list = $user_follower_model->where('following_id = ?', $user->id())
-			->loadAll(new User_Follow());
+		$user_following_model = new User_Follow_Model($this->getDataAdapter());
+		
+		$follower_list = $user_following_model->fieldsFrom()
+			->innerJoin(new User_Follow(), 'follower_id')
+			->where('following_id = ?', $user->id())
+			->loadAll(new User());
 		$user->setFollowerList($follower_list);
 		
 		return $user;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	private function loadFavoriteList(User $user) {
 		$track_favorite_model = new Track_Favorite_Model($this->getDataAdapter());
