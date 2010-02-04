@@ -38,14 +38,18 @@ p.largeText {
 	font-size: 16px;
 }
 
-p.subtext {
-	padding: 0;
-	font-style: italic;
-	padding-bottom: 15px;
-	border-bottom: 1px solid #b5b6ad;
-	margin-bottom: 25px;
-	font-size: 11px;
+.outer {
+	margin: 0 5px 0 5px;
 }
+
+.outerLeft {
+	margin: 0 5px 0 0;
+}
+
+.outerRight {
+	margin: 0 0 0 5px;
+}
+
 
 .floatLeft {
 	float: left;
@@ -57,6 +61,10 @@ p.subtext {
 
 .center {
 	text-align: center;
+}
+
+.marginCenter {
+	margin: 0 auto;
 }
 
 .clear {
@@ -533,12 +541,10 @@ a.logo h1 {
 	width: 50px;
 	background: #fff;
 	color: #000;
-	font-size: 30px;
+	font-size: 24px;
 	text-align: center;
 	-moz-border-radius: 10px;
 	font-weight: bold;
-	float: left;
-	margin-right: 10px;
 }
 
 #mainContent .contentBox .followerBox span {
@@ -546,6 +552,15 @@ a.logo h1 {
 	text-align: center;
 	font-size: 12px;
 	font-weight: normal;
+}
+
+#mainContent .contentBox .followBox {
+	width: 100px;
+	background: #fff;
+	color: #000;
+	-moz-border-radius: 10px;
+	background: #fff url('image/button-add.gif') no-repeat 5px 3px;
+	padding: 3px 3px 3px 25px;
 }
 
 #mainContent .contentBox .dashboardImage {
@@ -615,6 +630,11 @@ a.logo h1 {
 
 #mainContent .contentBox .trackLeft .mp3Player {
 	float: left;
+}
+
+#mainContent .contentBox .trackLeft .mp3Player .viewCount {
+	text-align: right;
+	font-weight: bold;
 }
 
 #mainContent .contentBox .trackRight .trackInfo {
