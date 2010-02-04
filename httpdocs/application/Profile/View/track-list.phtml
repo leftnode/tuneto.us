@@ -1,0 +1,40 @@
+<?php $paginator = TuneToUs::getPaginator(); ?>
+<?php $track_list = $paginator->set($track_list)->get(); ?>
+
+<h1 class="mainHeader"><?php echo sprintf(Language::__('profile_track_list'), $this->safe($profile->getNickname())); ?></h1>
+
+<div class="contentBox">
+	<div class="trackList">
+		<?php $track_list_length = $track_list->length(); ?>
+		<?php if ( $track_list_length > 0 ): ?>
+			<?php $i = 1; ?>
+			<?php foreach ( $track_list as $track ): ?>
+				<?php $id = 'mp3-mini-player-' . $track->id(); ?>
+				<?php $track_name = $track->getName(); ?>
+				
+				<div class="trackListItem">
+					<h5><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h5>
+					
+					<div>
+						<?php echo $this->img($this->url('image/viewmicro', $track->getImageId()), '', 'class="image"'); ?>
+						<div id="<?php echo $id; ?>">
+							<script type="text/javascript">
+								var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#ffffff");
+								so.addVariable('autoPlay', 'no');
+								so.addVariable('soundPath', '<?php echo $this->url('track/stream', $track->id()); ?>');
+								so.addVariable('playerSkin', '6');
+								so.write("<?php echo $id; ?>");
+							</script>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+			
+			<?php echo $paginator->getPageList(); ?>
+		<?php else: ?>
+			<p><?php echo Language::__('profile_upload_tracks_first'); ?></p>
+		<?php endif; ?>
+	</div>
+	
+	<p><a href="<?php echo $this->url('profile/view', $profile->id()); ?>"><?php echo Language::__('profile_return'); ?></a></p>
+</div>

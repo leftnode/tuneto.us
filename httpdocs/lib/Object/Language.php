@@ -53,9 +53,11 @@ class Language {
 			
 			'page_contact_us' => "Contact Us",
 			
-			'profile_upload_tracks_first' => "This person hasn't uploaded any tracks yet.",
+			'profile_upload_tracks_first' => "This user hasn't uploaded any tracks yet.",
 			'profile_public' => "Public Profile",
+			'profile_track_list' => "Tracks For %s",
 			'profile_follow' => "Follow This User",
+			'profile_return' => "Return To Profile",
 			
 			'track_add_to_favorites' => "Add To Favorites",
 			

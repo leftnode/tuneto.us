@@ -11,7 +11,6 @@ class Profile_Controller extends Root_Controller {
 		$this->verifyUserSession();
 		
 		try {
-			$profile_id = intval($profile_id);
 			$profile = TuneToUs::getUser($profile_id);
 			
 			if ( false === $profile->exists() ) {
@@ -62,6 +61,19 @@ class Profile_Controller extends Root_Controller {
 		return true;
 	}
 	
+	public function trackListGet($profile_id) {
+		try {
+			$profile = TuneToUs::getUser($profile_id);
+			
+			$this->track_list = $profile->getTrackList()
+				->filter('status = ?', STATUS_ENABLED)
+				->fetch();
+			
+			$this->profile = $profile;
+			$this->renderLayout('track-list');
+		} catch ( Exception $e ) { }
+	}
+	
 	public function viewGet($profile_id) {
 		try {
 			$profile = TuneToUs::getUser($profile_id);
@@ -71,7 +83,6 @@ class Profile_Controller extends Root_Controller {
 					->filter('status = ?', STATUS_ENABLED)
 					->limit(10)
 					->fetch();
-				
 				
 				$can_follow = false;
 				$setting_allow_followers = $profile->getSettingAllowFollowers();
