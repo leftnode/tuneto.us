@@ -4,6 +4,40 @@ require_once 'application/Root/Root.php';
 
 class Track_Controller extends Root_Controller {
 	
+	public function addToFavoritesGet($track_id) {
+		$this->verifyUserSession();
+		
+		try {
+			$user = TuneToUs::getUser();
+			$track_id = intval($track_id);
+			
+			$track_favorite_model = new Track_Favorite_Model(TuneToUs::getDataAdapter());
+			$track_favorite = $track_favorite_model->where('track_id = ?', $track_id)
+				->where('user_id = ?', $user->id())
+				->loadFirst(new Track_Favorite());
+			
+			if ( true === $track_favorite->exists() ) {
+				throw new TuneToUs_Exception(Language::__('error_track_already_favorited'));
+			}
+			
+			$track_favorite = new Track_Favorite();
+			$track_favorite->setTrackId($track_id)
+				->setUserId($user->id());
+			
+			$track_favorite_model->save($track_favorite);
+			
+			TuneToUs::getMessenger()->pushSuccess(Language::__('success_track_favorited'));
+		} catch ( TuneToUs_Exception $e ) {
+			TuneToUs::getMessenger()->pushError($e->getMessage());
+		} catch ( Exception $e ) {
+			TuneToUs::getMessenger()->pushError($e->getMessage());
+		}
+		
+		$this->redirect($this->url('track/play', $track_id));
+		
+		return true;
+	}
+	
 	/**
 	 * View the page to play a track.
 	 * 
@@ -14,22 +48,34 @@ class Track_Controller extends Root_Controller {
 		try {
 			$track_id = intval($track_id);
 			
-			$track = TuneToUs::getDataModel()
-				->where('track_id = ?', $track_id)
+			$track_model = new Track_Model(TuneToUs::getDataAdapter());
+			$track = $track_model->where('track_id = ?', $track_id)
 				->where('status = ?', STATUS_ENABLED)
-				->loadFirst(new Track());
+				->loadFirst(new Track());	
 
 			if ( true === $track->exists() ) {
-				$track->updateViewCount();
-				TuneToUs::getDataModel()->save($track);
+				/* Register the view for this track. */
+				TuneToUs::getDataModel()->save($track->updateViewCount());
 				
-				$profile = TuneToUs::getDataModel()
-					->where('user_id = ?', $track->getUserId())
-					->where('status = ?', STATUS_ENABLED)
-					->loadFirst(new User());
+				/* Get the track owner to display some more information. */
+				$this->owner = TuneToUs::getUser($track->getUserId());
 				
-				$this->profile = $profile;
+				/* Determine if the user viewing this track can favorite it. */
+				$can_favorite = false;
+				
+				$user = TuneToUs::getUser();
+				if ( true === $user->exists() ) {
+					$track_favorite_model = new Track_Favorite_Model(TuneToUs::getDataAdapter());
+					$track_favorite = $track_favorite_model->where('track_id = ?', $track_id)
+						->where('user_id = ?', $user->id())
+						->loadFirst(new Track_Favorite());
+					$can_favorite = !$track_favorite->exists();
+						
+				}
+				
+				$this->can_favorite = $can_favorite;
 				$this->track = $track;
+				
 				$view = 'play';
 			} else {
 				$view = 'play-not-exist';
