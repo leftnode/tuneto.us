@@ -30,12 +30,9 @@ class Account_Controller extends Root_Controller {
 			$user = TuneToUs::getUser();
 			
 			$this->user = $user;
-			$this->track_iterator = TuneToUs::getDataModel()
-				->where('user_id = ?', $user->id())
-				->where('status <> ?', STATUS_DISABLED)
-				->orderBy('date_create', 'DESC')
+			$this->track_list = $user->getTrackList()
 				->limit(10)
-				->loadAll(new Track());
+				->fetch();
 		} catch ( Exception $e ) { }
 		
 		$this->setSectionTitle(Language::__('account_your_dashboard'));
@@ -132,15 +129,11 @@ class Account_Controller extends Root_Controller {
 		$this->verifyUserSession();
 		
 		try {
-			
 			$user = TuneToUs::getUser();
 			$this->user = $user;
-			$this->track_list = TuneToUs::getDataModel()
-				->where('user_id = ?', $user->id())
-				->where('status <> ?', STATUS_DISABLED)
-				->orderBy('date_create', 'DESC')
-				->loadAll(new Track());
-				
+			$this->track_list = $user->getTrackList()
+				->filter('status <> ?', STATUS_DISABLED)
+				->fetch();
 		} catch ( Exception $e ) { }
 		
 		$this->setSectionTitle(Language::__('account_track_list'));
@@ -488,7 +481,6 @@ class Account_Controller extends Root_Controller {
 			
 			TuneToUs::getMessenger()->pushSuccess(Language::__('success_account_track_uploaded'));
 			$this->redirect($this->url('account/dashboard'));
-			
 		} catch ( TuneToUs_Exception $e ) {
 			TuneToUs::getMessenger()->pushError($e->getMessage());
 		} catch ( Exception $e ) {
