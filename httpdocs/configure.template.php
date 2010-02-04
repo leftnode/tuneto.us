@@ -2,7 +2,7 @@
 
 define('DEBUG_MODE', 1, false);
 if ( 1 == DEBUG_MODE ) {
-	error_reporting(E_ALL | E_STRICT);
+	error_reporting(E_ALL);
 } else {
 	error_reporting(0);
 }
