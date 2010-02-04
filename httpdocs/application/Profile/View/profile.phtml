@@ -9,6 +9,12 @@
 			<div class="dashboardImage">
 				<?php echo $this->img($this->url('image/viewlarge', $profile->getImageId())); ?>
 			</div>
+			
+			<?php if ( true === $can_follow ): ?>
+				<div class="followBox marginCenter">
+					<a href="<?php echo $this->url('profile/follow', $profile->id()); ?>"><?php echo Language::__('profile_follow'); ?></a>
+				</div>
+			<?php endif; ?>
 		</div>
 		
 		<div class="followerCounts">
@@ -28,14 +34,14 @@
 		<h2>Last 10 Tracks</h2>
 
 		<div class="trackList">
-			<?php $track_iterator_length = $track_iterator->length(); ?>
-			<?php if ( $track_iterator_length > 0 ): ?>
+			<?php $track_list_length = $track_list->length(); ?>
+			<?php if ( $track_list_length > 0 ): ?>
 				<?php $i = 1; ?>
-				<?php foreach ( $track_iterator as $track ): ?>
+				<?php foreach ( $track_list as $track ): ?>
 					<?php $id = 'mp3-mini-player-' . $track->id(); ?>
 					<?php $track_name = $track->getName(); ?>
 					
-					<div class="trackListItem" <?php echo ( $i == 1 ? 'style="margin-top: 0"' : NULL ); ?>>
+					<div class="trackListItem" <?php echo ( $i++ == 1 ? 'style="margin-top: 0"' : NULL ); ?>>
 						<h5><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h5>
 						
 						<div>
