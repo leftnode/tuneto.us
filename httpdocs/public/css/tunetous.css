@@ -354,6 +354,7 @@ a.logo h1 {
 	margin: 3px 0 3px 0;
 	cursor: pointer;
 	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
 
 .messageList .error {
@@ -394,6 +395,7 @@ a.logo h1 {
 .welcomeText {
 	background: #FBFBC3;
 	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 	text-shadow: 1px 1px 0 #BFF0BF;
 }
 
@@ -470,7 +472,8 @@ a.logo h1 {
 	font-size: 12px;
 	padding: 5px;
 	margin-right: 10px;
-	-moz-border-radius: 8px; 
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
 }
 
 #mainContent .accountMenu li a {
@@ -489,6 +492,7 @@ a.logo h1 {
 	padding: 5px;
 	background: #e5e6df;
 	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
 	overflow: auto;
 }
 
@@ -510,7 +514,8 @@ a.logo h1 {
 	text-align: center;
 	font-size: 20px;
 	padding: 5px;
-	-moz-border-radius: 8px; 
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
 	display: block;
 	color: #fff;
 	text-shadow: 0 1px 0 #000;
@@ -547,6 +552,7 @@ a.logo h1 {
 	font-size: 24px;
 	text-align: center;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 	font-weight: bold;
 }
 
@@ -562,6 +568,7 @@ a.logo h1 {
 	background: #fff;
 	color: #000;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 	background: #fff url('image/button-add.gif') no-repeat 5px 3px;
 	padding: 3px 3px 3px 25px;
 }
@@ -578,6 +585,7 @@ a.logo h1 {
 	background: #fff;
 	padding: 3px;
 	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 	margin-top: 10px;
 	overflow: auto;
 }
@@ -596,6 +604,7 @@ a.logo h1 {
 	padding: 5px;
 	background: #e5e6df;
 	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 
 #mainContent .trackList .trackListItemLarge .image {
@@ -644,6 +653,7 @@ a.logo h1 {
 	padding: 5px;
 	background: #fff;
 	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
 
 #mainContent .contentBox .trackRight .trackInfo .ownerImage {
