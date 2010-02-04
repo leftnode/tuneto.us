@@ -2,8 +2,6 @@
 <?php $favorite_list = $paginator->set($favorite_list)->get(); ?>
 
 <div class="contentBox">
-	<p><?php echo Language::__('account_favorite_help'); ?></p>
-	
 	<div class="trackList">
 		<?php $favorite_list_length = $favorite_list->length(); ?>
 		<?php if ( $favorite_list_length > 0 ): ?>

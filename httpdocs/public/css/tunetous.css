@@ -177,15 +177,18 @@ ol li {
 	list-style-type: lower-alpha;
 }
 
+ul.bullet {
+	margin: 5px 0 5px 5px;
+	padding: 0;
+}
+
 ul.bullet li {
 	padding: 0 0 1px 15px;
-	border-bottom: 1px dotted;
 	margin: 0 0 3px 0;
-	color: #53544D;
 	float: left;
 	clear: both;
-	font-size: 11px;
-	background: url('image/li.jpg') no-repeat left center;
+	font-size: 12px;
+	background: url('image/plus.gif') no-repeat left center;
 	margin: 0 0 5px 0;
 }
 
@@ -643,7 +646,21 @@ a.logo h1 {
 	-moz-border-radius: 5px;
 }
 
+#mainContent .contentBox .trackRight .trackInfo .ownerImage {
+	margin-right: 5px;
+	float: left;
+}
 
+#mainContent .contentBox .trackRight .trackInfo .ownerNickname {
+	float: left;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#mainContent .contentBox .trackRight .trackInfo input {
+	font-size: 11px;
+	width: 95%
+}
 
 
 /*new music column*/

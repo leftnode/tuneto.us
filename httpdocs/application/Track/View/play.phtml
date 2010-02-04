@@ -35,7 +35,7 @@
 			
 			<div class="followerBox marginCenter">
 				<?php echo $track->getFavoriteList()->length(); ?>
-				<span><a href="<?php echo $this->url('track/favoritelist', $track->id()); ?>">favorites</a></span>
+				<span>favorites</span>
 			</div>
 			
 		</div>
@@ -43,13 +43,13 @@
 	
 	<div class="trackRight">
 		<div class="trackInfo">
-			<div style="">
-				<div style="margin-right: 5px; float: left;">
+			<div>
+				<div class="ownerImage">
 					<a href="<?php echo $this->url('profile/view', $owner->id()); ?>">
 						<?php echo $this->img($this->url('image/viewthumbnail', $owner->getImageId()), '', 'style="border: 0"'); ?>
 					</a>
 				</div>
-				<div style="float: left; font-weight: bold; font-size: 14px;">
+				<div class="ownerNickname">
 					<a href="<?php echo $this->url('profile/view', $owner->id()); ?>">
 						<?php echo $this->safe($owner->getNickname()); ?>
 					</a>
@@ -58,11 +58,18 @@
 			
 			<div class="clear"></div>
 			
-			<p><?php echo nl2br($this->safe($track->getDescription())); ?></p>
-			
+			<div><?php echo nl2br($this->safe($track->getDescription())); ?></div>
 			
 			<div class="lightDivider"></div>
-			<h3>Embed</h3>
+		
+			<div>Flash Player</div>
+			<?php $flash_player = er('site_root', TuneToUs::getConfigRouter()) . ltrim(DIR_FLASH, DS) . 'mp3-player.swf'; ?>
+			<input type="text" readonly onclick="this.select()" value="<?php echo $this->safe('<embed width="192" height="67" flashvars="autoPlay=no&amp;soundPath=' . $this->url('track/stream', $track->id()) . '&amp;wmode=transparent" quality="high" bgcolor="#00000" name="mp3-player" id="mp3-player" src="' . $flash_player . '" type="application/x-shockwave-flash">'); ?>">
+			
+			<div class="clearFull"></div>
+			
+			<div>URL</div>
+			<input type="text" readonly onclick="this.select()" value="<?php echo $this->safe($this->url('track/stream', $track->id())); ?>">
 		</div>
 	</div>
 	

@@ -1,0 +1,1 @@
+INSERT INTO `page` (`page_id`, `date_create`, `date_modify`, `name`, `subject`, `content`, `view_count`) VALUES (NULL , UNIX_TIMESTAMP( ) , '0', 'terms', 'Terms and Conditions', '<div>Our terms are simple</div> <ul class="bullet"> <li>Upload only what you have the copyright or permission for.</li> <li>Don''t be a jackass.</li> <li>And enjoy the community.</li> </ul>', '0');

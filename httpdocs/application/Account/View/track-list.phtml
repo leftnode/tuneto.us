@@ -2,8 +2,6 @@
 <?php $track_list = $paginator->set($track_list)->get(); ?>
 
 <div class="contentBox">
-	<p><?php echo Language::__('account_my_tracks_help'); ?></p>
-	
 	<div class="trackList">
 		<?php $track_list_length = $track_list->length(); ?>
 		<?php if ( $track_list_length > 0 ): ?>

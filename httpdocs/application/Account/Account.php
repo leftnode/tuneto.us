@@ -31,6 +31,7 @@ class Account_Controller extends Root_Controller {
 			
 			$this->user = $user;
 			$this->track_list = $user->getTrackList()
+				->filter('status <> ?', STATUS_DISABLED)
 				->limit(10)
 				->fetch();
 		} catch ( Exception $e ) { }

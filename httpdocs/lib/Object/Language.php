@@ -3,7 +3,7 @@
 class Language {
 	public static $lang = array(
 		'en_us.UTF8' => array(
-			'error_general' => "A general error occurred. Sorry we can't give you more info!",
+			'error_general' => "A general error occurred. Sorry we can't give you more info.",
 			'error_account_not_found' => "Your account can not be found.",
 			'error_nickname_taken' => "The nickname you attempted to register with is already in use. Please choose another one.",
 			'error_email_address_taken' => "The email address you attempted to register with is already in use.",
@@ -21,7 +21,7 @@ class Language {
 			'error_page_not_found_text' => "Sorry, the page you request can not be found.",
 			'error_account_follow_disabled' => "The user you're attempting to follow is not enabled.",
 			
-			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
+			'success_account_created' => "Your account was successfully created.",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
 			'success_profile_updated' => "Your profile was successfully updated.",
 			'success_photo_updated' => "Your photo was successfully updated.",
@@ -47,13 +47,13 @@ class Language {
 			'account_setting_allow_followers' => "Allow other members on the site to follow your profile.",
 			'account_setting_email_new_follower' => "Send me an email when a new user starts following my profile.",
 			'account_setting_email_finished_processing' => "Send me an email when a track I've recently uploaded is finished processing.",
-			'account_no_favorites' => "You do not have any favorite tracks yet! Visit a track's page and click Add To Favorites.",
+			'account_no_favorites' => "You do not have any favorite tracks yet. Visit a track's page and click Add To Favorites.",
 			'account_my_tracks_help' => "This is a list of tracks you have uploaded. If you remove a track from the system, it will be removed from all people who have favorited it as well.",
 			'account_favorite_help' => "This is a list of your favorite tracks. You can add to this list by visiting a new track and clicking Add To Favorites.",
-			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",
+			'account_upload_tracks_first' => "You haven't uploaded any tracks yet. Upload your first track and you'll see them here.",
 			'account_profile' => "Profile For <em>%s</em>",
-			'account_no_following' => "You are not following anyone yet!",
-			'account_no_followers' => "No one is following you yet!",
+			'account_no_following' => "You are not following anyone yet.",
+			'account_no_followers' => "No one is following you yet.",
 			
 			'page_contact_us' => "Contact Us",
 			
