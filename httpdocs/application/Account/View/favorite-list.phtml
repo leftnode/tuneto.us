@@ -1,3 +1,38 @@
-<div class="contentBox">	
-	favorite list
+<?php $paginator = TuneToUs::getPaginator(); ?>
+<?php $favorite_list = $paginator->set($favorite_list)->get(); ?>
+
+<div class="contentBox">
+	<p><?php echo Language::__('account_favorite_help'); ?></p>
+	
+	<div class="trackList">
+		<?php $favorite_list_length = $favorite_list->length(); ?>
+		<?php if ( $favorite_list_length > 0 ): ?>
+			<?php $i = 1; ?>
+			<?php foreach ( $favorite_list as $favorite ): ?>
+				<?php $id = 'mp3-mini-player-' . $favorite->id(); ?>
+				<?php $favorite_name = $favorite->getName(); ?>
+				
+				<div class="trackListItem">
+					<h5><a href="<?php echo $this->url('track/play', $favorite->id()); ?>"><?php echo $this->safe($favorite_name); ?></a></h5>
+
+					<div>
+						<?php echo $this->img($this->url('image/viewmicro', $favorite->getImageId()), '', 'class="image"'); ?>
+						<div id="<?php echo $id; ?>">
+							<script type="text/javascript">
+								var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-mini-player.swf'; ?>", "<?php echo $id; ?>", "75", "30", "7", "#ffffff");
+								so.addVariable('autoPlay', 'no');
+								so.addVariable('soundPath', '<?php echo $this->url('track/stream', $favorite->id()); ?>');
+								so.addVariable('playerSkin', '6');
+								so.write("<?php echo $id; ?>");
+							</script>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+			
+			<?php echo $paginator->getPageList(); ?>
+		<?php else: ?>
+			<p><?php echo Language::__('account_no_favorites'); ?></p>
+		<?php endif; ?>
+	</div>
 </div>

@@ -39,12 +39,16 @@ class Language {
 			'account_setting_allow_followers' => "Allow other members on the site to follow your profile.",
 			'account_setting_email_new_follower' => "Send me an email when a new user starts following my profile.",
 			'account_setting_email_finished_processing' => "Send me an email when a track I've recently uploaded is finished processing.",
+			'account_no_favorites' => "You do not have any favorite tracks yet! Visit a track's page and click Add To Favorites.",
+			'account_my_tracks_help' => "This is a list of tracks you have uploaded. If you remove a track from the system, it will be removed from all people who have favorited it as well.",
+			'account_favorite_help' => "This is a list of your favorite tracks. You can add to this list by visiting a new track and clicking Add To Favorites.",
 			
 			'account_upload_tracks_first' => "You haven't uploaded any tracks yet! Upload your first track and you'll see them here.",
 			
 			'account_profile' => "Profile For <em>%s</em>",
 			
 			'profile_upload_tracks_first' => "This person hasn't uploaded any tracks yet.",
+			'profile_public' => "Public Profile",
 			
 			'track_add_to_favorites' => "Add To Favorites",
 			

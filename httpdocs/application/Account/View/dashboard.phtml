@@ -41,7 +41,7 @@
 					<?php $id = 'mp3-mini-player-' . $track->id(); ?>
 					<?php $track_name = $track->getName(); ?>
 					
-					<div class="trackListItem">
+					<div class="trackListItem" <?php echo ( $i == 1 ? 'style="margin-top: 0"' : NULL ); ?>>
 						<?php if ( true === $track->canPlay() ): ?>
 							<h5><a href="<?php echo $this->url('track/play', $track->id()); ?>"><?php echo $this->safe($track_name); ?></a></h5>
 						<?php else: ?>

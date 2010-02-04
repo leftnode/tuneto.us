@@ -53,6 +53,11 @@ class Account_Controller extends Root_Controller {
 	public function favoriteListGet() {
 		$this->verifyUserSession();
 		
+		try {
+			$this->favorite_list = TuneToUs::getUser()
+				->getFavoriteList();	
+		} catch ( Exception $e ) { }
+		
 		$this->setSectionTitle(Language::__('account_favorites'));
 		$this->renderLayout('favorite-list');
 		

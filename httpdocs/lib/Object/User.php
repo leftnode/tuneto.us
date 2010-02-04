@@ -3,8 +3,14 @@
 require_once 'DataModeler/DataObject.php';
 
 class User extends DataObject {
+	private $favorite_list = NULL;
 	private $following_list = NULL;
 	private $follower_list = NULL;
+	
+	public function setFavoriteList(DataIterator $list) {
+		$this->favorite_list = $list;
+		return $this;
+	}
 	
 	public function setFollowingList(DataIterator $list) {
 		$this->following_list = $list;
@@ -25,6 +31,10 @@ class User extends DataObject {
 		return $this;
 	}
 	
+	
+	public function getFavoriteList() {
+		return $this->favorite_list;
+	}
 	
 	public function getFollowingList() {
 		return $this->following_list;
