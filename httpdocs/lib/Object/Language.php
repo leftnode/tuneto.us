@@ -3,6 +3,7 @@
 class Language {
 	public static $lang = array(
 		'en_us.UTF8' => array(
+			'error_general' => "A general error occurred. Sorry we can't give you more info!",
 			'error_account_not_found' => "Your account can not be found.",
 			'error_nickname_taken' => "The nickname you attempted to register with is already in use. Please choose another one.",
 			'error_email_address_taken' => "The email address you attempted to register with is already in use.",
@@ -14,13 +15,14 @@ class Language {
 			'error_profile_not_found' => "Profile Not Found",
 			'error_select_image' => "Please select an image to upload.",
 			'error_select_track' => "Please select an MP3 to upload.",
+			'error_track_already_favorited' => "You have already added this track to your favorites.",
 			
 			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
 			'success_profile_updated' => "Your profile was successfully updated.",
 			'success_photo_updated' => "Your photo was successfully updated.",
 			'success_settings_updated' => "Your settings were successfully updated.",
-			
+			'success_track_favorited' => "You have added this track to your favorite list.",
 			
 			'index_welcome_text' => "Easily share your favorite music and MP3's, let your friends know what you're listening to, and keep track of your friends daily.",
 			'index_latest_tracks' => "Latest Tracks From The Community In Real Time",
@@ -43,6 +45,8 @@ class Language {
 			'account_profile' => "Profile For <em>%s</em>",
 			
 			'profile_upload_tracks_first' => "This person hasn't uploaded any tracks yet.",
+			
+			'track_add_to_favorites' => "Add To Favorites",
 			
 			
 			'processing_track' => "Processing Track",
