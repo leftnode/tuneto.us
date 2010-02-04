@@ -13,9 +13,11 @@ class Root_Controller extends Artisan_Controller {
 	protected function renderLayout($view) {
 		/* Global CSS */
 		$this->css_tunetous = DIR_CSS . 'tunetous.css';
+		$this->css_jquery_prettyphoto = DIR_CSS . 'jquery.prettyphoto.css';
 		
 		/* Global JS */
 		$this->js_jquery = DIR_JAVASCRIPT . 'jquery.js';
+		$this->js_jquery_prettyphoto = DIR_JAVASCRIPT . 'jquery.prettyphoto.js';
 		$this->js_swfobject = DIR_JAVASCRIPT . 'swfobject.js';
 
 		/* Render the header, which includes the CSS and JS. */

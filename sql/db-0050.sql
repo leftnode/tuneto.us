@@ -1,0 +1,1 @@
+ALTER TABLE `image` ADD `fullsize` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `directory`;

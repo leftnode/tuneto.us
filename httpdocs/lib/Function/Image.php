@@ -15,12 +15,14 @@ function ttu_create_image($directory, $filename, $width, $height, $type) {
 }
 
 function ttu_create_image_record($directory, $filename) {
+	$fullsize  = ttu_create_image($directory, $filename, 1000, 1000, IMAGE_FULLSIZE);
 	$large     = ttu_create_image($directory, $filename, 300, 300, IMAGE_LARGE);
 	$thumbnail = ttu_create_image($directory, $filename, 96, 96, IMAGE_THUMBNAIL);
 	$micro     = ttu_create_image($directory, $filename, 36, 36, IMAGE_MICRO);
 	
 	$image = new Image();
 	$image->setDirectory($directory)
+		->setFullsize($fullsize)
 		->setLarge($large)
 		->setThumbnail($thumbnail)
 		->setMicro($micro);

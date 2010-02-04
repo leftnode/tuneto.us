@@ -7,7 +7,9 @@
 		
 		<div class="mainImage">
 			<div class="dashboardImage">
-				<?php echo $this->img($this->url('image/viewlarge', $profile->getImageId())); ?>
+				<a href="<?php echo $this->url('image/viewfullsize', $profile->getImageId()); ?>" rel="prettyphoto">
+					<?php echo $this->img($this->url('image/viewlarge', $profile->getImageId())); ?>
+				</a>
 			</div>
 			
 			<?php if ( true === $can_follow ): ?>

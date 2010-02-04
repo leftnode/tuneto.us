@@ -2,6 +2,16 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <?php echo $this->css($css_tunetous, 'screen', false); ?>
+<?php echo $this->css($css_jquery_prettyphoto, 'screen', false); ?>
 
 <?php echo $this->js($js_jquery); ?>
+<?php echo $this->js($js_jquery_prettyphoto); ?>
 <?php echo $this->js($js_swfobject); ?>
+
+<script type="text/javascript">
+	$(function() {
+		$("a[rel^=prettyphoto]").prettyPhoto({
+			theme: 'facebook'
+		});
+	});
+</script>

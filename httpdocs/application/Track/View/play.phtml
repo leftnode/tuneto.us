@@ -5,7 +5,9 @@
 <div class="contentBox">
 	<div class="trackLeft">
 		<div class="mainImage">
-			<?php echo $this->img($this->url('image/viewlarge', $track->getImageId())); ?>
+			<a href="<?php echo $this->url('image/viewfullsize', $track->getImageId()); ?>" rel="prettyPhoto">
+				<?php echo $this->img($this->url('image/viewlarge', $track->getImageId())); ?>
+			</a>
 			
 			<?php if ( true === $can_favorite ): ?>
 				<div class="followBox marginCenter">
@@ -24,9 +26,10 @@
 			<div class="clearFull"></div>
 			
 			<script type="text/javascript">
-				var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-player.swf'; ?>", "mp3-player", "192", "67", "7", "#000");
+				var so = new SWFObject("<?php echo DIR_FLASH . 'mp3-player.swf'; ?>", "mp3-player", "192", "67", "7", "#00000");
 				so.addVariable("autoPlay", "no");
 				so.addVariable("soundPath", "<?php echo $this->url('track/stream', $track->id()); ?>");
+				so.addVariable("wmode", "transparent");
 				so.write("mp3-player");
 			</script>
 			
@@ -64,8 +67,4 @@
 	</div>
 	
 	<div class="clearFull"></div>
-	
-	<!--<div class="description">
-		<?php echo nl2br($this->safe($track->getDescription())); ?>
-	</div>-->
 </div>

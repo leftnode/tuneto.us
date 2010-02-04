@@ -11,6 +11,15 @@ class Image_Controller extends Artisan_Controller {
 	protected $layout = NULL;
 	
 	/**
+	 * Display fullsize images to the browser.
+	 * 
+	 * @param integer $image_id The ID of the image to display.
+	 */
+	public function viewFullsizeGet($image_id) {
+		$this->viewGet($image_id, IMAGE_FULLSIZE);
+	}
+	
+	/**
 	 * Display large images to the browser.
 	 * 
 	 * @param integer $image_id The ID of the image to display.
@@ -57,6 +66,11 @@ class Image_Controller extends Artisan_Controller {
 				$directory = $image->getDirectory();
 				
 				switch ( $size ) {
+					case IMAGE_FULLSIZE: {
+						$filename = $image->getFullsize();
+						break;
+					}
+					
 					case IMAGE_LARGE: {
 						$filename = $image->getLarge();
 						break;
@@ -82,6 +96,7 @@ class Image_Controller extends Artisan_Controller {
 			
 			if ( false === $image_exists ) {
 				switch ( $size ) {
+					case IMAGE_FULLSIZE:
 					case IMAGE_LARGE: {
 						$filepath = DIR_SITE_ROOT . DIR_IMAGE . 'image-not-found-large.jpg';
 						break;
