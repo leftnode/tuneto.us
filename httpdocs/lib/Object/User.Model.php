@@ -8,10 +8,21 @@ class User_Model extends DataModel {
 		$user = parent::loadFirst($user);
 		
 		if ( true === $user->exists() ) {
+			$user = $this->loadTrackList($user);
 			$user = $this->loadFollowingList($user);
 			$user = $this->loadFollowerList($user);
 			$user = $this->loadFavoriteList($user);
 		}
+		
+		return $user;
+	}
+	
+	private function loadTrackList(User $user) {
+		$track_model = new Track_Model($this->getDataAdapter());
+		$track_list = $track_model->where('user_id = ?', $user->id())
+			->orderBy('date_create', 'DESC')
+			->loadAll(new Track());
+		$user->setTrackList($track_list);
 		
 		return $user;
 	}
@@ -35,27 +46,13 @@ class User_Model extends DataModel {
 	}
 	
 	private function loadFavoriteList(User $user) {
-		$sql = "SELECT t.* FROM `track_favorite` tf
-			INNER JOIN `track` t
-				ON tf.track_id = t.track_id
-			WHERE t.status = ?";
-		$statement_track_favorite = $this->getDataAdapter()
-			->getConnection()
-			->prepare($sql);
-		$statement_track_favorite->execute(array(STATUS_ENABLED));
+		$track_favorite_model = new Track_Favorite_Model($this->getDataAdapter());
+		$track_favorite_list = $track_favorite_model->fieldsFrom()
+			->innerJoin(new Track_Favorite())
+			->where('status = ?', STATUS_ENABLED)
+			->where('track_favorite.user_id = ?', $user->id())
+			->loadAll(new Track());
 		
-		$track = new Track();
-		$track_favorite_list_data = array();
-
-		if ( $statement_track_favorite->rowCount() > 0 ) {
-			$track_favorite_data = $statement_track_favorite->fetchAll(PDO::FETCH_ASSOC);
-			
-			foreach ( $track_favorite_data as $track_favorite_item ) {
-				$track_favorite_list_data[] = clone $track->model($track_favorite_item);
-			}
-		}
-		
-		$track_favorite_list = new DataIterator($track_favorite_list_data);
 		$user->setFavoriteList($track_favorite_list);
 		
 		return $user;

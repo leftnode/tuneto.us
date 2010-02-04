@@ -3,9 +3,15 @@
 require_once 'DataModeler/DataObject.php';
 
 class User extends DataObject {
+	private $track_list = NULL;
 	private $favorite_list = NULL;
 	private $following_list = NULL;
 	private $follower_list = NULL;
+	
+	public function setTrackList(DataIterator $list) {
+		$this->track_list = $list;
+		return $this;
+	}
 	
 	public function setFavoriteList(DataIterator $list) {
 		$this->favorite_list = $list;
@@ -31,6 +37,12 @@ class User extends DataObject {
 		return $this;
 	}
 	
+	
+	
+	
+	public function getTrackList() {
+		return $this->track_list;
+	}
 	
 	public function getFavoriteList() {
 		return $this->favorite_list;
