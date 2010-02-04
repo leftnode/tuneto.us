@@ -6,11 +6,20 @@
 	<div class="trackLeft">
 		<div class="mainImage">
 			<?php echo $this->img($this->url('image/viewlarge', $track->getImageId())); ?>
+			
+			<?php if ( true === $can_favorite ): ?>
+				<div class="followBox marginCenter">
+					<a href="<?php echo $this->url('track/addtofavorites', $track->id()); ?>"><?php echo Language::__('track_add_to_favorites'); ?></a>
+				</div>
+			<?php endif; ?>
 		</div>
 		
 		<div class="mp3Player">
 			<div id="mp3-player"></div>
-			<div style="text-align: right"><strong>345,000 plays</strong></div>
+			<div class="viewCount">
+				<?php echo number_format($track->getViewCount(), 0, '.', ','); ?>
+				<?php echo Language::__('views'); ?>
+			</div>
 			
 			<div class="clearFull"></div>
 			
@@ -21,13 +30,9 @@
 				so.write("mp3-player");
 			</script>
 			
-			<div class="followerBox">
-				10
-				<span>favorites</span>
-			</div>
-			
-			<div class="followerBox">
-				<span>favorite this track</span>
+			<div class="followerBox marginCenter">
+				<?php echo $track->getFavoriteList()->length(); ?>
+				<span><a href="<?php echo $this->url('track/favoritelist', $track->id()); ?>">favorites</a></span>
 			</div>
 			
 		</div>
@@ -35,9 +40,24 @@
 	
 	<div class="trackRight">
 		<div class="trackInfo">
-			track right
-			show stuff about the user here
-		
+			<div style="">
+				<div style="margin-right: 5px; float: left;">
+					<a href="<?php echo $this->url('profile/view', $owner->id()); ?>">
+						<?php echo $this->img($this->url('image/viewthumbnail', $owner->getTrackId()), '', 'style="border: 0"'); ?>
+					</a>
+				</div>
+				<div style="float: left; font-weight: bold; font-size: 14px;">
+					<a href="<?php echo $this->url('profile/view', $owner->id()); ?>">
+						<?php echo $this->safe($owner->getNickname()); ?>
+					</a>
+				</div>
+			</div>
+			
+			<div class="clear"></div>
+			
+			<p><?php echo nl2br($this->safe($track->getDescription())); ?></p>
+			
+			
 			<div class="lightDivider"></div>
 			<h3>Embed</h3>
 		</div>
