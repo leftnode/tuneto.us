@@ -11,8 +11,15 @@ class Profile_Controller extends Root_Controller {
 		$this->verifyUserSession();
 		
 		try {
-			$user = TuneToUs::getUser();
 			$profile_id = intval($profile_id);
+			$profile = TuneToUs::getUser($profile_id);
+			
+			if ( false === $profile->exists() ) {
+				throw new TuneToUs_Exception(Language::__('error_account_follow_disabled'));
+			}
+			
+			/* This user is following $profile from above. */
+			$user = TuneToUs::getUser();
 			
 			$user_follow_model = new User_Follow_Model(TuneToUs::getDataAdapter());
 			$user_following = $user_follow_model->where('follower_id = ?', $user->id())
@@ -26,8 +33,21 @@ class Profile_Controller extends Root_Controller {
 			$user_follow = new User_Follow();
 			$user_follow->setFollowerId($user->id())
 				->setFollowingId($profile_id);
-			
 			$user_follow_model->save($user_follow);
+
+			/* Send out the email if they want it. */
+			$setting_email_new_follower = $profile->getSettingEmailNewFollower();
+			if ( 1 == $setting_email_new_follower ) {
+				$emailer = TuneToUs::getEmailer();
+				$emailer->send('new-follower', $profile->getEmailAddress(), array(
+					'nickname' => $profile->getNickname(),
+					'site_url' => $user->getNickname(),
+					'follower_nickname' => $user->getNickname(),
+					'profile_url' => $this->url('profile/view', $user->id()),
+					'from_name' => er('from_name', $emailer->getConfig())
+					)
+				);
+			}
 			
 			TuneToUs::getMessenger()->pushSuccess(Language::__('success_profile_followed'));
 			
@@ -54,7 +74,8 @@ class Profile_Controller extends Root_Controller {
 				
 				
 				$can_follow = false;
-				if ( true === ttu_user_is_logged_in() && $profile_id != ttu_user_get_userid() ) {
+				$setting_allow_followers = $profile->getSettingAllowFollowers();
+				if ( 1 == $setting_allow_followers && true === ttu_user_is_logged_in() && $profile_id != ttu_user_get_userid() ) {
 					/**
 					 * Doing a direct query here rather than filtering on their following
 					 * list because its cheaper, surprisingly.

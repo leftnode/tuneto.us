@@ -19,6 +19,7 @@ class Language {
 			'error_already_following' => "You are already following this person.",
 			'error_page_not_found' => "Page Not Found",
 			'error_page_not_found_text' => "Sorry, the page you request can not be found.",
+			'error_account_follow_disabled' => "The user you're attempting to follow is not enabled.",
 			
 			'success_account_created' => "Your account was successfully created. Start uploading track immediately!",
 			'success_account_track_uploaded' => "Your track was successfully uploaded. Please give us a moment while we convert it to the proper format.",
