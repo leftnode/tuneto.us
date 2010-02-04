@@ -18,12 +18,12 @@
 		</div>
 		
 		<div class="followerCounts">
-			<div class="followerBox">
+			<div class="followerBox floatLeft outerLeft">
 				<?php echo $user->getFollowerList()->length(); ?>
 				<span><a href="<?php echo $this->url('account/followers'); ?>">followers</a></span>
 			</div>
 
-			<div class="followerBox">
+			<div class="followerBox floatLeft outerRight">
 				<?php echo $user->getFollowingList()->length(); ?>
 				<span><a href="<?php echo $this->url('account/following'); ?>">following</a></span>
 			</div>
