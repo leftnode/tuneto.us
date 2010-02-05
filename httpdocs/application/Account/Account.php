@@ -53,7 +53,7 @@ class Account_Controller extends Root_Controller {
 		
 		try {
 			$this->favorite_list = TuneToUs::getUser()
-				->getFavoriteList();	
+				->getFavoriteList();
 		} catch ( Exception $e ) { }
 		
 		$this->setSectionTitle(Language::__('account_favorites'));

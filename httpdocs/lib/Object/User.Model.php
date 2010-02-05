@@ -71,7 +71,7 @@ class User_Model extends DataModel {
 	private function loadFavoriteList(User $user) {
 		$track_favorite_model = new Track_Favorite_Model($this->getDataAdapter());
 		$track_favorite_list = $track_favorite_model->fieldsFrom()
-			->innerJoin(new Track_Favorite())
+			->innerJoin(new Track_Favorite(), 'track_id')
 			->where('status = ?', STATUS_ENABLED)
 			->where('track_favorite.user_id = ?', $user->id())
 			->loadAll(new Track());
