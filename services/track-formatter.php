@@ -43,16 +43,27 @@ try {
 			/* If the track isn't an MP3, convert it to one. */
 			if ( 0 === preg_match('/\.mp3$/i', $track_filename) ) {
 				/* Get the raw track name without extension to convert to mp3. */
-				$track_filename = preg_replace('/\.[a-z0-9]+$/i', NULL, $track_filename) . '.mp3';
+				$track_filename_raw = preg_replace('/\.[a-z0-9]+$/i', NULL, $track_filename);
+				$track_filename_wav = $track_filename_raw . '.wav';
+				$track_filename_mp3 = $track_filename_raw . '.mp3';
 			
-				/* Now convert it to an mp3. */
-				$track_filepath_new = DIR_PRIVATE . $track_directory . DS . $track_filename;
-				$track_filepath_new_safe = escapeshellarg($track_filepath_new);
-
-				shell_exec("ffmpeg -i {$track_filepath_safe} -vn -ar 44100 -ab 192 {$track_filepath_new_safe} 2>&1");
-				$track_filepath_safe = $track_filepath_new_safe;
+				$track_filepath_wav = DIR_PRIVATE . $track_directory . DS . $track_filename_wav;
+				$track_filepath_wav_safe = escapeshellarg($track_filepath_wav);
 				
-				$track->setFilename($track_filename);
+				$track_filepath_mp3 = DIR_PRIVATE . $track_directory . DS . $track_filename_mp3;
+				$track_filepath_mp3_safe = escapeshellarg($track_filepath_mp3);
+
+				/* First convert it to a wav file. */
+				shell_exec("ffmpeg -i {$track_filepath_safe} {$track_filepath_wav_safe} 2>&1");
+				
+				/* Now convert the wav to an mp3. */
+				shell_exec("lame -V2 {$track_filepath_wav_safe} {$track_filepath_mp3_safe} 2>&1");
+				
+				/* Delete the wav file because they're friggin huge. */
+				@unlink($track_filepath_wav);
+				
+				$track_filepath_safe = $track_filepath_mp3_safe;
+				$track->setFilename($track_filename_mp3);
 			}
 			
 			$output = shell_exec("ffmpeg -i {$track_filepath_safe} 2>&1");
