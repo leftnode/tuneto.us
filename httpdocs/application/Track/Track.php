@@ -131,7 +131,7 @@ class Track_Controller extends Root_Controller {
 			}
 			
 			ttu_display_image($imagepath);
-		} catch ( Exception $e ) { lib_print_r($e); }
+		} catch ( Exception $e ) { }
 		
 		return true;
 	}
