@@ -123,8 +123,8 @@ class Track_Controller extends Root_Controller {
 					$track_name = substr($track_name, 0, 20) . '...';
 				}
 				
-				$imager->text($view_text, 8, 175, 12)
-					->text($length_formatted, 8, 175, 24)
+				$imager->text($view_text, 8, 175, 13)
+					->text($length_formatted, 8, 175, 26)
 					->text($track_name, 10, 0, 48, Imager::ALIGN_CENTERED)
 					->setDirectory($directory)
 					->writeJpg('stats.jpg');
