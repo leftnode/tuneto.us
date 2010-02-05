@@ -69,7 +69,24 @@ try {
 					$track_length = ($hour * 60 * 60) + ($minute * 60) + $second;
 			
 					if ( $track_length > 0 ) {
+						/* Determine the nice formatted text. */
+						$length_formatted_bits = array();
+						if ( $hour > 0 ) {
+							$length_formatted_bits[] = $hour;
+						}
+						
+						if ( $minute > 0 ) {
+							$length_formatted_bits[] = $minute;
+						}
+						
+						if ( $second > 0 ) {
+							$length_formatted_bits[] = $second;
+						}
+						
+						$length_formatted = implode(':', $length_formatted_bits);
+						
 						$track->setLength($track_length)
+							->setLengthFormatted($length_formatted)
 							->setStatus(STATUS_ENABLED);
 						
 						$setting_email_finished_processing = $user->getSettingEmailFinishedProcessing();

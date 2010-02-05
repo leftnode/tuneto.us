@@ -115,9 +115,7 @@ class Image_Controller extends Artisan_Controller {
 				}
 			}
 			
-			$image = imagecreatefromjpeg($filepath);
-			header('Content-Type: image/jpeg');
-			imagejpeg($image, NULL, 100);
+			ttu_display_image($filepath);
 		} catch ( Exception $e ) { }
 		
 		exit;

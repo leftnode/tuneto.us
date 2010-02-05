@@ -74,8 +74,7 @@
 			<div class="clearFull"></div>
 			
 			<div>Forum/BBCode</div>
-			<?php $image_dir = trim(DIR_IMAGE, DS); ?>
-			<input type="text" readonly onclick="this.select()" value="[url=<?php echo $this->url('track/play', $track->id()); ?>][img]<?php echo $this->url($image_dir, 'image-click-to-play-thumbnail.jpg'); ?>[/img][/url]">
+			<input type="text" readonly onclick="this.select()" value="[url=<?php echo $this->url('track/play', $track->id()); ?>][img]<?php echo $this->url('track/stats', $track->id()); ?>[/img][/url]">
 		</div>
 	</div>
 	

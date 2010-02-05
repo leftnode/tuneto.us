@@ -14,8 +14,6 @@ class Track extends DataObject {
 		return $this->favorite_list;
 	}
 
-
-	
 	public function canPlay() {
 		$status = $this->getStatus();
 		

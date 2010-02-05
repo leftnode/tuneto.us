@@ -68,6 +68,7 @@ class Language {
 			'profile_following' => "%s Has These Followers",
 			
 			'track_add_to_favorites' => "Add To Favorites",
+			'track_view_count' => "%d Views",
 			
 			
 			'processing_track' => "Processing Track",

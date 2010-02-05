@@ -1,0 +1,1 @@
+ALTER TABLE `track` ADD `length_formatted` VARCHAR( 16 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `length`;

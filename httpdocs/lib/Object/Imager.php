@@ -12,6 +12,10 @@ class Imager {
 	const TYPE_GIF = 'gif';
 	const TYPE_PNG = 'png';
 	
+	const ALIGN_LEFT = 'left';
+	const ALIGN_CENTERED = 'centered';
+	const ALIGN_RIGHT = 'right';
+	
 	public function __construct($imagepath) {
 		$this->setImagepath($imagepath)->load();
 	}
@@ -58,21 +62,47 @@ class Imager {
 		return $this->image;
 	}
 	
-	
-	public function resizeTo($width, $height) {
-		/*
-		$width = intval($width);
-		$height = intval($height);
+	public function text($text, $size, $x=0, $y=0, $align=Imager::ALIGN_LEFT, $red=0, $green=0, $blue=0) {
+		$image = $this->getImageResource();
 		
-		$init_width = imagesx($this->image);
-		$init_height = imagesy($this->image);
+		$font_file = DIR_FONT . 'verdana.ttf';
+		$text_color = imagecolorallocate($image, $red, $green, $blue);
+
+		$image_width = imagesx($image);
+		$image_height = imagesy($image);
+
+		/* If either of the coordinates are -1, center the text in that direction. */
+		$box = imageftbbox($size, 0, $font_file, $text);
+		$text_width = $box[2] - $box[0];
+		$text_height = $box[1] - $box[7];
 		
-		$resized_image = imagecreatetruecolor($width, $height);
-		imagecopyresampled($resized_image, $this->image, 0, 0, 0, 0, $width, $height, $init_width, $init_height);
-		$this->image = $resized_image;
-		*/
+		switch ( $align ) {
+			case Imager::ALIGN_RIGHT: {
+				/* Do nothing in normal L-t-R reading conventions. */
+				break;
+			}
+			
+			case Imager::ALIGN_CENTERED: {
+				$x = floor(($image_width - $text_width)/2);
+				//$y = floor((($height_box - $height_text) / 2) + $height_text);
+				break;
+			}
+			
+			case Imager::ALIGN_LEFT:
+			default: {
+				$margin_width = $image_width - $x;
+				$text_offset_x = $margin_width + $text_width;
+				$x = $image_width - $text_offset_x;
+				
+				break;
+			}
+		}
 		
-		return true;
+		imagettftext($image, $size, 0, $x, $y, $text_color, $font_file, $text);
+
+		$this->setImageResource($image);
+		
+		return $this;
 	}
 	
 	public function resize($max_width, $max_height) {

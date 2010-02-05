@@ -1,5 +1,15 @@
 <?php
 
+function ttu_display_image($imagepath) {
+	if ( false === is_file($imagepath) ) {
+		return false;
+	}
+	
+	$image = imagecreatefromjpeg($imagepath);
+	header('Content-Type: image/jpeg');
+	imagejpeg($image, NULL, 100);
+}
+
 function ttu_create_image($directory, $filename, $width, $height, $type) {
 	$width = intval($width);
 	$height = intval($height);
